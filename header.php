@@ -8,7 +8,6 @@
   $_SESSION['account_type'] = 'seller';
 ?>
 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,15 +21,29 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>[My Auction Site] <!--CHANGEME!--></title>
+  <title>Threader & Co Auctions</title>
+  
+  <style>
+        /* Modify the background color */
+        .navbar-custom{
+            background-color: #132623;
+            padding-left: 20px;
+        }
+        
+        /* Modify brand and text color */
+        .navbar-custom .btn,
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-text{
+            color: #97BF7A;
+            font-family: Arial;
+        }
+  </style>
 </head>
 
-
 <body>
-
 <!-- Navbars -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-  <a class="navbar-brand" href="#">Site Name <!--CHANGEME!--></a>
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <a class="navbar-brand" href="#"><b>Threader & Co Auctions</b></a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
@@ -77,7 +90,7 @@
 </nav>
 
 <!-- Login modal -->
-<div class="modal fade" id="loginModal">
+<div style="font-family: arial" class="modal fade" id="loginModal">
   <div class="modal-dialog">
     <div class="modal-content">
 
