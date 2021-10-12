@@ -21,7 +21,7 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>Threader & Co Auctions</title>
+  <title>Inner Join Listings</title>
   
   <style>
         /* Modify the background color */
@@ -43,7 +43,7 @@
 <body>
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-custom">
-  <a class="navbar-brand" href="#"><b>Threader & Co Auctions</b></a>
+  <a class="navbar-brand" href="#"><b>Inner Join Listings</b></a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
@@ -101,7 +101,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form method="POST" action="login_result.php">
+        <form method="post" action="login_result.php">
           <div class="form-group">
             <label for="email">Email</label>
             <input type="text" class="form-control" id="email" placeholder="Email">
