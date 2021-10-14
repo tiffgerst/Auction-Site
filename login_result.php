@@ -5,40 +5,36 @@ $password = $_POST['password'] ?? '';
 
 if ((empty($email)) or (empty($password))) {
     # One of them doesn't have a value
-    exit("Email or password empty: please enter an email and a password");
+    echo('<div class="text-center">Email or password empty: please enter an email and a password.</div>');
+    header("refresh:5;url=browse.php");
+    exit();
 }
 # Get database credentials
-require_once(db_credentials.php);
+require_once('db_credentials.php');
 
 # Create a database connection
-$connection = mysqli_connect($dbhost,$dbuser,$dbpass,'users');
+$connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 
 # Perform a database query
 $query = "SELECT * FROM users ";
 $query .= "WHERE user = ".$email." ";
 $query .= "AND password = ".$password;
-$users_set = mysqli_query($connection,$query);
+$result = mysqli_query($connection,$query); # Perform query (returns false on failure)
 
-# Use returned data
-
-# Release returned data
-
-# Close database connection
-
-mysqli_close($connection);
-// TODO: Extract $_POST variables, check they're OK, and attempt to login.
-// Notify user of success/failure and redirect/give navigation options.
-
-// For now, I will just set session variables and redirect.
+if (!($result)) {
+    echo('<div class="text-center">Email or password incorrect: please enter a valid email and password.</div>');
+    header("refresh:5;url=browse.php");
+    exit();
+}
 
 session_start();
 $_SESSION['logged_in'] = true;
-$_SESSION['username'] = "test";
+$_SESSION['username'] = $email;
 $_SESSION['account_type'] = "buyer";
 
 echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
 
-// Redirect to index after 5 seconds
-header("refresh:5;url=index.php");
+// Redirect to header after 5 seconds
+header("refresh:5;url=browse.php");
 
 ?>
