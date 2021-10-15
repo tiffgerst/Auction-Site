@@ -17,5 +17,3 @@
   
   header("Location: browse.php");
 ?>
-
-random
