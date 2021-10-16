@@ -17,8 +17,8 @@ $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 
 # Perform a database query
 $query = "SELECT * FROM users ";
-$query .= "WHERE user = ".$email." ";
-$query .= "AND password = ".$password;
+$query .= "WHERE user = '".$email."' ";
+$query .= "AND password = '".$password."'";
 $result = mysqli_query($connection,$query); # Perform query (returns false on failure)
 
 if (!($result)) {
