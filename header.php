@@ -8,7 +8,7 @@
   $_SESSION['account_type'] = 'seller';
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
