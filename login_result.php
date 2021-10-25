@@ -1,3 +1,5 @@
+<?php require("utilities.php")?>
+
 <?php
 # Get $_POST variables and check if they both have a value
 $email = $_POST['email'] ?? '';
@@ -9,17 +11,12 @@ if ((empty($email)) or (empty($password))) {
     header("refresh:5;url=browse.php");
     exit();
 }
-# Get database credentials
-require_once('db_credentials.php');
-
-# Create a database connection
-$connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 
 # Perform a database query
 $query = "SELECT * FROM users ";
 $query .= "WHERE user = '".$email."' ";
 $query .= "AND password = '".$password."'";
-$result = mysqli_query($connection,$query); # Perform query (returns false on failure)
+$result = query($query);
 
 if (!($result)) {
     echo('<div class="text-center">Email or password incorrect: please enter a valid email and password.</div>');

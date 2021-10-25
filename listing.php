@@ -5,14 +5,17 @@
   // Get info from the URL:
   $item_id = $_GET['item_id'];
 
-  // TODO: Use item_id to make a query to the database.
+  /*
+  Perform query using the item_id
+  */
 
-  // DELETEME: For now, using placeholder data.
-  $title = "Placeholder title";
-  $description = "Description blah blah blah";
-  $current_price = 30.50;
+  $result = query("SELECT * FROM auctions WHERE auctionID = ".$item_id);
+  $row = $result->fetch_assoc();
+  $title = $row['title'];
+  $description = $row['description'];
+  $current_price = 30;
   $num_bids = 1;
-  $end_time = new DateTime('2020-11-02T00:00:00');
+  $end_time = new DateTime($row['endDate']); # Convert from string to DT object
 
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due
@@ -32,7 +35,6 @@
   $has_session = true;
   $watching = false;
 ?>
-
 
 <div class="container">
 
