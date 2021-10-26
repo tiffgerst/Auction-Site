@@ -14,7 +14,7 @@ if ((empty($email)) or (empty($password))) {
 
 # Perform a database query
 $query = "SELECT * FROM users ";
-$query .= "WHERE user = '".$email."' ";
+$query .= "WHERE email = '".$email."' ";
 $query .= "AND password = '".$password."'";
 $result = query($query);
 
