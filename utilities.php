@@ -62,7 +62,7 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
 }
 
 function query($query) {
-  require_once('db_credentials.php'); # Get database credentials)
+  require('db_credentials.php'); # Get database credentials)
   $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname); # Create a database connection
   $result = mysqli_query($connection,$query); # Perform query (returns false on failure)
   return $result;
