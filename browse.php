@@ -20,15 +20,15 @@
               <i class="fa fa-search"></i>
             </span>
           </div>
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+          <input type="text" class="form-control border-left-0" name="keyword" id="keyword" placeholder="Search for anything">
         </div>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
         <label for="cat" class="sr-only">Search within:</label>
-        <select class="form-control" id="cat">
-          <option selected value="all">All categories</option>
+        <select class="form-control" name="cat" id="cat">
+          <option selected value="">All categories</option>
           <option value="fill">Fill me in</option>
           <option value="with">with options</option>
           <option value="populated">populated from a database?</option>
@@ -38,10 +38,10 @@
     <div class="col-md-3 pr-0">
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control" id="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
+        <select class="form-control" name="order_by" id="order_by">
+          <option selected value="endDate ASC">Soonest expiry</option>
+          <option value="pricelow">Price (low to high)</option>
           <option value="pricehigh">Price (high to low)</option>
-          <option value="endDate ASC">Soonest expiry</option>
         </select>
       </div>
     </div>
@@ -56,44 +56,39 @@
 </div>
 
 <?php
-  // Retrieve these from the URL
+  # Because no form has been submitted by default
+  # _GET will be empty in the first instance
+  # We need to set defaults
+
   if (!isset($_GET['keyword'])) {
-    // TODO: Define behavior if a keyword has not been specified.
+    $keyword = "%"; # Browse everything
   }
   else {
-    $keyword = $_GET['keyword'];
+    $keyword = "%".$_GET['keyword']."%";
   }
 
   if (!isset($_GET['cat'])) {
-    $category = null;
+    # This null will be used to avoid
+    # Including category criteria in the query    
+    $category = null; 
   }
   else {
     $category = $_GET['cat'];
   }
   
-  if (!isset($_GET['order_by'])) {
-    $ordering = "endDate DESC";
+  if (!isset($_GET['cat'])) {
+    $ordering = "endDate ASC"; # Sort by expiry date by default
   }
   else {
     $ordering = $_GET['order_by'];
   }
-  
+
   if (!isset($_GET['page'])) {
     $curr_page = 1;
   }
   else {
     $curr_page = $_GET['page'];
   }
-
-  /* TODO: Use above values to construct a query. Use this query to 
-     retrieve data from the database. (If there is no form data entered,
-     decide on appropriate default value/default query to make. */
-  
-  /* For the purposes of pagination, it would also be helpful to know the
-     total number of results that satisfy the above query */
-  $num_results = 96; // TODO: Calculate me for real
-  $results_per_page = 10;
-  $max_page = ceil($num_results / $results_per_page);
 ?>
 
 <div class="container mt-5">
@@ -104,14 +99,19 @@
   $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname); # Create a database connection
   
   # Build query
-  $query = "SELECT * FROM auctions";
+  $query = "SELECT * FROM auctions WHERE title LIKE '".$keyword."'";
   if ($category) {
-    $query .= "WHERE category = ".$category." ";
+    $query .= " AND category = '".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 
   # Perform query
   $result = mysqli_query($connection,$query);
+  
+  # Use results to change display of results
+  $num_results = mysqli_num_rows($result);
+  $results_per_page = 10;
+  $max_page = ceil($num_results / $results_per_page);
 
   if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -126,7 +126,7 @@
   }
   else {
     # Result is empty
-    echo('Result is empty');
+    echo('No results found');
   }
 ?>
 
