@@ -1,29 +1,42 @@
 <?php include_once("header.php")?>
+<?php require("utilities.php")?>
 
 <div class="container my-5">
 
 <?php
 
-// This function takes the form data and adds the new auction to the database.
+# All valid
+if (!isset(
+$_POST['auctionTitle'],
+$_POST["auctionDetails"],
+$_POST['auctionCategory'],
+$_POST['auctionReservePrice'],
+$_POST['auctionEndDate'],
+$_POST['auctionStartPrice'])) {
+    echo('All fields must be completed - try again');
+    exit;
+}
 
-/* TODO #1: Connect to MySQL database (perhaps by requiring a file that
-            already does this). */
+# Generate an ID for the auction by finding the maximum ID
+$id = (query("SELECT MAX(auctionID) FROM auctions")->fetch_assoc()['MAX(auctionID)'])+1;
 
+# Convert end date to the correct format
+$endDate = date('Y-m-d H:i:00',strtotime($_POST['auctionEndDate']));
 
-/* TODO #2: Extract form data into variables. Because the form was a 'post'
-            form, its data can be accessed via $POST['auctionTitle'], 
-            $POST['auctionDetails'], etc. Perform checking on the data to
-            make sure it can be inserted into the database. If there is an
-            issue, give some semi-helpful feedback to user. */
+$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g)",
+    $id,
+    $_SESSION['username'],
+    $_POST['auctionTitle'],
+    $_POST["auctionDetails"],
+    $_POST['auctionCategory'],
+    $_POST['auctionReservePrice'],
+    $endDate,
+    $_POST['auctionStartPrice']);
 
-
-/* TODO #3: If everything looks good, make the appropriate call to insert
-            data into the database. */
-            
+query($query);
 
 // If all is successful, let user know.
 echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
-
 
 ?>
 
