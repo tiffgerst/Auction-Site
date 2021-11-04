@@ -1,11 +1,6 @@
-const newAuction = document.getElementById('createNewAuction');
+import { showError } from "./utilities.js";
 
-function showError(input, message) {
-    input.style.borderColor = "#dc3545";
-    const msg = input.parentNode.querySelector("small").querySelector("Span");
-    msg.innerText = message;
-    return;
-}
+const newAuction = document.getElementById('createNewAuction');
 
 newAuction.addEventListener('submit', function(event) {
     event.preventDefault();

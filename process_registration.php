@@ -11,19 +11,12 @@ $passwordConfirmation = $_POST['passwordConfirmation'];
 Check if they're OK
 */
 
-# Check 1: account already exists
+# Check account already exists
 $query = "SELECT * FROM users WHERE accountType = '".$accountType."' AND email = '".$email."'";
 $result = query($query);
 
 if (mysqli_num_rows($result)>0) {
     echo("Account with that email already exists");
-    header("refresh:5;url=register.php");
-    exit();
-}
-
-# Check 2: passwords are the same
-if ($password != $passwordConfirmation) {
-    echo("Passwords do not match please try again");
     header("refresh:5;url=register.php");
     exit();
 }

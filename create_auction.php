@@ -79,9 +79,9 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
+      <script type="module" src="js/auction_verification.js"></script>
       </form>
     </div>
-  <script src="js/form_verification.js"></script>
   </div>
 </div>
 </div>
