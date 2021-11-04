@@ -5,16 +5,13 @@
 
 <?php
 
-# All valid
-if (!isset(
-$_POST['auctionTitle'],
-$_POST["auctionDetails"],
-$_POST['auctionCategory'],
-$_POST['auctionReservePrice'],
-$_POST['auctionEndDate'],
-$_POST['auctionStartPrice'])) {
-    echo('All fields must be completed - try again');
-    exit;
+# Reserve price is not required -> if it's not set, set it to 0.01
+# I.e. auctions that have no bids don't go through
+if (empty($_POST['auctionReservePrice'])) {
+    $reservePrice = 0.01;
+}
+else {
+    $reservePrice = $_POST['auctionReservePrice'];
 }
 
 # Generate an ID for the auction by finding the maximum ID
@@ -29,7 +26,7 @@ $query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g
     $_POST['auctionTitle'],
     $_POST["auctionDetails"],
     $_POST['auctionCategory'],
-    $_POST['auctionReservePrice'],
+    $reservePrice,
     $endDate,
     $_POST['auctionStartPrice']);
 
