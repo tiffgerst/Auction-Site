@@ -33,7 +33,7 @@
     <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
     <div class="col-sm-10">
       <!-- Password -->
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password" required minlength = "7">
       <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
     </div>
   </div>
