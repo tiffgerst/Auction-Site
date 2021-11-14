@@ -13,8 +13,8 @@
   $row = $result->fetch_assoc();
   $title = $row['title'];
   $description = $row['description'];
-  $current_price = 30;
-  $num_bids = 1;
+  $check_bids = check_bids($item_id,$row['startPrice']);
+  $num_bids = $check_bids[0]; $current_price = $check_bids[1];
   $end_time = new DateTime($row['endDate']); # Convert from string to DT object
 
   // TODO: Note: Auctions that have ended may pull a different set of data,

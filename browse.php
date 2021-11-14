@@ -95,18 +95,15 @@
 <ul class="list-group">
 
 <?php
-  require_once('db_credentials.php'); # Get database credentials
-  $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname); # Create a database connection
-  
   # Build query
-  $query = "SELECT * FROM auctions WHERE title LIKE '".$keyword."'";
+  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title LIKE '".$keyword."'";
   if ($category) {
     $query .= " AND category = '".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 
   # Perform query
-  $result = mysqli_query($connection,$query);
+  $result = query($query);
   
   # Use results to change display of results
   $num_results = mysqli_num_rows($result);
@@ -118,9 +115,10 @@
       $item_id = $row['auctionID'];
       $title = $row['title'];
       $description = $row['description'];
-      $current_price = 30; # Need to change to database val
-      $num_bids = 1; # Need to change to database val
       $end_date = new DateTime($row['endDate']); # Convert from string to DT object
+      $check_bids = check_bids($item_id,$row['startPrice']);
+      $num_bids = $check_bids[0]; $current_price = $check_bids[1];
+        
       print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
     }
   }

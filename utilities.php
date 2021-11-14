@@ -67,4 +67,24 @@ function query($query) {
   $result = mysqli_query($connection,$query); # Perform query (returns false on failure)
   return $result;
 }
+
+function check_bids($item_id,$startPrice) {
+  /*
+  Used in browse.php and listing.php
+  */
+  # Test to see if there are bids
+  $num_bids = query("SELECT COUNT(bidID) AS 'num_bids' FROM bids WHERE auctionID = '".$item_id."'")->fetch_assoc()['num_bids'];
+      
+  if ($num_bids == 0) {
+    # No bids -> set to start price
+    $current_price = $startPrice;
+  }
+
+  else {
+    # Set to highest bid
+    $current_price = query("SELECT MAX(bidValue) AS 'current_price' FROM bids WHERE auctionID = '".$item_id."'")->fetch_assoc()['current_price'];
+  }
+
+  return [$num_bids, $current_price];
+}
 ?>
