@@ -31,7 +31,7 @@ INSERT INTO auctions VALUES
 
 -- Create bids table
 DROP TABLE IF EXISTS bids;
-CREATE TABLE auctions (
+CREATE TABLE bids (
   bidID INT PRIMARY KEY,
   buyerEmail VARCHAR(50),
   auctionID INT,
