@@ -1,5 +1,11 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
+<?php
+require_once("db_credentials.php");
+$connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+$init = file_get_contents('db_init.sql');
+mysqli_multi_query($connection,$init);
+ ?>
 
 <div class="container">
 
@@ -96,7 +102,7 @@
 
 <?php
   # Build query
-  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title LIKE '".$keyword."'";
+  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title OR description LIKE '".$keyword."'";
   if ($category) {
     $query .= " AND category = '".$category."'";
   }
@@ -110,7 +116,7 @@
   $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
 
-  if ($result) {
+  if ($num_results>0) {
     while ($row = $result->fetch_assoc()) {
       $item_id = $row['auctionID'];
       $title = $row['title'];
@@ -122,7 +128,7 @@
       print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
     }
   }
-  else {
+  else if ($num_results==0){
     # Result is empty
     echo('No results found');
   }
