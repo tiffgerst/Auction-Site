@@ -96,7 +96,7 @@
 
 <?php
   # Build query
-  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title LIKE '".$keyword."'";
+  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title OR description LIKE '".$keyword."'";
   if ($category) {
     $query .= " AND category = '".$category."'";
   }
