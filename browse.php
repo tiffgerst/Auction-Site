@@ -1,11 +1,5 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
-<?php
-require_once("db_credentials.php");
-$connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
-$init = file_get_contents('db_init.sql');
-mysqli_multi_query($connection,$init);
- ?>
 
 <div class="container">
 
