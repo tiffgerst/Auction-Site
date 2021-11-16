@@ -65,6 +65,7 @@ function query($query) {
   require('db_credentials.php'); # Get database credentials)
   $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname); # Create a database connection
   $result = mysqli_query($connection,$query); # Perform query (returns false on failure)
+  mysqli_close($connection);
   return $result;
 }
 
