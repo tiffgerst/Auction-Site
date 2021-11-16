@@ -18,7 +18,7 @@ CREATE TABLE auctions (
   sellerEmail VARCHAR(50),
   title VARCHAR(50),
   description VARCHAR(200),
-  category VARCHAR(25),
+  categoryName VARCHAR(50),
   -- picture BLOB,
   reservePrice FLOAT(10,2),
   endDate DATETIME,
@@ -40,3 +40,27 @@ CREATE TABLE bids (
 
 INSERT INTO bids VALUES 
   (1,'jeff@hotmail.co.uk',1,25); -- Demo 1
+
+-- Create watchlist table
+DROP TABLE IF EXISTS watching;
+CREATE TABLE watching (
+  buyerEmail VARCHAR(50) PRIMARY KEY,
+  auctionID INT 
+ 
+);
+
+-- Create order table
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
+  orderID INT PRIMARY KEY,
+  auctionID INT,
+  bidValue FLOAT(10,2),
+  buyerEmail VARCHAR(50)
+);
+
+-- Create category table
+DROP TABLE IF EXISTS category;
+CREATE TABLE category (
+  categoryID INT PRIMARY KEY,
+  categoryName VARCHAR(50)
+);
