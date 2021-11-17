@@ -40,8 +40,8 @@
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control" name="order_by" id="order_by">
           <option selected value="endDate ASC">Soonest expiry</option>
-          <option value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
+          <option value="current_price ASC">Price (low to high)</option>
+          <option value="current_price DESC">Price (high to low)</option>
         </select>
       </div>
     </div>
@@ -96,13 +96,18 @@
 
 <?php
   # Build query
-  $query = "SELECT auctionID, title, description, endDate, startPrice FROM auctions WHERE title OR description LIKE '".$keyword."'";
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, b.current_price, b.num_bids ";
+  $query .= "FROM ";
+  $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b, ";
+  $query .= "(SELECT * FROM auctions a WHERE a.title OR a.description LIKE '".$keyword."') a ";
+  $query .= "WHERE a.auctionID = b.auctionID";
+  
   if ($category) {
-    $query .= " AND category = '".$category."'";
+    $query .= " AND a.category = ".$category."'";
   }
-  $query .= " ORDER BY ".$ordering;
+  $query .= " ORDER BY a.".$ordering;
 
-  # Perform query
+  // # Perform query
   $result = query($query);
   
   # Use results to change display of results
@@ -116,8 +121,14 @@
       $title = $row['title'];
       $description = $row['description'];
       $end_date = new DateTime($row['endDate']); # Convert from string to DT object
-      $check_bids = check_bids($item_id,$row['startPrice']);
-      $num_bids = $check_bids[0]; $current_price = $check_bids[1];
+      $num_bids = $row['num_bids'];
+      
+      if ($num_bids == 0) {
+        $current_price = $row['startPrice'];
+      }
+      else {
+        $current_price = $row['current_price'];
+      }
         
       print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
     }

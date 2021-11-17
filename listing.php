@@ -78,13 +78,14 @@
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
 
     <!-- Bidding form -->
-    <form method="POST" action=<?php echo("place_bid.php?item_id=".$item_id)?>>
+    <form method="POST" id="createNewBid" action=<?php echo("place_bid.php?item_id=".$item_id)?>>
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" name="bid" id="bid">
+	    <input type="number" class="form-control" name="bid" id="bid" min=<?php echo(round($current_price*1.05,2))?>>
       </div>
+      <small id="bidHelp" class="form-text text-muted"> <?php echo("Enter £".number_format(round($current_price*1.05,2),2)." or more")?> </small>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
 <?php endif ?>
