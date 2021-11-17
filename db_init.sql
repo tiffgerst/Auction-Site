@@ -39,7 +39,7 @@ CREATE TABLE bids (
 );
 
 INSERT INTO bids VALUES 
-  (1,'jeff@hotmail.co.uk',1,25); -- Demo 1
+  (0,'jeff@hotmail.co.uk',1,25); -- Demo 1
 
 -- Create watchlist table
 DROP TABLE IF EXISTS watching;
