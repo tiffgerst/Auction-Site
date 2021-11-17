@@ -8,12 +8,25 @@
   /*
   Perform query using the item_id
   */
-  $result = query("SELECT * FROM auctions WHERE auctionID = ".$item_id);
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, b.current_price, b.num_bids ";
+  $query .= "FROM ";
+  $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b, ";
+  $query .= "(SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a ";
+  $query .= "WHERE a.auctionID = b.auctionID";
+  
+  $result = query($query);
   $row = $result->fetch_assoc();
   $title = $row['title'];
   $description = $row['description'];
-  $check_bids = check_bids($item_id,$row['startPrice']);
-  $num_bids = $check_bids[0]; $current_price = $check_bids[1];
+  $num_bids = $row['num_bids'];
+
+  if ($num_bids == 0) {
+    $current_price = $row['startPrice'];
+  }
+  else {
+    $current_price = $row['current_price'];
+  }
+
   $end_time = new DateTime($row['endDate']); # Convert from string to DT object
 
   // TODO: Note: Auctions that have ended may pull a different set of data,
