@@ -105,7 +105,7 @@
   if ($category) {
     $query .= " AND a.category = ".$category."'";
   }
-  $query .= " ORDER BY a.".$ordering;
+  $query .= " ORDER BY ".$ordering;
 
   // # Perform query
   $result = query($query);
