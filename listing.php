@@ -1,5 +1,5 @@
 <?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php include_once("utilities.php")?>
 
 <?php
   // Get info from the URL:
@@ -8,7 +8,6 @@
   /*
   Perform query using the item_id
   */
-
   $result = query("SELECT * FROM auctions WHERE auctionID = ".$item_id);
   $row = $result->fetch_assoc();
   $title = $row['title'];
@@ -79,12 +78,12 @@
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
 
     <!-- Bidding form -->
-    <form method="POST" action="place_bid.php">
+    <form method="POST" action=<?php echo("place_bid.php?item_id=".$item_id)?>>
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" id="bid">
+	    <input type="number" class="form-control" name="bid" id="bid">
       </div>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
