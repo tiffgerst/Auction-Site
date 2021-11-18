@@ -96,14 +96,15 @@
 
 <?php
   # Build query
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, b.current_price, b.num_bids ";
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, ";
+  $query .= "COALESCE(b.current_price,0) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
-  $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b, ";
-  $query .= "(SELECT * FROM auctions a WHERE a.title OR a.description LIKE '".$keyword."') a ";
-  $query .= "WHERE a.auctionID = b.auctionID";
+  $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
+  $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.title OR a.description LIKE '".$keyword."') a ";
+  $query .= "ON a.auctionID = b.auctionID";
   
   if ($category) {
-    $query .= " AND a.category = ".$category."'";
+    $query .= " WHERE a.category = ".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 
