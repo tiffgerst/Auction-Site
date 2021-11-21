@@ -1,20 +1,23 @@
  <?php
+ require_once("utilities.php");
+ session_start();
 
 if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
   return;
 }
 
 // Extract arguments from the POST variables:
-$item_id = $_POST['arguments'];
+$item_id = $_POST['arguments'][0];
+$email = $_SESSION["username"];
 
 if ($_POST['functionname'] == "add_to_watchlist") {
   // TODO: Update database and return success/failure.
-
+  query("INSERT INTO watching VALUES('$email', $item_id)");
   $res = "success";
 }
 else if ($_POST['functionname'] == "remove_from_watchlist") {
   // TODO: Update database and return success/failure.
-
+  query("DELETE FROM watching WHERE buyerEmail = '$email'");
   $res = "success";
 }
 
