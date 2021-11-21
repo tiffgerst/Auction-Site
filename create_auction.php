@@ -86,6 +86,8 @@
         <small id="imageHelp" class="form-text text-muted"> <span class="text-danger"> Required. </span> Upload an image of the product </small>
         </div>
         </div>
+        <button type="submit" class="btn btn-primary form-control">Create Auction</button>
+
       <script type="module" src="js/auction_verification.js"></script>
       </form>
     </div>
