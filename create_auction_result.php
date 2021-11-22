@@ -35,7 +35,7 @@ $query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g
 query($query);
 
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="http://auction/listing.php?item_id='.$id.'">View your new listing.</a></div>');
+echo('<div class="text-center">Auction successfully created! <a href="listing.php?item_id='.$id.'">View your new listing.</a></div>');
 
 ?>
 
