@@ -14,7 +14,7 @@
   <h2 class="my-3">Create new auction</h2>
   <div class="card">
     <div class="card-body">
-      <form method="post" id='createNewAuction' action="create_auction_result.php">
+      <form method="post" id='createNewAuction' action="create_auction_result.php" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
@@ -80,9 +80,18 @@
             <!-- End Date --> 
             <input type="datetime-local" class="form-control" name="auctionEndDate" id="auctionEndDate" required>
             <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">Required.</span> Day for the auction to end.</small>
-          </div>
+          </div>       
+        </div>
+        <div class="form-group row">
+        <label for="auction_image" class= "col-sm-2 col-form-label text-right" >Photo</label>
+        <div class="col-sm-10">
+        <input type="file" name = "auction_image" required>
+        
+        <small id="imageHelp" class="form-text text-muted"> <span class="text-danger"> Required. </span> Upload an image of the product </small>
+        </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
+
       <script type="module" src="js/auction_verification.js"></script>
       </form>
     </div>
