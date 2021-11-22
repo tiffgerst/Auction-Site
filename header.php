@@ -13,7 +13,7 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>Inner Join Listings</title>
+  <title> Inner Join Listings </title>
   
   <style>
         /* Modify the background color */
@@ -35,7 +35,7 @@
 <body>
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-custom">
-  <a class="navbar-brand" href="#"><b>Inner Join Listings</b></a>
+  <a class="navbar-brand" href="browse.php"><b>Inner Join Listings</b></a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
