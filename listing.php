@@ -51,9 +51,15 @@
   else{
     $has_session = true;
     $email = $_SESSION["username"];
-    $id = query("SELECT auctionID from watching WHERE buyerEmail==$email");
-    if($id && mysqli_num_rows($id)==1){
+    $id = query("SELECT * from watching WHERE buyerEmail='$email'AND auctionID=$item_id");
+    if($id){
+    $num = mysqli_num_rows($id);}
+    else{
+      $num = 0;
+    }
+    if($num>=1){
       $watching = True;
+      echo "hi";
     }
     else{
       $watching = False;
