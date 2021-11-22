@@ -4,6 +4,7 @@
 <div class="container my-5">
 
 <?php
+$filename = "image/".$_FILES["auction_image"]["name"];
 
 # Reserve price is not required -> if it's not set, set it to 0.01
 # I.e. auctions that have no bids don't go through
@@ -20,7 +21,7 @@ $id = (query("SELECT MAX(auctionID) FROM auctions")->fetch_assoc()['MAX(auctionI
 # Convert end date to the correct format
 $endDate = date('Y-m-d H:i:00',strtotime($_POST['auctionEndDate']));
 
-$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g)",
+$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g, %g)",
     $id,
     $_SESSION['username'],
     $_POST['auctionTitle'],
@@ -28,7 +29,8 @@ $query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g
     $_POST['auctionCategory'],
     $reservePrice,
     $endDate,
-    $_POST['auctionStartPrice']);
+    $_POST['auctionStartPrice'],
+    $filename);
 
 query($query);
 
