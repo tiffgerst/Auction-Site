@@ -37,9 +37,13 @@
             <!-- Category -->  
             <select class="form-control" name="auctionCategory" id="auctionCategory" required>
               <option disabled selected value>Please select an option</option>
-              <option value="fill">Fill me in</option>
-              <option value="with">with options</option>
-              <option value="populated">populated from a database?</option>
+              <option value="shoes">Shoes</option>
+              <option value="pants">Pants</option>
+              <option value="tops">Tops</option>
+              <option value="dress">Dresses</option>
+              <option value="skirts">Skirts</option>
+              <option value="suits">Suits</option>
+              <option value="accessories">Acessories</option>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">Required.</span> Select a category for this item.</small>
           </div>

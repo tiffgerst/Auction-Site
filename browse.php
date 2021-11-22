@@ -1,5 +1,6 @@
 <?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php require("utilities.php");?>
+
 
 <div class="container">
 
@@ -29,9 +30,13 @@
         <label for="cat" class="sr-only">Search within:</label>
         <select class="form-control" name="cat" id="cat">
           <option selected value="">All categories</option>
-          <option value="fill">Fill me in</option>
-          <option value="with">with options</option>
-          <option value="populated">populated from a database?</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Pants">Pants</option>
+          <option value="Tops">Tops</option>
+          <option value="Dresses">Dresses</option>
+          <option value="Skirts">Skirts</option>
+          <option value="Suits">Suits</option>
+          <option value="Accessories">Acessories</option>
         </select>
       </div>
     </div>
@@ -71,12 +76,13 @@
     # This null will be used to avoid
     # Including category criteria in the query    
     $category = null; 
+
   }
   else {
     $category = $_GET['cat'];
   }
   
-  if (!isset($_GET['cat'])) {
+  if (!isset($_GET['order_by'])||$_GET['order_by']=="endDate ASC") {
     $ordering = "endDate ASC"; # Sort by expiry date by default
   }
   else {
@@ -97,14 +103,13 @@
 <?php
   # Build query
   $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, ";
-  $query .= "COALESCE(b.current_price,0) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
+  $query .= "COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
-  $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.title OR a.description LIKE '".$keyword."') a ";
-  $query .= "ON a.auctionID = b.auctionID";
-  
+  $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a ";
+  $query .= "ON a.auctionID = b.auctionID ";
   if ($category) {
-    $query .= " WHERE a.category = ".$category."'";
+    $query .= "WHERE a.categoryName LIKE '".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 
