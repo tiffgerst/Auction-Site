@@ -45,7 +45,7 @@ INSERT INTO bids VALUES
 DROP TABLE IF EXISTS watching;
 CREATE TABLE watching (
   buyerEmail VARCHAR(50) PRIMARY KEY,
-  auctionID INT 
+  auctionID INT PRIMARY KEY
  
 );
 
