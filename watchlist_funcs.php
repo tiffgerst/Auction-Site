@@ -17,7 +17,7 @@ if ($_POST['functionname'] == "add_to_watchlist") {
 }
 else if ($_POST['functionname'] == "remove_from_watchlist") {
   // TODO: Update database and return success/failure.
-  query("DELETE FROM watching WHERE buyerEmail = '$email'");
+  query("DELETE FROM watching WHERE buyerEmail = '$email' AND auctionID=$item_id");
   $res = "success";
 }
 
