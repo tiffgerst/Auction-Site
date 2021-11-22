@@ -38,15 +38,5 @@ echo('<div class="text-center">Auction successfully created! <a href="http://auc
 ?>
 
 </div>
-<?php
-// the message
-$msg = "You have successfully created an auction. You can view your listing here: http://auction/listing.php?item_id='";
-
-// use wordwrap() if lines are longer than 70 characters
-$msg = wordwrap($msg,70);
-
-// send email
-mail("ucabtge@ucl.ac.uk","Auction created!",$msg);
-?>
 
 <?php include_once("footer.php")?>
