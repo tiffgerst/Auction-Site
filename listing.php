@@ -59,7 +59,6 @@
     }
     if($num>=1){
       $watching = True;
-      echo "hi";
     }
     else{
       $watching = False;
