@@ -1,7 +1,7 @@
 <?php
 // Credentials
-  $dbhost = 'auction';
+  $dbhost = 'localhost';
   $dbuser = 'root';
-  $dbpass = '';
+  $dbpass = 'root';
   $dbname = 'auction';
 ?>

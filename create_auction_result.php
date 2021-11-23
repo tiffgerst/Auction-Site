@@ -4,7 +4,10 @@
 <div class="container my-5">
 
 <?php
-$filename = "image/".$_FILES["auction_image"]["name"];
+    $filename = $_FILES["auction_image"]["name"];
+    $filetempname = $_FILES["auction_image"]["tmp_name"];
+    $folder = 'images/';
+    move_uploaded_file($filetempname, $folder.$filename);
 
 # Reserve price is not required -> if it's not set, set it to 0.01
 # I.e. auctions that have no bids don't go through
