@@ -117,9 +117,9 @@
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" name="bid" id="bid" min=<?php echo(round($current_price*1.05,2))?>>
+	    <input type="number" class="form-control" name="bid" id="bid" min= "<?php number_format(round($current_price*1.05,2),0)?>">
       </div>
-      <small id="bidHelp" class="form-text text-muted"> <?php echo("Enter £".number_format(round($current_price*1.05,2),2)." or more")?> </small>
+      <small id="bidHelp" class="form-text text-muted"> <?php echo("Enter £".number_format(round($current_price*1.05,2),0)." or more")?> </small>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
 <?php endif ?>
