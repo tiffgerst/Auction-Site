@@ -12,7 +12,7 @@ $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, "
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
   $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.sellerEmail = '$email' ) a ";
-  $query .= "ON a.auctionID = b.auctionID ORDER BY current_price";
+  $query .= "ON a.auctionID = b.auctionID ORDER BY a.endDate";
 
   $result = query($query);
   if($result){
