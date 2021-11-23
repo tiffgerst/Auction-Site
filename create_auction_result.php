@@ -9,7 +9,7 @@
     $folder = 'images/';
     move_uploaded_file($filetempname, $folder.$filename);
     $file_type = $_FILES["auction_image"]["type"];
-    $extensions=array( 'image/jpeg', 'image/png', 'image/gif' );
+    $extensions=array( 'image/jpeg', 'image/png', 'image/gif', "" );
     if( in_array( $file_type, $extensions )){
 
 # Reserve price is not required -> if it's not set, set it to 0.01
