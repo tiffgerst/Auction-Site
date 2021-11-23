@@ -95,7 +95,7 @@
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
-    <img src="images/<?php echo $image; ?>">
+    <img src="images/<?php echo $image; ?>" width = '400px' height = '500px'>
     <?php echo($description); ?>
     </div>
 

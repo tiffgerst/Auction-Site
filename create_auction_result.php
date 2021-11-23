@@ -8,6 +8,9 @@
     $filetempname = $_FILES["auction_image"]["tmp_name"];
     $folder = 'images/';
     move_uploaded_file($filetempname, $folder.$filename);
+    $file_type = $_FILES["auction_image"]["type"];
+    $extensions=array( 'image/jpeg', 'image/png', 'image/gif' );
+    if( in_array( $file_type, $extensions )){
 
 # Reserve price is not required -> if it's not set, set it to 0.01
 # I.e. auctions that have no bids don't go through
@@ -39,7 +42,9 @@ query($query);
 
 // If all is successful, let user know.
 echo('<div class="text-center">Auction successfully created! <a href="listing.php?item_id='.$id.'">View your new listing.</a></div>');
-
+}else{
+    echo('<div class="text-center">Please upload an image! Only JPEG, PNG and GIF are accepted. <a href="create_auction.php">Try again!</a></div>');
+}
 ?>
 
 </div>
