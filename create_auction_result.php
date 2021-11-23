@@ -24,7 +24,7 @@ $id = (query("SELECT MAX(auctionID) FROM auctions")->fetch_assoc()['MAX(auctionI
 # Convert end date to the correct format
 $endDate = date('Y-m-d H:i:00',strtotime($_POST['auctionEndDate']));
 
-$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g, %g)",
+$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g, '%s')",
     $id,
     $_SESSION['username'],
     $_POST['auctionTitle'],

@@ -8,7 +8,7 @@
   /*
   Perform query using the item_id
   */
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, ";
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.Picture, ";
   $query .= "COALESCE(b.current_price,0) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
@@ -20,6 +20,7 @@
   $title = $row['title'];
   $description = $row['description'];
   $num_bids = $row['num_bids'];
+  $image = $row['Picture'];
 
   if ($num_bids == 0) {
     $current_price = $row['startPrice'];
@@ -72,6 +73,7 @@
   <div class="col-sm-8"> <!-- Left col -->
     <h2 class="my-3"><?php echo($title); ?></h2>
   </div>
+
   <div class="col-sm-4 align-self-center"> <!-- Right col -->
 <?php
   /* The following watchlist functionality uses JavaScript, but could
@@ -93,6 +95,7 @@
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
+    <img src="images/<?php echo $image; ?>">
     <?php echo($description); ?>
     </div>
 
