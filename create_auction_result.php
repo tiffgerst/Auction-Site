@@ -6,11 +6,11 @@
 <?php
     $filename = $_FILES["auction_image"]["name"];
     $filetempname = $_FILES["auction_image"]["tmp_name"];
-    $folder = 'images/';
-    move_uploaded_file($filetempname, $folder.$filename);
-    $file_type = $_FILES["auction_image"]["type"];
+    $file_type = $_FILES["auction_image"]["type"]; 
     $extensions=array( 'image/jpeg', 'image/png', 'image/gif', "" );
     if( in_array( $file_type, $extensions )){
+    $folder = 'images/';
+    move_uploaded_file($filetempname, $folder.$filename);
 
 # Reserve price is not required -> if it's not set, set it to 0.01
 # I.e. auctions that have no bids don't go through
