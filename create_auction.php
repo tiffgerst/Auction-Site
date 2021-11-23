@@ -85,12 +85,12 @@
         <div class="form-group row">
         <label for="auction_image" class= "col-sm-2 col-form-label text-right" >Photo</label>
         <div class="col-sm-10">
-        <input type="file" name = "auction_image" required>
+        <input type="file" name = "auction_image">
         
-        <small id="imageHelp" class="form-text text-muted"> <span class="text-danger"> Required. </span> Upload an image of the product </small>
+        <small id="imageHelp" class="form-text text-muted">Upload an image of the product </small>
         </div>
         </div>
-        <button type="submit" class="btn btn-primary form-control">Create Auction</button>
+        <button type="submit" class="btn btn-primary form-control" name= "form_submit">Create Auction</button>
 
       <script type="module" src="js/auction_verification.js"></script>
       </form>

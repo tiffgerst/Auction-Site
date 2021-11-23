@@ -20,7 +20,12 @@
   $title = $row['title'];
   $description = $row['description'];
   $num_bids = $row['num_bids'];
-  $image = $row['Picture'];
+  // $image = $row['Picture'];
+  if ($row['Picture'] == 0 OR $row['Picture'] == NULL OR $row['Picture'] == ""){
+    $image = "noimage.jpg";
+  }else{
+    $image = $row['Picture'];
+  }
 
   if ($num_bids == 0) {
     $current_price = $row['startPrice'];
