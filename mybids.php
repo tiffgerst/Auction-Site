@@ -5,20 +5,51 @@
 
 <h2 class="my-3">My bids</h2>
 
+<div class="container mt-5">
+<ul class="list-group">
+
 <?php
-  // This page is for showing a user the auctions they've bid on.
-  // It will be pretty similar to browse.php, except there is no search bar.
-  // This can be started after browse.php is working with a database.
-  // Feel free to extract out useful functions from browse.php and put them in
-  // the shared "utilities.php" where they can be shared by multiple files.
+  // Build query
+  $email = $_SESSION['username'];
+  $sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture
+  from auctions as a WHERE a.auctionID IN (SELECT auctionID FROM `bids` WHERE  buyerEmail = '$email')";
   
+  // # Perform query
+  $result = query($sql);
   
-  // TODO: Check user's credentials (cookie/session).
+  # Use results to change display of results
+  $num_results = mysqli_num_rows($result);
+
+  if ($num_results>0) {
+    while ($row = $result->fetch_assoc()) {
+      $item_id = $row['auctionID'];
+      $title = $row['title'];
+      $description = $row['description'];
+      $startPrice = $row['startPrice'];
+      $end_date = new DateTime($row['endDate']);
+      $image = $row['picture']; # Convert from string to DT object
+      $x = query("Select COALESCE(COUNT(auctionID),0) as count from bids where auctionID = $item_id");
+      $y = $x->fetch_assoc();
+      $num_bids = $y['count'];
+      
   
-  // TODO: Perform a query to pull up the auctions they've bidded on.
-  
-  // TODO: Loop through results and print them out as list items.
-  
+      if ($num_bids == 0) {
+        $current_price = $startPrice;
+      }
+      else {
+        $h = query("select COALESCE(MAX(bidValue),$startPrice) as price from bids where auctionID=$item_id");
+        $o = $h->fetch_assoc();
+        $current_price = $o['price'];
+      }
+        
+      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
+    }
+  }
+  else if ($num_results==0){
+    # Result is empty
+    echo('No results found');
+  }
 ?>
+
 
 <?php include_once("footer.php")?>
