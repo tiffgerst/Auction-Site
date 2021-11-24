@@ -53,7 +53,7 @@ if (mysqli_num_rows($initialResult)>0){
     $initialResult =  $initialResult -> fetch_assoc();
     $highestBidderEmail = $initialResult["buyerEmail"];
     
-    if ($email == $buyerEmail){
+    if ($highestBidderEmail == $buyerEmail){
         echo('<div class="text-center">You are already the highest bidder! Your bid has not been registered and you will be redirected shorty.</div>');
         header('refresh:5;url="listing.php?item_id='.$auctionID.'"');
         exit();
