@@ -6,10 +6,12 @@ $bidValue = $_POST['bid']; # All bid value verification done via .js
 $buyerEmail = $_SESSION['username'];
 $auctionID = $_GET['item_id'];
 
-$query = "SELECT buyerEmail, MAX(bidValue)
-from bids
-WHERE auctionID =".$auctionID."
-GROUP BY buyerEmail";
+
+$query = "SELECT buyerEmail
+FROM bids
+WHERE auctionID = ".$auctionID."
+AND bidValue = (SELECT MAX(bidValue) FROM bids WHERE auctionID = ".$auctionID.")";
+
 $initialResult = query($query);
 $number_of_bids = mysqli_num_rows($initialResult);
 if ($number_of_bids > 0){

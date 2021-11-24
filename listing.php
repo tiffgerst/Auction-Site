@@ -20,11 +20,11 @@
   $title = $row['title'];
   $description = $row['description'];
   $num_bids = $row['num_bids'];
-  // $image = $row['Picture'];
-  if ($row['Picture'] == 0 OR $row['Picture'] == NULL OR $row['Picture'] == ""){
+ 
+  if ($row['picture'] == ""){
     $image = "noimage.jpg";
   }else{
-    $image = $row['Picture'];
+    $image = $row['picture'];
   }
 
   if ($num_bids == 0) {
@@ -100,7 +100,7 @@
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
-    <img src="images/<?php echo $image; ?>" width = '400px' height = '500px'> <br><br>
+    <img src="images/<?php echo $image; ?>" width = "600px"> <br><br>
     <?php echo($description); ?>
     </div>
 
