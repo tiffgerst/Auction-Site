@@ -92,7 +92,7 @@ else{
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
-    <img src="images/<?php echo $image; ?>" width = '400px' height = '500px'> <br><br>
+    <img src="images/<?php echo $image; ?>" width = "600px"> <br><br>
     <?php echo($description); ?>
     </div>
 

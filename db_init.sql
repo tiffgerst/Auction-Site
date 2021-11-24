@@ -19,15 +19,15 @@ CREATE TABLE auctions (
   title VARCHAR(50),
   description VARCHAR(200),
   categoryName VARCHAR(50),
-  picture VARCHAR(30),
   reservePrice FLOAT(10,2),
   endDate DATETIME,
-  startPrice FLOAT(10,2)
+  startPrice FLOAT(10,2),
+  picture VARCHAR(30)
 );
 
 INSERT INTO auctions VALUES 
-  (1,1,'Milk','A bottle of milk','Food',10.50,'2021-12-31 22:00:00',5.50), -- Demo 1
-  (2,2,'Cheese','Swiss Cheese','Food',11.50,'2021-12-05 22:00:00',6.9); -- Demo 2
+  (1,1,'Milk','A bottle of milk','Food',10.50,'2021-12-31 22:00:00',5.50, 'milk.jpg'),-- Demo 1
+  (2,2,'Cheese','Swiss Cheese','Food',11.50,'2021-12-05 22:00:00',6.9, 'cheese.jpg'); -- Demo 2
 
 -- Create bids table
 DROP TABLE IF EXISTS bids;
@@ -44,8 +44,9 @@ INSERT INTO bids VALUES
 -- Create watchlist table
 DROP TABLE IF EXISTS watching;
 CREATE TABLE watching (
-  buyerEmail VARCHAR(50) PRIMARY KEY,
-  auctionID INT PRIMARY KEY
+  buyerEmail VARCHAR(50),
+  auctionID INT,
+  PRIMARY KEY (buyerEmail, auctionID)
  
 );
 
