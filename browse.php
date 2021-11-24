@@ -102,7 +102,7 @@
 
 <?php
   // Build query
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, ";
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, ";
   $query .= "COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
@@ -129,8 +129,9 @@
       $end_date = new DateTime($row['endDate']); # Convert from string to DT object
       $num_bids = $row['num_bids'];
       $current_price = $row['current_price'];
+      $image = $row["picture"];
         
-      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
     }
   }
   else if ($num_results==0){
