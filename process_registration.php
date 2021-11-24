@@ -6,6 +6,8 @@ $accountType = $_POST['accountType'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $passwordConfirmation = $_POST['passwordConfirmation'];
+$country = $_POST['adress_country'];
+$adress = $_POST['adress_first_line'].', '.$_POST['adress_city'].', '.$_POST['adress_post_code'];
 
 /* 
 Check if they're OK
@@ -24,7 +26,7 @@ if (mysqli_num_rows($result)>0) {
 /*
 Everything is OK -> register user
 */
-query(sprintf("INSERT INTO users VALUES ('%s','%s','%s')",$email,$password,$accountType));
+query(sprintf("INSERT INTO users VALUES ('%s','%s','%s', '%s', '%s')",$email,$password,$accountType, $country, $adress));
 
 # Change session variables
 session_start();

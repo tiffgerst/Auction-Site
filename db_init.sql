@@ -7,9 +7,11 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users ( 
   email VARCHAR(50) PRIMARY KEY,
   password VARCHAR(50),
-  accountType VARCHAR(50)
+  accountType VARCHAR(50),
+  country VARCHAR(30),
+  adress VARCHAR(100)
 );
-INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','buyer'); -- Demo 1
+INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','buyer', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
 
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
