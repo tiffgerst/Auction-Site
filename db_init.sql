@@ -65,3 +65,11 @@ CREATE TABLE category (
   categoryID INT PRIMARY KEY,
   categoryName VARCHAR(50)
 );
+INSERT INTO category VALUES 
+  (0, 'Shoes'),
+  (1, 'Pants'),
+  (2, 'Tops'),
+  (3, 'Dresses'),
+  (4, 'Skirts'),
+  (5, 'Suits'),
+  (6, 'Accessories');
