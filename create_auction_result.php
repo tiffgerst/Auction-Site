@@ -10,7 +10,7 @@ $filetempname = $_FILES["auction_image"]["tmp_name"];
 $folder = 'images/';
 move_uploaded_file($filetempname, $folder.$filename);
 $file_type = $_FILES["auction_image"]["type"];
-$extensions=array( 'image/jpeg', 'image/png', 'image/gif', "" );
+$extensions=array( 'image/jpeg', 'image/png', 'image/gif');
 if(!in_array($file_type,$extensions )){
     echo('Please upload an image! Only JPEG, PNG and GIF are accepted.');
     header("refresh:5;url=create_auction.php");
