@@ -2,74 +2,66 @@
 <?php include_once("utilities.php")?>
 
 <?php
-  // Get info from the URL:
-  $item_id = $_GET['item_id'];
+// GET item_id
+$item_id = $_GET['item_id'];
 
-  /*
-  Perform query using the item_id
-  */
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.Picture, ";
-  $query .= "COALESCE(b.current_price,0) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
-  $query .= "FROM ";
-  $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
-  $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a ";
-  $query .= "ON a.auctionID = b.auctionID";
-  
-  $result = query($query);
-  $row = $result->fetch_assoc();
-  $title = $row['title'];
-  $description = $row['description'];
-  $num_bids = $row['num_bids'];
- 
-  if ($row['picture'] == ""){
-    $image = "noimage.jpg";
-  }else{
-    $image = $row['picture'];
-  }
+// Perform query using the item_id
+$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.Picture, ";
+$query .= "COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
+$query .= "FROM ";
+$query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
+$query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a ";
+$query .= "ON a.auctionID = b.auctionID";
 
-  if ($num_bids == 0) {
-    $current_price = $row['startPrice'];
+$result = query($query);
+$row = $result->fetch_assoc();
+
+// Set variables based on query
+$title = $row['title'];
+$description = $row['description'];
+$num_bids = $row['num_bids'];
+$current_price = $row['current_price'];
+$end_time = new DateTime($row['endDate']);
+$image = $row['picture'];
+
+// TODO: Note: Auctions that have ended may pull a different set of data,
+//       like whether the auction ended in a sale or was cancelled due
+//       to lack of high-enough bids. Or maybe not.
+
+// Calculate time to auction end:
+$now = new DateTime();
+
+if ($now < $end_time) {
+  $time_to_end = date_diff($now, $end_time);
+  $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
+}
+
+// TODO: If the user has a session, use it to make a query to the database
+//       to determine if the user is already watching this item.
+//       For now, this is hardcoded.
+if(!isset($_SESSION['account_type']) || $_SESSION['account_type'] == "seller" ){
+  $has_session = false;
+}
+else{
+  $has_session = true;
+  $email = $_SESSION["username"];
+  $watchingResult = query("SELECT * from watching WHERE buyerEmail='$email'AND auctionID=$item_id");
+  if (mysqli_num_rows($watchingResult) != 0) {
+    $watching = TRUE;
   }
   else {
-    $current_price = $row['current_price'];
+    $watching = FALSE;
   }
-
-  $end_time = new DateTime($row['endDate']); # Convert from string to DT object
-
-  // TODO: Note: Auctions that have ended may pull a different set of data,
-  //       like whether the auction ended in a sale or was cancelled due
-  //       to lack of high-enough bids. Or maybe not.
-  
-  // Calculate time to auction end:
-  $now = new DateTime();
-  
-  if ($now < $end_time) {
-    $time_to_end = date_diff($now, $end_time);
-    $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
-  }
-  
-  // TODO: If the user has a session, use it to make a query to the database
-  //       to determine if the user is already watching this item.
-  //       For now, this is hardcoded.
-  if(!isset($_SESSION['account_type'])|| $_SESSION['account_type'] != "buyer" ){
-    $has_session = false;
-  }
-  else{
-    $has_session = true;
-    $email = $_SESSION["username"];
-    $id = query("SELECT * from watching WHERE buyerEmail='$email'AND auctionID=$item_id");
-    if($id){
-    $num = mysqli_num_rows($id);}
-    else{
-      $num = 0;
-    }
-    if($num>=1){
-      $watching = True;
-    }
-    else{
-      $watching = False;
-    }
-  }
+  // if($id) { // ? this would only be false if there was an error - in which case the query is WRONG
+  //   $num = mysqli_num_rows($id);}
+  // else {$num = 0;}
+  // if($num>=1){
+  //   $watching = True;
+  // }
+  // else{
+  //   $watching = False;
+  // }
+}
 ?>
 
 <div class="container">
@@ -129,7 +121,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" name="bid" id="bid" step="0.01" min= "<?php number_format(round($current_price*1.05,2),2)?>">
+	    <input type="number" class="form-control" name="bid" id="bid" step="0.01" min="<?php echo(number_format(round($current_price*1.05,2),2))?>">
       </div>
       <small id="bidHelp" class="form-text text-muted" <?php if ($seller) echo('style="display: none"');?>> <?php echo("Enter £".number_format(round($current_price*1.05,2),2)." or more")?> </small>
       <button type="submit" class="btn btn-primary form-control"<?php if ($seller) echo('style="display: none"');?>>Place bid</button>
@@ -140,7 +132,6 @@
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
-
 
 
 <?php include_once("footer.php")?>

@@ -101,9 +101,9 @@
 <ul class="list-group">
 
 <?php
-  # Build query
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, ";
-  $query .= "COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
+  // Build query
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, ";
+  $query .= "COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
   $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a ";
@@ -128,13 +128,7 @@
       $description = $row['description'];
       $end_date = new DateTime($row['endDate']); # Convert from string to DT object
       $num_bids = $row['num_bids'];
-      
-      if ($num_bids == 0) {
-        $current_price = $row['startPrice'];
-      }
-      else {
-        $current_price = $row['current_price'];
-      }
+      $current_price = $row['current_price'];
         
       print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
     }

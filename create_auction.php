@@ -1,7 +1,8 @@
 <?php include_once("header.php")?>
 
 <?php
-# If user is not logged in or not a seller, they should not be able to use this page
+// If user is not logged in or not a seller, they should not be able to use this page
+// -> redirect
   if (!isset($_SESSION['account_type']) || $_SESSION['account_type'] != 'seller') {
     header('Location: browse.php');
   }
@@ -85,12 +86,12 @@
         <div class="form-group row">
         <label for="auction_image" class= "col-sm-2 col-form-label text-right" >Photo</label>
         <div class="col-sm-10">
-        <input type="file" name = "auction_image">
-        
-        <small id="imageHelp" class="form-text text-muted">Upload an image of the product </small>
+          <!-- Image --> 
+          <input type="file" name ="auction_image" required>
+          <small id="imageHelp" class="form-text text-muted">Upload an image of the product</small>
         </div>
-        </div>
-        <button type="submit" class="btn btn-primary form-control" name= "form_submit">Create Auction</button>
+      </div>
+      <button type="submit" class="btn btn-primary form-control" name= "form_submit">Create Auction</button>
 
       <script type="module" src="js/auction_verification.js"></script>
       </form>
