@@ -30,28 +30,13 @@
         <label for="cat" class="sr-only">Search within:</label>
         <select class="form-control" name="cat" id="cat">
           <option selected value="">All categories</option>
-          <?php 
-          $category_list = query("SELECT categoryName FROM category");
-          while($category = $category_list->fetch_row());
-          
-            echo('
-            <option value="Shoes">'.$category[0].'</option>
-            <option value="Pants">'.$category[1].'</option>
-            <option value="Tops">'.$category[2].'</option>
-            <option value="Dresses">'.$category[3].'</option>
-            <option value="Skirts">'.$category[4].'</option>
-            <option value="Suits">'.$category[5].'</option>
-            <option value="Accessories">'.$category[6].'</option>');
-          
-
-          ?>
-          <!-- <option value="Shoes">Shoes</option>
+          <option value="Shoes">Shoes</option>
           <option value="Pants">Pants</option>
           <option value="Tops">Tops</option>
           <option value="Dresses">Dresses</option>
           <option value="Skirts">Skirts</option>
           <option value="Suits">Suits</option>
-          <option value="Accessories">Acessories</option> -->
+          <option value="Accessories">Acessories</option>
         </select>
       </div>
     </div>
