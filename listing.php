@@ -6,12 +6,12 @@
 $item_id = $_GET['item_id'];
 
 // Perform query using the item_id
-$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.Picture, ";
-$query .= "COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
-$query .= "FROM ";
-$query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
-$query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a ";
-$query .= "ON a.auctionID = b.auctionID";
+$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.Picture, 
+COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' 
+FROM
+(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b 
+RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a 
+ON a.auctionID = b.auctionID";
 
 $result = query($query);
 $row = $result->fetch_assoc();
