@@ -46,6 +46,20 @@
     </div>
   </div>
   <div class="form-group row">
+  <label for="adress_first_line" class="col-sm-2 col-form-label text-right">Adress</label>
+  <div class="col-sm-10">
+      <!-- Adress Confirmation -->
+      <input type="text" class="form-control" name="adress_first_line"  placeholder="Fist Line of Adress" require>
+      <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+      <input type="text" class="form-control" name="adress_city"  placeholder="City" require>
+      <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+      <input type="text" class="form-control" name="adress_country" placeholder="Country" require>
+      <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+      <input type= "text" class="form-control"name="adress_post_code" placeholder = "Postcode" require>
+      <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+    </div>
+</div>
+  <div class="form-group row">
     <button type="submit" class="btn btn-primary form-control">Register</button>
   </div>
 <script type="module" src="js/user_verification.js"></script>
