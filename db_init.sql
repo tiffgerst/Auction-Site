@@ -19,7 +19,7 @@ CREATE TABLE auctions (
   title VARCHAR(50),
   description VARCHAR(200),
   categoryName VARCHAR(50),
-  -- picture BLOB,
+  picture VARCHAR(30),
   reservePrice FLOAT(10,2),
   endDate DATETIME,
   startPrice FLOAT(10,2)
