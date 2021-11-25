@@ -11,7 +11,7 @@ CREATE TABLE users (
   country VARCHAR(30),
   adress VARCHAR(100)
 );
-INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','buyer', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
+INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','seller', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
 
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
@@ -28,8 +28,8 @@ CREATE TABLE auctions (
 );
 
 INSERT INTO auctions VALUES 
-  (1,1,'Milk','A bottle of milk','Food',10.50,'2021-12-31 22:00:00',5.50, 'milk.jpg'),-- Demo 1
-  (2,2,'Cheese','Swiss Cheese','Food',11.50,'2021-12-05 22:00:00',6.9, 'cheese.jpg'); -- Demo 2
+  (1,'jeff@hotmail.co.uk','Milk','A bottle of milk','Food',10.50,'2021-12-31 22:00:00',5.50, 'milk.jpg'),-- Demo 1
+  (2,'jeff@hotmail.co.uk','Cheese','Swiss Cheese','Food',11.50,'2021-12-05 22:00:00',6.9, 'cheese.jpg'); -- Demo 2
 
 -- Create bids table
 DROP TABLE IF EXISTS bids;

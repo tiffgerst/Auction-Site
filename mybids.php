@@ -50,7 +50,11 @@
       if ($email!=$highestBidder){
         echo("You have been outbid:");
         }
+      else{
+        echo("You are the highest bidder:");
+      }
       print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image );
+      echo("<br>");
     
     }
   }
