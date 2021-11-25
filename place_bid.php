@@ -72,7 +72,7 @@ $query = sprintf("INSERT INTO bids VALUES (%g,'%s',%g,%g)",
     $auctionID,
     $bidValue);
 
-echo($query);
+
 query($query);
 
 # Notify and redirect

@@ -139,8 +139,28 @@ else{
       <button type="submit" class="btn btn-primary form-control"<?php if ($seller) echo('style="display: none"');?>>Place bid</button>
     </form>
 <?php endif ?>
+  <br>
+  <p> <b> Previous Bids: </b> </p>
+  <?php 
+  $query3 = "SELECT bidValue
+  FROM bids
+  WHERE auctionID = {$item_id}
+  ORDER BY bidValue DESC";
 
-  
+  $result3 = query($query3);
+  $counter = 0;
+  if (mysqli_num_rows($result3)==0) { 
+    echo("<p>There have been no bids placed so far.</p>");
+   }
+  while($row3 = $result3 -> fetch_assoc() and $counter < 10){
+    $bid_value = $row3['bidValue'];
+    $counter += 1;
+    echo("<p>User bid with a value of £{$bid_value}</p>");
+  }
+
+
+  ?>
+
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
