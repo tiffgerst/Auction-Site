@@ -7,7 +7,7 @@
 
 <?php
 $email = $_SESSION['username'];
-$sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice
+$sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.Picture
 from auctions as a WHERE a.auctionID IN 
 (select auctionID from bids where buyerEmail IN 
 (select buyerEmail from bids where buyerEmail!=\"$email\" AND auctionID IN 
@@ -27,29 +27,31 @@ if ($num_results>0) {
   while ($row = $rec->fetch_assoc()) {
     $item_id = $row['auctionID'];
     $title = $row['title'];
-    $description = $row['description'];
+    $desc = $row['description'];
     $startPrice = $row['startPrice'];
-    $end_date = new DateTime($row['endDate']); # Convert from string to DT object
+    $end_time = new DateTime($row['endDate']); # Convert from string to DT object
+    $image = $row['Picture'];
     $x = query("Select COALESCE(COUNT(auctionID),0) as count from bids where auctionID = $item_id");
     $y = $x->fetch_assoc();
     $num_bids = $y['count'];
     
+    
 
     if ($num_bids == 0) {
-      $current_price = $startPrice;
+      $price = $startPrice;
     }
     else {
       $h = query("select COALESCE(MAX(bidValue),$startPrice) as price from bids where auctionID=$item_id");
       $o = $h->fetch_assoc();
-      $current_price = $o['price'];
+      $price = $o['price'];
     }
-      
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+    echo"People who bid on the same items you did also bid on:";
+    print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image);
   }
 }
 else if ($num_results==0){
   # Result is empty
-  echo('No results found');
+  echo('Recommendations will appear once you have placed a bid.');
 }
 
 
