@@ -7,7 +7,7 @@
 
 <?php
 $email = $_SESSION['username'];
-$sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.Picture
+$sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture
 from auctions as a WHERE a.auctionID IN 
 (select auctionID from bids where buyerEmail IN 
 (select buyerEmail from bids where buyerEmail!=\"$email\" AND auctionID IN 
@@ -30,7 +30,7 @@ if ($num_results>0) {
     $desc = $row['description'];
     $startPrice = $row['startPrice'];
     $end_time = new DateTime($row['endDate']); # Convert from string to DT object
-    $image = $row['Picture'];
+    $image = $row['picture'];
     $x = query("Select COALESCE(COUNT(auctionID),0) as count from bids where auctionID = $item_id");
     $y = $x->fetch_assoc();
     $num_bids = $y['count'];

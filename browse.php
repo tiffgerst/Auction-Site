@@ -109,7 +109,7 @@
   ON a.auctionID = b.auctionID";
   
   if ($category) {
-    $query .= "WHERE a.categoryName LIKE '".$category."'";
+    $query .= " WHERE a.categoryName LIKE '".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 

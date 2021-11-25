@@ -7,11 +7,11 @@
 
 <?php
 $email = $_SESSION["username"];
-$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, ";
+$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, ";
   $query .= "COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' ";
   $query .= "FROM ";
   $query .= "(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b ";
-  $query .= "RIGHT JOIN (SELECT * FROM auctions a WHERE a.sellerEmail = '$email' ) a ";
+  $query .= "RIGHT JOIN (SELECT * FROM auctions WHERE sellerEmail = '$email' ) a ";
   $query .= "ON a.auctionID = b.auctionID ORDER BY a.endDate";
 
   $result = query($query);
@@ -28,6 +28,7 @@ $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, "
       $description = $row['description'];
       $end_date = new DateTime($row['endDate']); # Convert from string to DT object
       $num_bids = $row['num_bids'];
+      $picture = $row['picture'];
       
       if ($num_bids == 0) {
         $current_price = $row['startPrice'];
@@ -36,7 +37,7 @@ $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, "
         $current_price = $row['current_price'];
       }
         
-      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date,$picture);
     }
   }
   else if ($num_result==0){
