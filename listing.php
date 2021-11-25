@@ -109,22 +109,22 @@ else{
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
 
     <!-- Bidding form -->
-    <?php if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'){
-      $seller = true;
+    <?php if (!isset($_SESSION['account_type']) || $_SESSION['account_type'] == 'seller'){
+      $noWatch = true;
     }
     else{
-      $seller = false;
+      $noWatch = false;
     }
     ?>
     <form method="POST" id="createNewBid" action=<?php echo("place_bid.php?item_id=".$item_id)?>>
-      <div class="input-group" <?php if ($seller) echo('style="display: none"');?>>
+      <div class="input-group" <?php if ($noWatch) echo('style="display: none"');?>>
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
 	    <input type="number" class="form-control" name="bid" id="bid" step="0.01" min="<?php echo(number_format(round($current_price*1.05,2),2))?>">
       </div>
-      <small id="bidHelp" class="form-text text-muted" <?php if ($seller) echo('style="display: none"');?>> <?php echo("Enter £".number_format(round($current_price*1.05,2),2)." or more")?> </small>
-      <button type="submit" class="btn btn-primary form-control"<?php if ($seller) echo('style="display: none"');?>>Place bid</button>
+      <small id="bidHelp" class="form-text text-muted" <?php if ($noWatch) echo('style="display: none"');?>> <?php echo("Enter £".number_format(round($current_price*1.05,2),2)." or more")?> </small>
+      <button type="submit" class="btn btn-primary form-control"<?php if ($noWatch) echo('style="display: none"');?>>Place bid</button>
     </form>
 <?php endif ?>
 

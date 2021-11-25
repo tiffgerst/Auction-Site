@@ -16,12 +16,8 @@ from auctions as a WHERE a.auctionID IN
 Group by auctionID ORDER BY COUNT(auctionID)DESC) LIMIT 5";
 
 $rec = query($sql);
-if ($rec){
-  $num_results = mysqli_num_rows($rec);
-}
-else{
-  $num_results = 0;
-}
+$num_results = mysqli_num_rows($rec);
+
 
 if ($num_results>0) {
   while ($row = $rec->fetch_assoc()) {
@@ -69,3 +65,4 @@ else if ($num_results==0){
   // TODO: Loop through results and print them out as list items.
   
 ?>
+</div>
