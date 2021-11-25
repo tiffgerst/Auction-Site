@@ -16,6 +16,16 @@ ON a.auctionID = b.auctionID";
 $result = query($query);
 $row = $result->fetch_assoc();
 
+$query2 = "
+SELECT u.country 
+FROM users u
+JOIN auctions a
+ON a.sellerEmail = u.email
+WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
+$result2 = query($query2);
+$row2 = $result2->fetch_assoc();
+
+
 // Set variables based on query
 $title = $row['title'];
 $description = $row['description'];
@@ -23,6 +33,7 @@ $num_bids = $row['num_bids'];
 $current_price = $row['current_price'];
 $end_time = new DateTime($row['endDate']);
 $image = $row['picture'];
+$country = $row2['country'];
 
 // TODO: Note: Auctions that have ended may pull a different set of data,
 //       like whether the auction ended in a sale or was cancelled due
@@ -69,6 +80,7 @@ else{
 <div class="row"> <!-- Row #1 with auction title + watch button -->
   <div class="col-sm-8"> <!-- Left col -->
     <h2 class="my-3"><?php echo($title); ?></h2>
+    <p>Item shipped from <?php echo($country)?>.</p>
   </div>
 
   <div class="col-sm-4 align-self-center"> <!-- Right col -->
