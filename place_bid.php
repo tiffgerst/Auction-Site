@@ -72,10 +72,6 @@ $query = sprintf("INSERT INTO bids VALUES (%g,'%s',%g,%g)",
     $auctionID,
     $bidValue);
 
-<<<<<<< HEAD
-=======
-echo($query);
->>>>>>> parent of dfb8b78... previous bids now displayed on listing.php
 query($query);
 
 # Notify and redirect
