@@ -11,7 +11,8 @@ CREATE TABLE users (
   country VARCHAR(30),
   adress VARCHAR(100)
 );
-INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','seller', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
+INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','seller', 'Germany', '123 Richest Street, Richest City, RI3H M3');
+INSERT INTO users VALUES ('buyer@buyer.com','buyer','buyer', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
 
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
@@ -37,11 +38,11 @@ CREATE TABLE bids (
   bidID INT PRIMARY KEY,
   buyerEmail VARCHAR(50),
   auctionID INT,
-  bidValue FLOAT(10,2)
-);
+  bidValue FLOAT(10,2),
+  bidDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
 INSERT INTO bids VALUES 
-  (0,'jeff@hotmail.co.uk',1,25); -- Demo 1
+  (0,'jeff@hotmail.co.uk',1,25, '2020-03-10 17:16:18'); -- Demo 1
 
 -- Create watchlist table
 DROP TABLE IF EXISTS watching;

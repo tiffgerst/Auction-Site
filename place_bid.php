@@ -64,17 +64,15 @@ if (mysqli_num_rows($initialResult)>0){
 $result = query("SELECT bidID FROM bids");
 $numrows = mysqli_num_rows($result);
 $bidID = $numrows;
+$bidDate = date('Y-m-d H:i:s');
 
 // INSERT
-$query = sprintf("INSERT INTO bids VALUES (%g,'%s',%g,%g)",
-    $bidID,
-    $buyerEmail,
-    $auctionID,
-    $bidValue);
+$query = "INSERT INTO bids (bidID, buyerEmail, auctionID, bidValue, bidDate) VALUES ('$bidID','$buyerEmail','$auctionID','$bidValue','$bidDate')";
 
 query($query);
 
 # Notify and redirect
+
 echo('<div class="text-center">Bid placed successfully! You will be redirected shortly</div>');
 header('refresh:5;url="listing.php?item_id='.$auctionID.'"');
 ?>
