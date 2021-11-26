@@ -69,6 +69,8 @@
     </li>
     <li class="nav-item mx-1">
       <a class="nav-link" href="hotStuff.php">Hot Right Now</a>
+    <li class="nav-item mx-1">
+      <a class="nav-link" href="feeling_lucky.php">Feeling Lucky?</a>
     </li>');
   }
   if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
