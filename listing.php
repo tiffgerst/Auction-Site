@@ -152,9 +152,12 @@ else{
       <button type="submit" class="btn btn-primary form-control"<?php if ($noWatch) echo('style="display: none"');?>>Place bid</button>
     </form>
 <?php endif ?>
-  <br>
-  <p> <b> Previous Bids: </b> </p>
-  <?php 
+<?php 
+  if (isset($_SESSION['account_type'])){
+  
+  echo("<br>");
+  echo("<p> <b> Previous Bids: </b> </p>");
+  
   $query3 = "SELECT bidValue, bidDate, buyerEmail
   FROM bids
   WHERE auctionID = {$item_id}
@@ -176,6 +179,7 @@ else{
     echo("<p>Bid with a value of £{$bid_value} placed at: {$bid_date}</p>");
     }
   }
+}
 
 
   ?>
