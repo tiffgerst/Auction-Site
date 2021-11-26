@@ -142,7 +142,7 @@ else{
   <br>
   <p> <b> Previous Bids: </b> </p>
   <?php 
-  $query3 = "SELECT bidValue, bidDate
+  $query3 = "SELECT bidValue, bidDate, buyerEmail
   FROM bids
   WHERE auctionID = {$item_id}
   ORDER BY bidValue DESC";
@@ -155,8 +155,13 @@ else{
   while($row3 = $result3 -> fetch_assoc() and $counter < 10){
     $bid_value = $row3['bidValue'];
     $bid_date = $row3['bidDate'];
+    $buyer_email = $row3['buyerEmail'];
     $counter += 1;
+    if ($buyer_email == $email){
+      echo("<p>You placed a £{$bid_value} bid at: {$bid_date}</p>");
+    }else{
     echo("<p>Bid with a value of £{$bid_value} placed at: {$bid_date}</p>");
+    }
   }
 
 
