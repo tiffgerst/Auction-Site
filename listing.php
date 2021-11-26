@@ -25,6 +25,13 @@ WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
 $result2 = query($query2);
 $row2 = $result2->fetch_assoc();
 
+$query = "SELECT *
+from watching 
+where auctionID = {$item_id}";
+$watching_result = query($query);
+$num_watching = mysqli_num_rows($watching_result);
+
+
 
 // Set variables based on query
 $title = $row['title'];
@@ -111,7 +118,13 @@ else{
   </div>
 
   <div class="col-sm-4"> <!-- Right col with bidding info -->
-
+    <?php
+    if ($num_watching == 1){
+      echo("<p><b>1</b> user is watching the auction</p>");
+    }else{
+      echo("<p><b>{$num_watching}</b> users are watching the auction.</p>");
+    }
+    ?>
     <p>
 <?php if ($now > $end_time): ?>
      This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
