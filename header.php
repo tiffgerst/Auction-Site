@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Lobster&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
@@ -13,29 +14,37 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title> Inner Join Listings </title>
+  <title> Silly Goose </title>
   
   <style>
+
+  
         /* Modify the background color */
         .navbar-custom{
-            background-color: #132623;
+            background-color: #a6c6e3;
             padding-left: 20px;
         }
+        .nav
         
         /* Modify brand and text color */
         .navbar-custom .btn,
         .navbar-custom .navbar-brand,
         .navbar-custom .navbar-text{
-            color: #97BF7A;
-            font-family: Arial;
+            color: white;
+            font-family: "Lobster", cursive;
+            font-size: 40px;
         }
+        a{
+          font-family: 'Fira Sans', sans-serif;
+        }
+ 
   </style>
 </head>
 
 <body>
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-custom">
-  <a class="navbar-brand" href="browse.php"><b>Inner Join Listings</b></a>
+  <a class="navbar-brand" href="browse.php"><img src = "images/SillyGoose.png" height = "70px"> Silly Goose</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
@@ -53,7 +62,7 @@
     </li>
   </ul>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg">
   <ul class="navbar-nav align-middle">
 	<li class="nav-item mx-1">
       <a class="nav-link" href="browse.php">Browse</a>
@@ -87,7 +96,7 @@
 </nav>
 
 <!-- Login modal -->
-<div style="font-family: arial" class="modal fade" id="loginModal">
+<div style="font-family: aria;"  class="modal fade" id="loginModal">
   <div class="modal-dialog">
     <div class="modal-content">
 
