@@ -68,9 +68,11 @@ $bidDate = date('Y-m-d H:i:s');
 
 // INSERT
 $query = "INSERT INTO bids (bidID, buyerEmail, auctionID, bidValue, bidDate) VALUES ('$bidID','$buyerEmail','$auctionID','$bidValue','$bidDate')";
-
 query($query);
 
+$query = "INSERT INTO watching (auctionID, buyerEmail)
+VALUES('$auctionID', '$buyerEmail')";
+query($query);
 # Notify and redirect
 
 echo('<div class="text-center">Bid placed successfully! You will be redirected shortly</div>');
