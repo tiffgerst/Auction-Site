@@ -1,4 +1,5 @@
 <?php include_once("header.php")?>
+<?php include_once("utilities.php")?>
 
 <?php
 // If user is not logged in or not a seller, they should not be able to use this page
@@ -38,13 +39,12 @@
             <!-- Category -->  
             <select class="form-control" name="auctionCategory" id="auctionCategory" required>
               <option disabled selected value>Please select an option</option>
-              <option value="shoes">Shoes</option>
-              <option value="pants">Pants</option>
-              <option value="tops">Tops</option>
-              <option value="dress">Dresses</option>
-              <option value="skirts">Skirts</option>
-              <option value="suits">Suits</option>
-              <option value="accessories">Acessories</option>
+              <?php
+              $category_list = query("SELECT * FROM category");
+              while($category = $category_list->fetch_assoc()){
+                echo("<option value=".$category['categoryName'].">".$category['categoryName']."</option>");
+              };
+              ?>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">Required.</span> Select a category for this item.</small>
           </div>
