@@ -1,4 +1,4 @@
-<?php require("utilities.php")?>
+<?php require("utilities.php");?>
 
 <?php
 # Get $_POST variables and check if they both have a value
@@ -31,7 +31,41 @@ $_SESSION['logged_in'] = true;
 $_SESSION['username'] = $email;
 $_SESSION['account_type'] = $result->fetch_assoc()['accountType'];
 
-echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
+echo('
+<style>
+.centered {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.loading-text {
+    text-align: center;
+}
+
+.loading-glasses{
+    width: 10rem;
+    position: absolute;
+    transform: translate(-17rem, 1rem);
+    animation: drop ease-out;
+    animation-duration: 5s;
+}
+@keyframes drop {
+    0% {
+        transform: translate(-17rem, -10rem);
+    }
+    100% {
+      transform: translate(-17rem, 1rem);
+    }
+  }
+</style>
+<div class = "centered">
+    <img src="images/SillyGoose.png" class="loading-goose" alt="Sample Image">
+    <img src="images/sunglasses.png" class="loading-glasses" alt="Sample Image">
+    <h1 class = "loading-text">You will be redirected shortly.</h1>
+</div>
+');
 
 // Redirect to header after 5 seconds
 header("refresh:5;url=browse.php");
