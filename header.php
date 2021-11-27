@@ -45,23 +45,23 @@
     }
 
     15% {
-      transform: translateX(-25%) rotate(-5deg);
+      transform:  rotate(-10deg);
     }
 
     30% {
-      transform: translateX(20%) rotate(3deg);
+      transform:  rotate(5deg);
     }
 
     45% {
-      transform: translateX(-15%) rotate(-3deg);
+      transform:  rotate(-10deg);
     }
 
     60% {
-      transform: translateX(10%) rotate(2deg);
+      transform:  rotate(3deg);
     }
 
     75% {
-      transform: translateX(-5%) rotate(-1deg);
+      transform:  rotate(-5deg);
     }
 
     100% {
