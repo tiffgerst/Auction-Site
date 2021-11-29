@@ -9,7 +9,7 @@ CREATE TABLE users (
   password VARCHAR(50),
   accountType VARCHAR(50),
   country VARCHAR(30),
-  adress VARCHAR(100)
+  address VARCHAR(100)
 );
 INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','seller', 'Germany', '123 Richest Street, Richest City, RI3H M3');
 INSERT INTO users VALUES ('buyer@buyer.com','buyer','buyer', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1

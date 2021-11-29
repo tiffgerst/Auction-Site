@@ -83,11 +83,12 @@
       <li class="nav-item">
 
         <?php
-        // Displays either login or logout on the right, depending on user's
+        // Displays either "login" or "logout" on the right, depending on user's
         // current status (session).
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
           echo '<a class="nav-link" href="logout.php">Logout</a>';
-        } else {
+        }
+        else {
           echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
         }
         ?>
@@ -101,28 +102,31 @@
         <a class="nav-link" href="browse.php">Browse</a>
       </li>
       <?php
+      // Buyer tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
         echo ('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mybids.php">My Bids</a>
-    </li>
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
-    </li>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="hotStuff.php">Hot Right Now</a>
-    <li class="nav-item mx-1">
-      <a class="nav-link" href="feeling_lucky.php">Feeling Lucky?</a>
-    </li>');
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="mybids.php">My Bids</a>
+      </li>
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="recommendations.php">Recommended</a>
+      </li>
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="hotStuff.php">Hot Right Now</a>
+      </li>
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="feeling_lucky.php">Feeling Lucky?</a>
+      </li>');
       }
+      // Seller tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
         echo ('
-	<li class="nav-item mx-1">
-      <a class="nav-link" href="mylistings.php">My Listings</a>
-    </li>
-	<li class="nav-item ml-3">
-      <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
-    </li>');
+      <li class="nav-item mx-1">
+          <a class="nav-link" href="mylistings.php">My Listings</a>
+        </li>
+      <li class="nav-item ml-3">
+          <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
+        </li>');
       }
       ?>
     </ul>
@@ -143,11 +147,11 @@
           <form method="post" action="login_result.php">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+              <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
             </div>
             <button type="submit" class="btn btn-primary form-control">Sign in</button>
           </form>

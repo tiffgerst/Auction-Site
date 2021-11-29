@@ -18,38 +18,33 @@ Group by auctionID ORDER BY COUNT(auctionID)DESC) LIMIT 5";
 $rec = query($sql);
 $num_results = mysqli_num_rows($rec);
 
-
-if ($num_results>0) {
-  while ($row = $rec->fetch_assoc()) {
-    $item_id = $row['auctionID'];
-    $title = $row['title'];
-    $desc = $row['description'];
-    $startPrice = $row['startPrice'];
-    $end_time = new DateTime($row['endDate']); # Convert from string to DT object
-    $image = $row['picture'];
-    $x = query("Select COALESCE(COUNT(auctionID),0) as count from bids where auctionID = $item_id");
-    $y = $x->fetch_assoc();
-    $num_bids = $y['count'];
-    
-    
-
-    if ($num_bids == 0) {
-      $price = $startPrice;
-    }
-    else {
-      $h = query("select COALESCE(MAX(bidValue),$startPrice) as price from bids where auctionID=$item_id");
-      $o = $h->fetch_assoc();
-      $price = $o['price'];
-    }
-    echo"People who bid on the same items you did also bid on:";
-    print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image);
-  }
-}
-else if ($num_results==0){
-  # Result is empty
+if ($num_results == 0) {
   echo('Recommendations will appear once you have placed a bid.');
+  exit;
 }
 
+while ($row = $rec->fetch_assoc()) {
+  $item_id = $row['auctionID'];
+  $title = $row['title'];
+  $desc = $row['description'];
+  $startPrice = $row['startPrice'];
+  $end_time = new DateTime($row['endDate']); # Convert from string to DT object
+  $image = $row['picture'];
+  $x = query("Select COALESCE(COUNT(auctionID),0) as count from bids where auctionID = $item_id");
+  $y = $x->fetch_assoc();
+  $num_bids = $y['count'];
+  
+  if ($num_bids == 0) {
+    $price = $startPrice;
+  }
+  else {
+    $h = query("select COALESCE(MAX(bidValue),$startPrice) as price from bids where auctionID=$item_id");
+    $o = $h->fetch_assoc();
+    $price = $o['price'];
+  }
+  echo"People who bid on the same items you did also bid on:";
+  print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image);
+  }
 
   // This page is for showing a buyer recommended items based on their bid 
   // history. It will be pretty similar to browse.php, except there is no 

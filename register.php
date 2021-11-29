@@ -46,16 +46,16 @@
     </div>
   </div>
   <div class="form-group row">
-  <label for="adress_first_line" class="col-sm-2 col-form-label text-right">Adress</label>
+  <label for="address_first_line" class="col-sm-2 col-form-label text-right">address</label>
   <div class="col-sm-10">
-      <!-- Adress Confirmation -->
-      <input type="text" class="form-control" name="adress_first_line"  placeholder="Fist Line of Adress" require>
+      <!-- address Confirmation -->
+      <input type="text" class="form-control" name="address_first_line"  placeholder="Fist Line of address" require>
       <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-      <input type="text" class="form-control" name="adress_city"  placeholder="City" require>
+      <input type="text" class="form-control" name="address_city"  placeholder="City" require>
       <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-      <input type="text" class="form-control" name="adress_country" placeholder="Country" require>
+      <input type="text" class="form-control" name="address_country" placeholder="Country" require>
       <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
-      <input type= "text" class="form-control"name="adress_post_code" placeholder = "Postcode" require>
+      <input type= "text" class="form-control"name="address_post_code" placeholder = "Postcode" require>
       <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
     </div>
 </div>

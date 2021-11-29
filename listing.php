@@ -13,34 +13,28 @@ FROM
 RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a 
 ON a.auctionID = b.auctionID";
 
-$result = query($query);
-$row = $result->fetch_assoc();
-
-$query2 = "
-SELECT u.country 
-FROM users u
-JOIN auctions a
-ON a.sellerEmail = u.email
-WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
-$result2 = query($query2);
-$row2 = $result2->fetch_assoc();
-
-$query = "SELECT *
-from watching 
-where auctionID = {$item_id}";
-$watching_result = query($query);
-$num_watching = mysqli_num_rows($watching_result);
-
-
-
-// Set variables based on query
+$row = query($query)->fetch_assoc();
 $title = $row['title'];
 $description = $row['description'];
 $num_bids = $row['num_bids'];
 $current_price = $row['current_price'];
 $end_time = new DateTime($row['endDate']);
 $image = $row['picture'];
-$country = $row2['country'];
+
+// Get the country
+$query = "
+SELECT u.country 
+FROM users u
+JOIN auctions a
+ON a.sellerEmail = u.email
+WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
+$country = query($query)->fetch_assoc()['country'];
+
+// Get the number of watchers
+$query = "SELECT *
+FROM watching 
+WHERE auctionID = {$item_id}";
+$num_watching = mysqli_num_rows(query($query));
 
 // TODO: Note: Auctions that have ended may pull a different set of data,
 //       like whether the auction ended in a sale or was cancelled due
@@ -54,12 +48,11 @@ if ($now < $end_time) {
   $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
 }
 
-// TODO: If the user has a session, use it to make a query to the database
-//       to determine if the user is already watching this item.
-//       For now, this is hardcoded.
+// User does not have a session or is a seller
 if(!isset($_SESSION['account_type']) || $_SESSION['account_type'] == "seller" ){
   $has_session = false;
 }
+// Use is a buyer -> check if they're watching the item
 else{
   $has_session = true;
   $email = $_SESSION["username"];
@@ -70,15 +63,6 @@ else{
   else {
     $watching = FALSE;
   }
-  // if($id) { // ? this would only be false if there was an error - in which case the query is WRONG
-  //   $num = mysqli_num_rows($id);}
-  // else {$num = 0;}
-  // if($num>=1){
-  //   $watching = True;
-  // }
-  // else{
-  //   $watching = False;
-  // }
 }
 ?>
 
@@ -153,36 +137,38 @@ else{
     </form>
 <?php endif ?>
 <?php 
+  // Bidding history
   if (isset($_SESSION['account_type'])){
   
   echo("<br>");
   echo("<p> <b> Previous Bids: </b> </p>");
   
-  $query3 = "SELECT bidValue, bidDate, buyerEmail
+  // Get all the bids for the item ID
+  $query = "SELECT bidValue, bidDate, buyerEmail
   FROM bids
   WHERE auctionID = {$item_id}
-  ORDER BY bidValue DESC";
+  ORDER BY bidValue DESC
+  LIMIT 10";
 
-  $result3 = query($query3);
-  $counter = 0;
-  if (mysqli_num_rows($result3)==0) { 
+  $result = query($query);
+  
+  if (mysqli_num_rows($result)==0) { 
     echo("<p>There have been no bids placed so far.</p>");
-   }
-  while($row3 = $result3 -> fetch_assoc() and $counter < 10){
-    $bid_value = $row3['bidValue'];
-    $bid_date = $row3['bidDate'];
-    $buyer_email = $row3['buyerEmail'];
-    $counter += 1;
+  }
+
+  while ($row = $result->fetch_assoc()){
+    $bid_value = $row['bidValue'];
+    $bid_date = $row['bidDate'];
+    $buyer_email = $row['buyerEmail'];
     if ($buyer_email == $email){
       echo("<p>You placed a £{$bid_value} bid at: {$bid_date}</p>");
-    }else{
-    echo("<p>Bid with a value of £{$bid_value} placed at: {$bid_date}</p>");
+    }
+    else {
+      echo("<p>Bid with a value of £{$bid_value} placed at: {$bid_date}</p>");
     }
   }
-}
-
-
-  ?>
+  }
+?>
 
   </div> <!-- End of right col with bidding info -->
 
