@@ -21,7 +21,7 @@ if (mysqli_num_rows($result)>0) {
 
 // Register users
 query("INSERT INTO users VALUES
-('$email','$password','$accountType', '$country', '$address'")
+('$email','$password','$accountType', '$country', '$address'");
 
 // Change session variables
 session_start();
