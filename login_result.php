@@ -42,7 +42,7 @@ echo('
     position: absolute;
     transform: translate(-17rem, 1rem);
     animation: drop ease-out;
-    animation-duration: 5s;
+    animation-duration: 2s;
 }
 @keyframes drop {
     0% {

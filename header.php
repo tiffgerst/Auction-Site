@@ -86,7 +86,7 @@
         // Displays either "login" or "logout" on the right, depending on user's
         // current status (session).
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-          echo '<a class="nav-link" href="logout.php">Logout</a>';
+          echo '<a style="color:#FFF" class="nav-link" href="logout.php"><h4><b>Logout</b></h4></a>';
         }
         else {
           echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';

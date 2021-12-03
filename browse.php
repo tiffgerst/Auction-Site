@@ -12,7 +12,7 @@
      (GET method of passing data to a page). -->
 <form method="get" action="browse.php">
   <div class="row">
-    <div class="col-md-5 pr-0">
+    <div class="col-md-4 pr-0">
       <div class="form-group">
         <label for="keyword" class="sr-only">Search keyword:</label>
 	    <div class="input-group">
@@ -25,7 +25,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 pr-0">
+    <!-- Category search -->
+    <div class="col-md-2 pr-0">
       <div class="form-group">
         <label for="cat" class="sr-only">Search within:</label>
         <select class="form-control" name="cat" id="cat">
@@ -39,6 +40,7 @@
         </select>
       </div>
     </div>
+    <!-- Sort by -->
     <div class="col-md-3 pr-0">
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
@@ -47,6 +49,13 @@
           <option value="current_price ASC">Price (low to high)</option>
           <option value="current_price DESC">Price (high to low)</option>
         </select>
+      </div>
+    </div>
+    <!-- Show expired -->
+    <div class="col-md-2 pr-0">
+      <div class="form-group" style="vertical-align:middle">
+      <label class="mx-2" for="expired">Show expired:</label>
+      <input type="checkbox" id="expired" name="show_expired" value="TRUE">
       </div>
     </div>
     <div class="col-md-1 px-0">
@@ -60,20 +69,16 @@
 </div>
 
 <?php
-  # Because no form has been submitted by default
-  # _GET will be empty in the first instance
-  # We need to set defaults
-
   if (!isset($_GET['keyword'])) {
-    $keyword = "%"; # Browse everything
+    $keyword = "%"; // Browse everything
   }
   else {
     $keyword = "%".$_GET['keyword']."%";
   }
 
   if (!isset($_GET['cat'])) {
-    # This null will be used to avoid
-    # Including category criteria in the query    
+    // This null will be used to avoid
+    // Including category criteria in the query    
     $category = null; 
 
   }
@@ -82,10 +87,17 @@
   }
   
   if (!isset($_GET['order_by'])||$_GET['order_by']=="endDate ASC") {
-    $ordering = "endDate ASC"; # Sort by expiry date by default
+    $ordering = "endDate ASC"; // Sort by expiry date by default
   }
   else {
     $ordering = $_GET['order_by'];
+  }
+
+  if (!isset($_GET['show_expired'])) {
+    $expired = FALSE;
+  }
+  else {
+    $expired = TRUE;
   }
 
   if (!isset($_GET['page'])) {
@@ -107,36 +119,57 @@
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
   RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a
   ON a.auctionID = b.auctionID";
+
+  if ($expired == FALSE) {
+    $query .= " WHERE a.endDate > CURRENT_TIME()";
+  }
   
   if ($category) {
     $query .= " WHERE a.categoryName LIKE '".$category."'";
   }
   $query .= " ORDER BY ".$ordering;
 
-  // # Perform query
+  // Perform query
   $result = query($query);
   
-  # Use results to change display of results
+  // Use results to change pagination options
   $num_results = mysqli_num_rows($result);
+  if ($num_results == 0) {
+    echo('No results found');
+    exit;
+  }
+  
   $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
 
-  if ($num_results>0) {
-    while ($row = $result->fetch_assoc()) {
-      $item_id = $row['auctionID'];
-      $title = $row['title'];
-      $description = $row['description'];
-      $end_date = new DateTime($row['endDate']); # Convert from string to DT object
-      $num_bids = $row['num_bids'];
-      $current_price = $row['current_price'];
-      $image = $row["picture"];
-        
-      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
-    }
+  // Consider the current page when deciding what results to display
+  $last_result = ($curr_page * 10)-1;
+  
+  // The above rule will not work on if every page is not full
+  // (num_results not a multiple of 10)
+  if ($last_result > $num_results-1) {
+    $last_result = $num_results-1;
   }
-  else if ($num_results==0){
-    # Result is empty
-    echo('No results found');
+
+  $first_result =  ($curr_page * 10) - 10;
+  
+  // Iterate through first_result -> last_result
+  // To display listings
+  $i = $first_result;
+    
+  while ($i<=$last_result) {
+    $result->data_seek($i);
+    $row = $result->fetch_assoc();
+    $item_id = $row['auctionID'];
+    $title = $row['title'];
+    $description = $row['description'];
+    $end_date = new DateTime($row['endDate']); // Convert from string to DT object
+    $num_bids = $row['num_bids'];
+    $current_price = $row['current_price'];
+    $image = $row["picture"];
+      
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
+    $i+=1;
   }
 ?>
 

@@ -4,6 +4,7 @@ include_once("utilities.php");
 
 // Randomnly order the auctions and take the first result
 $random_listing_query = "SELECT auctionID FROM auctions
+WHERE endDate > CURRENT_TIME()
 ORDER BY RAND()
 LIMIT 1";
 
