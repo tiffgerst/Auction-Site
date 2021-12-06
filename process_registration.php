@@ -1,16 +1,26 @@
 <?php require("utilities.php")?>
 
 <?php
+function check($data) {
+    if (!isset($data)) {
+        echo('Please fill out all required entries');
+        exit;
+    }
+    else{
+        return $data;
+    }
+  }
+
 // Extract $_POST variables
-$accountType = $_POST['accountType'];
-$email = $_POST['email'];
+$accountType = check($_POST['accountType']);
+$email = check($_POST['email']);
 $password = $_POST['password'];
 $passwordConfirmation = $_POST['passwordConfirmation'];
 $country = $_POST['address_country'];
 $address = $_POST['address_first_line'].', '.$_POST['address_city'].', '.$_POST['address_post_code'];
 
 // Check account already exists
-$query = "SELECT * FROM users WHERE accountType = '".$accountType."' AND email = '".$email."'";
+$query = "SELECT * FROM users WHERE accountType = '$accountType' AND email = '$email'";
 $result = query($query);
 
 if (mysqli_num_rows($result)>0) {
@@ -21,7 +31,7 @@ if (mysqli_num_rows($result)>0) {
 
 // Register users
 query("INSERT INTO users VALUES
-('$email','$password','$accountType', '$country', '$address'");
+('$email','$password','$accountType', '$country', '$address')");
 
 // Change session variables
 session_start();
