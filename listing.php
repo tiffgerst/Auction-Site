@@ -34,36 +34,38 @@ ON a.sellerEmail = u.email
 WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
 $country = query($query)->fetch_assoc()['country'];
 
+// For non-expired auctions:
 if ($now < $end_time) {
-// Get the number of watchers
-$query = "SELECT *
-FROM watching 
-WHERE auctionID = {$item_id}";
-$num_watching = mysqli_num_rows(query($query));
+  // Get the number of watchers
+  $query = "SELECT *
+  FROM watching 
+  WHERE auctionID = {$item_id}";
+  $num_watching = mysqli_num_rows(query($query));
 
-// Check user information for the purpose of watching functionality
-if(!isset($_SESSION['account_type']) | $_SESSION['account_type'] == "seller" ){
-  // User does not have a session or is a seller
-  $has_session = false;
-}
-else{
-  // User is a buyer -> check if they're watching the item
-  $has_session = true;
-  $email = $_SESSION["username"];
-  $watchingResult = query("SELECT * from watching WHERE buyerEmail='$email'AND auctionID=$item_id");
-  if (mysqli_num_rows($watchingResult) != 0) {
-    $watching = TRUE;
+  // Check user information for the purpose of watching functionality
+  if(!isset($_SESSION['account_type']) | $_SESSION['account_type'] == "seller" ){
+    // User does not have a session or is a seller
+    $has_session = false;
   }
-  else {
-    $watching = FALSE;
+  else{
+    // User is a buyer -> check if they're watching the item
+    $has_session = true;
+    $email = $_SESSION["username"];
+    $watchingResult = query("SELECT * from watching WHERE buyerEmail='$email'AND auctionID=$item_id");
+    if (mysqli_num_rows($watchingResult) != 0) {
+      $watching = TRUE;
+    }
+    else {
+      $watching = FALSE;
+    }
   }
-}
 
-// Calculate time to auction end:
-$time_to_end = date_diff($now, $end_time);
-$time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
-}
+  // Calculate time to auction end:
+  $time_to_end = date_diff($now, $end_time);
+  $time_remaining = ' (in ' . display_time_remaining($time_to_end) . ')';
+  }
 
+// For expired auctions:
 else {
   // Determine the circumstances in which the auction ended
   if ($num_bids == 0) {
@@ -104,14 +106,11 @@ else {
 
 <div class="row"> <!-- Row #2 with auction description + bidding info -->
   <div class="col-sm-8"> <!-- Left col with item info -->
-
     <div class="itemDescription">
     <img alt="" src="images/<?php echo $image; ?>" style="max-width:600px;width:100%"> <br><br>
     <?php echo($description); ?>
     </div>
-
   </div>
-
   <div class="col-sm-4"> <!-- Right col with bidding info -->
     <?php if ($now > $end_time):?>
       <p><i>This auction ended <?php echo(date_format($end_time, 'j M H:i'))?></i></p>

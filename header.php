@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-  <link rel="icon" type="image/png" href="images/icon.png" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Lobster&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -78,7 +78,7 @@
 <body>
   <!-- Navbars -->
   <nav class="navbar navbar-expand-lg navbar-custom">
-    <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="images/SillyGoose.png" height="70px"> Silly Goose</a>
+    <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="assets/SillyGoose.png" height="70px"> Silly Goose</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
 

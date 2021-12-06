@@ -6,12 +6,10 @@
 
 <h2 class="my-3">Browse listings</h2>
 
-<div id="searchSpecs">
-<!-- When this form is submitted, this PHP page is what processes it.
-     Search/sort specs are passed to this page through parameters in the URL
-     (GET method of passing data to a page). -->
+<div id="searchSpecs"> <!-- start search specs bar -->
 <form method="get" action="browse.php">
   <div class="row">
+    <!-- Keyword search -->  
     <div class="col-md-4 pr-0">
       <div class="form-group">
         <label for="keyword" class="sr-only">Search keyword:</label>
@@ -69,6 +67,7 @@
 </div>
 
 <?php
+  // Process the GET variables
   if (!isset($_GET['keyword'])) {
     $keyword = "%"; // Browse everything
   }
@@ -112,7 +111,9 @@
 <ul class="list-group">
 
 <?php
-  // Build query
+  // Perform the necessary query for displaying results
+  
+  // Build core query
   $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,
   COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
   FROM
@@ -120,25 +121,28 @@
   RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a
   ON a.auctionID = b.auctionID";
 
+  // Add optional arguments
   if ($expired == FALSE) {
+    // Only look at auctions that haven't expired
     $query .= " WHERE a.endDate > CURRENT_TIME()";
   }
-  
   if ($category) {
+    // Filter category
     $query .= " WHERE a.categoryName LIKE '".$category."'";
   }
+
+  // Order results
   $query .= " ORDER BY ".$ordering;
 
   // Perform query
   $result = query($query);
-  
-  // Use results to change pagination options
   $num_results = mysqli_num_rows($result);
   if ($num_results == 0) {
     echo('No results found');
     exit;
   }
   
+  // Set pagination variables
   $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
 
@@ -154,7 +158,7 @@
   $first_result =  ($curr_page * 10) - 10;
   
   // Iterate through first_result -> last_result
-  // To display listings
+  // To display listings on our selected page
   $i = $first_result;
     
   while ($i<=$last_result) {
@@ -163,7 +167,7 @@
     $item_id = $row['auctionID'];
     $title = $row['title'];
     $description = $row['description'];
-    $end_date = new DateTime($row['endDate']); // Convert from string to DT object
+    $end_date = new DateTime($row['endDate']);
     $num_bids = $row['num_bids'];
     $current_price = $row['current_price'];
     $image = $row["picture"];

@@ -4,48 +4,84 @@
 <div class="container my-5">
 
 <?php
-// Validate image type
-$filename = $_FILES["auction_image"]["name"];
-$filetempname = $_FILES["auction_image"]["tmp_name"];
-$folder = 'images/';
-move_uploaded_file($filetempname, $folder.$filename);
-$file_type = $_FILES["auction_image"]["type"];
-$extensions=array( 'image/jpeg', 'image/png', 'image/gif');
-if(!in_array($file_type,$extensions )){
-    echo('Please upload an image! Only JPEG, PNG and GIF are accepted.');
-    header("refresh:5;url=create_auction.php");
-    exit();
+// Read REQUIRED _POST and _SESSION variables, check if they are set
+function check($data) {
+    if (!isset($data)) {
+        echo('Please fill out all required entries');
+        exit;
+    }
+    else{
+        return $data;
+    }
 }
 
-// Reserve price is not required -> if it's not set, set it to 0.01
-if (empty($_POST['auctionReservePrice'])) {
+$username = check($_SESSION['username']);
+$title = check($_POST['auctionTitle']);
+$details = check($_POST['auctionDetails']);
+$category = check($_POST['auctionCategory']);
+$startPrice = check($_POST['auctionStartPrice']);
+$endDate = check($_POST['auctionEndDate']);
+
+// Check startPrice is numeric
+if (!is_numeric($startPrice)) {
+    echo('Please enter a number for start price');
+    exit;
+}
+
+// Reserve price is not required
+if (!isset($_POST['auctionReservePrice'])) {
+    // If it isn't set, set it to 0.01
     $reservePrice = 0.01;
 }
 else {
+    // If it is set, validate it
     $reservePrice = $_POST['auctionReservePrice'];
+    if (!is_numeric($reservePrice)) {
+        echo('Please enter a number for reserve price');
+        exit;
+    }
 }
 
-// Generate an ID for the auction by finding the maximum ID
-$id = (query("SELECT MAX(auctionID) FROM auctions")->fetch_assoc()['MAX(auctionID)'])+1;
+// Validate the end date format
+$endDate = DateTime::createFromFormat('Y-m-d\TH:i',$endDate);
+$date_errors = DateTime::getLastErrors();
+if (($date_errors['warning_count'] + $date_errors['error_count'] > 0) || ($endDate < new DateTime())) {
+    echo('Please enter a valid date');
+    exit;
+}
+$endDate = $endDate->format('Y-m-d H:i:00'); // MySQL required format
 
-// Convert end date to the correct format
-$endDate = date('Y-m-d H:i:00',strtotime($_POST['auctionEndDate']));
+// Validate image type
+$filename = $_FILES["auction_image"]["name"];
+$file_type = $_FILES["auction_image"]["type"];
+$extensions=array( 'image/jpeg', 'image/png', 'image/gif');
+if(!in_array($file_type,$extensions)){
+    echo('Please upload an image! Only JPEG, PNG and GIF are accepted.');
+    header("refresh:5;url=create_auction.php");
+    exit;
+}
 
-// Perform query
-$query = sprintf("INSERT INTO auctions VALUES (%g,'%s','%s','%s','%s',%g,'%s',%g,'%s')",
-    $id,
-    $_SESSION['username'],
-    $_POST['auctionTitle'],
-    $_POST["auctionDetails"],
-    $_POST['auctionCategory'],
-    $reservePrice,
-    $endDate,
-    $_POST['auctionStartPrice'],
-    $filename);
+// Validate remaining variables (non-date strings)
+$title=escape_string($title);
+$details=escape_string($details);
+$category=escape_string($category);
+$newfilename=escape_string($filename);
+
+// Save the image with the (now validated) name
+$filetempname = $_FILES["auction_image"]["tmp_name"];
+move_uploaded_file($filetempname, "images/".$filename);
+
+// INSERT
+$query = "INSERT INTO auctions
+(sellerEmail,title,description,categoryName,
+reservePrice,endDate,startPrice,picture) VALUES
+('$username','$title','$details','$category',
+$reservePrice,'$endDate',$startPrice,'$filename')";
 
 query($query);
 
-// If all is successful, let user know.
+// Success message, get auction ID to give a redirect
+$id = query("SELECT MAX(auctionID) as 'id' FROM auctions")->fetch_assoc()['id'];
 echo('<div class="text-center">Auction successfully created! <a href="listing.php?item_id='.$id.'">View your new listing.</a></div>');
 ?>
 

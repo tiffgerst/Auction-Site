@@ -11,8 +11,12 @@ $email = $_SESSION["username"];
 
 // Check if there are auctions (with bids) that the user has not bidded on
 $sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, n.popularity
-FROM (SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail <> '$email') AND endDate > CURRENT_TIME()) a
-LEFT JOIN (SELECT auctionID, COUNT(auctionID) AS 'popularity' FROM bids GROUP BY auctionID) n
+FROM 
+-- Table with all auctions that the buyer has not bidded on (a)
+(SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail <> '$email') AND endDate > CURRENT_TIME()) a
+LEFT JOIN 
+-- Table with the number of bids for each auction (n)
+(SELECT auctionID, COUNT(auctionID) AS 'popularity' FROM bids GROUP BY auctionID) n
 ON a.auctionID = n.auctionID
 ORDER BY popularity DESC LIMIT 3";
 $hot = query($sql);

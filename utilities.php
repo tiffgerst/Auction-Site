@@ -1,5 +1,4 @@
 <?php
-
 // display_time_remaining:
 // Helper function to help figure out what time to display
 function display_time_remaining($interval) {
@@ -63,10 +62,18 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time,
 }
 
 function query($query) {
-  require('db_credentials.php'); # Get database credentials)
-  $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname); # Create a database connection
-  $result = mysqli_query($connection,$query); # Perform query (returns false on failure)
+  require('db_credentials.php');
+  $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+  $result = mysqli_query($connection,$query);
   mysqli_close($connection);
   return $result;
+}
+
+function escape_string($data) {
+  require('db_credentials.php');
+  $connection = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+  $data = mysqli_real_escape_string($connection,$data);
+  mysqli_close($connection);
+  return $data;
 }
 ?>

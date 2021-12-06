@@ -54,8 +54,8 @@ echo('
   }
 </style>
 <div class = "centered">
-    <img src="images/SillyGoose.png" class="loading-goose" alt="Sample Image">
-    <img src="images/sunglasses.png" class="loading-glasses" alt="Sample Image">
+    <img src="assets/SillyGoose.png" class="loading-goose" alt="Sample Image">
+    <img src="assets/sunglasses.png" class="loading-glasses" alt="Sample Image">
     <h1 class = "loading-text">You will be redirected shortly.</h1>
 </div>
 ');

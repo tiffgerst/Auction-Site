@@ -17,7 +17,7 @@ INSERT INTO users VALUES ('buyer@buyer.com','buyer','buyer', 'Germany', '123 Ric
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
 CREATE TABLE auctions (
-  auctionID INT PRIMARY KEY,
+  auctionID INT AUTO_INCREMENT PRIMARY KEY,
   sellerEmail VARCHAR(50),
   title VARCHAR(50),
   description VARCHAR(200),
@@ -28,21 +28,24 @@ CREATE TABLE auctions (
   picture VARCHAR(30)
 );
 
-INSERT INTO auctions VALUES 
-  (1,'jeff@hotmail.co.uk','Milk','A bottle of milk','Food',10.50,'2021-12-31 22:00:00',5.50, 'milk.jpg'),-- Demo 1
-  (2,'jeff@hotmail.co.uk','Cheese','Swiss Cheese','Food',11.50,'2021-12-05 22:00:00',6.9, 'cheese.jpg'); -- Demo 2
+INSERT INTO auctions (sellerEmail,title,description,categoryName,
+reservePrice,endDate,startPrice,picture) VALUES 
+  ('jeff@hotmail.co.uk','Milk','A bottle of milk','Food',
+  10.50,'2021-12-31 22:00:00',5.50, 'milk.jpg'),-- Demo 1
+  ('jeff@hotmail.co.uk','Cheese','Swiss Cheese','Food',
+  11.50,'2021-12-05 22:00:00',6.9, 'cheese.jpg'); -- Demo 2
 
 -- Create bids table
 DROP TABLE IF EXISTS bids;
 CREATE TABLE bids (
-  bidID INT PRIMARY KEY,
+  bidID INT AUTO_INCREMENT PRIMARY KEY,
   buyerEmail VARCHAR(50),
   auctionID INT,
   bidValue FLOAT(10,2),
   bidDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
-INSERT INTO bids VALUES 
-  (0,'jeff@hotmail.co.uk',1,25, '2020-03-10 17:16:18'); -- Demo 1
+INSERT INTO bids (buyerEmail,auctionID,bidValue,bidDate) VALUES 
+  ('jeff@hotmail.co.uk',1,25, '2020-03-10 17:16:18'); -- Demo 1
 
 -- Create watchlist table
 DROP TABLE IF EXISTS watching;
@@ -50,7 +53,6 @@ CREATE TABLE watching (
   buyerEmail VARCHAR(50),
   auctionID INT,
   PRIMARY KEY (buyerEmail, auctionID)
- 
 );
 
 -- Create order table
@@ -65,14 +67,14 @@ CREATE TABLE orders (
 -- Create category table
 DROP TABLE IF EXISTS category;
 CREATE TABLE category (
-  categoryID INT PRIMARY KEY,
+  categoryID INT AUTO_INCREMENT PRIMARY KEY,
   categoryName VARCHAR(50)
 );
-INSERT INTO category VALUES 
-  (0, 'Shoes'),
-  (1, 'Pants'),
-  (2, 'Tops'),
-  (3, 'Dresses'),
-  (4, 'Skirts'),
-  (5, 'Suits'),
-  (6, 'Accessories');
+INSERT INTO category (categoryName) VALUES 
+  ('Shoes'),
+  ('Pants'),
+  ('Tops'),
+  ('Dresses'),
+  ('Skirts'),
+  ('Suits'),
+  ('Accessories');
