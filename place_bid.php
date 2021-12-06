@@ -1,50 +1,38 @@
 <?php include_once("utilities.php")?>
-<?php session_start()?>
 <?php
-// If user is not signed in, redirect to log-in
-if (!isset($_SESSION['username'])) {
-    echo('Please log-in to place bids');
-    echo('<div style="font-family: arial" class="modal fade" id="loginModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Login</h4>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form method="post" action="login_result.php">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="text" class="form-control" name="email" id="email" placeholder="Email">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary form-control">Sign in</button>
-          </form>
-          <div class="text-center">or <a href="register.php">create an account</a></div>
-        </div>
-  
-      </div>
-    </div>
-  </div>');
-  exit();
+session_start();
+
+// Make sure the user is logged in and is a buyer
+if ((!isset($_SESSION['username']))||($_SESSION['account_type'] != 'buyer')) {
+  // Give the option to be redirected to register.php
+  echo('<p> Please <a href=register.php>sign in</a> as a buyer to place bids </p>');
+  // Redirect to the listing
+  header("refresh:3;url=listing.php?item_id=".$_GET['item_id']);
+  exit;
 }
 
-// HTML validates post
-$bidValue = $_POST['bid'];
-$buyerEmail = $_SESSION['username'];
-$auctionID = $_GET['item_id'];
+function check($data) {
+  if (!isset($data)) {
+      echo('Please fill out all required entries');
+      exit;
+  }
+  else{
+      return $data;
+  }
+}
 
-// Check for to see if the user placing a new bid
-// Is already the highest bidder
+// Validate POST
+$bidValue = check($_POST['bid']);
+$auctionID = check($_GET['item_id']);
+
+if ((!is_numeric($bidValue))||(!is_numeric($auctionID))){
+  exit;
+}
+
+// Check to see if the user placing a new bid is already the highest bidder
 $query = "SELECT buyerEmail, MAX(bidValue) AS 'maxBid'
 FROM bids
-WHERE auctionID = ".$auctionID."
+WHERE auctionID = $auctionID
 GROUP BY buyerEmail
 ORDER BY maxBid DESC";
 $initialResult = query($query);
@@ -60,21 +48,18 @@ if (mysqli_num_rows($initialResult)>0){
     }
 }
 
-// Generate a bid ID by querying the database
-$result = query("SELECT bidID FROM bids");
-$numrows = mysqli_num_rows($result);
-$bidID = $numrows;
+// Generate bid date
 $bidDate = date('Y-m-d H:i:s');
 
 // INSERT
-$query = "INSERT INTO bids (bidID, buyerEmail, auctionID, bidValue, bidDate) VALUES ('$bidID','$buyerEmail','$auctionID','$bidValue','$bidDate')";
+$query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,'$bidDate')";
 query($query);
 
 $query = "INSERT INTO watching (auctionID, buyerEmail)
 VALUES('$auctionID', '$buyerEmail')";
 query($query);
-# Notify and redirect
 
+// Notify and redirect
 echo('<div class="text-center">Bid placed successfully! You will be redirected shortly</div>');
 header('refresh:5;url="listing.php?item_id='.$auctionID.'"');
 ?>

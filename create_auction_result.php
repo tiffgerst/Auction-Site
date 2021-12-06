@@ -1,10 +1,15 @@
 <?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php require_once("utilities.php")?>
 
 <div class="container my-5">
 
 <?php
-// Read REQUIRED _POST and _SESSION variables, check if they are set
+// Make sure the user is logged in and is a seller
+if ((!isset($_SESSION['username']))||($_SESSION['account_type'] != 'seller')) {
+    echo('Please sign in as a seller to create an auction');
+    exit;
+}
+
 function check($data) {
     if (!isset($data)) {
         echo('Please fill out all required entries');
@@ -13,9 +18,9 @@ function check($data) {
     else{
         return $data;
     }
-}
+  }
 
-$username = check($_SESSION['username']);
+// Read REQUIRED POST variables, check if they are set
 $title = check($_POST['auctionTitle']);
 $details = check($_POST['auctionDetails']);
 $category = check($_POST['auctionCategory']);
@@ -61,7 +66,7 @@ if(!in_array($file_type,$extensions)){
     exit;
 }
 
-// Validate remaining variables (non-date strings)
+// Escape remaining non-date strings
 $title=escape_string($title);
 $details=escape_string($details);
 $category=escape_string($category);

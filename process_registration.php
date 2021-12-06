@@ -11,25 +11,34 @@ function check($data) {
     }
   }
 
-// Extract $_POST variables
+// Read POST variables, check if they are set
 $accountType = check($_POST['accountType']);
 $email = check($_POST['email']);
-$password = $_POST['password'];
-$passwordConfirmation = $_POST['passwordConfirmation'];
-$country = $_POST['address_country'];
-$address = $_POST['address_first_line'].', '.$_POST['address_city'].', '.$_POST['address_post_code'];
+$password = check($_POST['password']);
+$passwordConfirmation = check($_POST['passwordConfirmation']);
+$country = check($_POST['address_country']);
+$address = check($_POST['address_first_line'].', '.$_POST['address_city'].', '.$_POST['address_post_code']);
 
-// Check account already exists
+// Escape strings to do first query
+$accountType=escape_string($accountType);
+$email=escape_string($email);
+
+// Check if account already exists
 $query = "SELECT * FROM users WHERE accountType = '$accountType' AND email = '$email'";
 $result = query($query);
 
 if (mysqli_num_rows($result)>0) {
     echo("Account with that email already exists");
-    header("refresh:5;url=register.php");
-    exit();
+    header("refresh:3;url=register.php");
+    exit;
 }
 
-// Register users
+// Escape the rest of the strings for the INSERT query
+$$password=escape_string($password);
+$country=escape_string($country);
+$address=escape_string($address);
+
+// INSERT
 query("INSERT INTO users VALUES
 ('$email','$password','$accountType', '$country', '$address')");
 
@@ -43,6 +52,5 @@ $_SESSION['account_type'] = $accountType;
 echo('<div class="text-center">You are now registered! You will be redirected shortly.</div>');
 
 // Redirect to browse after 5 seconds
-header("refresh:5;url=browse.php");
-
+header("refresh:3;url=browse.php");
 ?>
