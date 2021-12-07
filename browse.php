@@ -1,11 +1,8 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php");?>
 
-
 <div class="container">
-
 <h2 class="my-3">Browse listings</h2>
-
 <div id="searchSpecs"> <!-- start search specs bar -->
 <form method="get" action="browse.php">
   <div class="row">
@@ -62,36 +59,38 @@
   </div>
 </form>
 </div> <!-- end search specs bar -->
-
-
 </div>
 
 <?php
   // Process the GET variables
+  
+  // Keyword
   if (!isset($_GET['keyword'])) {
     $keyword = "%"; // Browse everything
   }
   else {
-    $keyword = "%".$_GET['keyword']."%";
+    $keyword = escape_string($_GET['keyword']);
+    $keyword = "%".$keyword."%";
   }
 
+  // Category
   if (!isset($_GET['cat'])) {
-    // This null will be used to avoid
-    // Including category criteria in the query    
+    // null used to skip including category criteria in the query    
     $category = null; 
-
   }
   else {
-    $category = $_GET['cat'];
+    $category = escape_string($_GET['cat']);
   }
-  
+
+  // Order by
   if (!isset($_GET['order_by'])||$_GET['order_by']=="endDate ASC") {
     $ordering = "endDate ASC"; // Sort by expiry date by default
   }
   else {
-    $ordering = $_GET['order_by'];
+    $ordering = escape_string($_GET['order_by']);
   }
 
+  // Show expired
   if (!isset($_GET['show_expired'])) {
     $expired = FALSE;
   }
@@ -99,7 +98,8 @@
     $expired = TRUE;
   }
 
-  if (!isset($_GET['page'])) {
+  // Page
+  if ((!isset($_GET['page']))||(!is_numeric($_GET['page']))) {
     $curr_page = 1;
   }
   else {
@@ -107,9 +107,8 @@
   }
 ?>
 
-<div class="container mt-5">
-<ul class="list-group">
-
+<div class="container mt-5"> <!-- container for listings and pagination -->
+<ul class="list-group"> <!-- start displaying listings -->
 <?php
   // Perform the necessary query for displaying results
   
@@ -176,13 +175,10 @@
     $i+=1;
   }
 ?>
+</ul> <!-- end displaying listings -->
 
-</ul>
-
-<!-- Pagination for results listings -->
-<nav aria-label="Search results pages" class="mt-5">
-  <ul class="pagination justify-content-center">
-  
+<nav aria-label="Search results pages" class="mt-5"> <!-- Pagination for results listings -->
+<ul class="pagination justify-content-center">
 <?php
 
   // Copy any currently-set GET variables to the URL.
@@ -236,13 +232,8 @@
     </li>');
   }
 ?>
-
-  </ul>
+</ul>
 </nav>
-
-
-</div>
-
-
+</div> <!-- end container for listings and pagination -->
 
 <?php include_once("footer.php")?>

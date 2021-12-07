@@ -6,13 +6,11 @@
 <?php
 // Make sure the user is logged in and is a seller
 if ((!isset($_SESSION['username']))||($_SESSION['account_type'] != 'seller')) {
-    echo('Please sign in as a seller to create an auction');
     exit;
 }
 
 function check($data) {
     if (!isset($data)) {
-        echo('Please fill out all required entries');
         exit;
     }
     else{
@@ -29,7 +27,6 @@ $endDate = check($_POST['auctionEndDate']);
 
 // Check startPrice is numeric
 if (!is_numeric($startPrice)) {
-    echo('Please enter a number for start price');
     exit;
 }
 
@@ -42,16 +39,14 @@ else {
     // If it is set, validate it
     $reservePrice = $_POST['auctionReservePrice'];
     if (!is_numeric($reservePrice)) {
-        echo('Please enter a number for reserve price');
         exit;
     }
 }
 
-// Validate the end date format
+// Validate the end date
 $endDate = DateTime::createFromFormat('Y-m-d\TH:i',$endDate);
 $date_errors = DateTime::getLastErrors();
 if (($date_errors['warning_count'] + $date_errors['error_count'] > 0) || ($endDate < new DateTime())) {
-    echo('Please enter a valid date');
     exit;
 }
 $endDate = $endDate->format('Y-m-d H:i:00'); // MySQL required format
@@ -67,10 +62,16 @@ if(!in_array($file_type,$extensions)){
 }
 
 // Escape remaining non-date strings
-$title=escape_string($title);
-$details=escape_string($details);
-$category=escape_string($category);
-$newfilename=escape_string($filename);
+$title = escape_string($title);
+$details = escape_string($details);
+$category = escape_string($category);
+$newfilename = escape_string($filename);
+
+// Make sure category is valid
+$result = query("SELECT * FROM category WHERE categoryName = '$category'");
+if (mysqli_num_rows($result)==0) {
+    exit;
+}
 
 // Save the image with the (now validated) name
 $filetempname = $_FILES["auction_image"]["tmp_name"];

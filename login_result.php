@@ -1,9 +1,19 @@
 <?php require("utilities.php");?>
 
 <?php
-// Get $_POST variables
-$email = $_POST['email'];
-$password = $_POST['password'];
+
+function check($data) {
+    if (!isset($data)) {
+        exit;
+    }
+    else{
+        return $data;
+    }
+  }
+
+// Get POST variables and sanitize them
+$email = escape_string(check($_POST['email']));
+$password = escape_string(check($_POST['password']));
 
 // Perform a database query
 $query = "SELECT * FROM users

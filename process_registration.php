@@ -3,7 +3,6 @@
 <?php
 function check($data) {
     if (!isset($data)) {
-        echo('Please fill out all required entries');
         exit;
     }
     else{

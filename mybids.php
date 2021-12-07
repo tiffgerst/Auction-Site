@@ -15,11 +15,10 @@
   $sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture
   from auctions as a WHERE a.auctionID IN (SELECT auctionID FROM `bids` WHERE  buyerEmail = '$email')";
   
-  
-  // # Perform query
+  // Perform query
   $result = query($sql);
   
-  # Use results to change display of results
+  // Use results to change display of results
   $num_results = mysqli_num_rows($result);
 
   if ($num_results>0) {

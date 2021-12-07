@@ -8,6 +8,11 @@ if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
 
 // Extract arguments from the POST variables:
 $item_id = $_POST['arguments'][0];
+
+if (!is_numeric($item_id)){
+  return;
+}
+
 $email = $_SESSION["username"];
 
 if ($_POST['functionname'] == "add_to_watchlist") {
