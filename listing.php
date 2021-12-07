@@ -163,7 +163,7 @@ else {
     </div>
 <?php endif ?>
 <?php
-  if (($now > $end_time) & ($expiry_circumstances == "Unsuccessful auction - no bids placed")) {
+  if (($now > $end_time) && ($expiry_circumstances == "Unsuccessful auction - no bids placed")) {
     exit;
   }
 

@@ -24,6 +24,7 @@ function check($data) {
 // Validate POST
 $bidValue = check($_POST['bid']);
 $auctionID = check($_GET['item_id']);
+$buyerEmail = $_SESSION['username'];
 
 if ((!is_numeric($bidValue))||(!is_numeric($auctionID))){
   exit;
