@@ -39,14 +39,21 @@ ORDER BY maxBid DESC";
 $initialResult = query($query);
 
 if (mysqli_num_rows($initialResult)>0){
-    $initialResult =  $initialResult -> fetch_assoc();
-    $highestBidderEmail = $initialResult["buyerEmail"];
-    
-    if ($highestBidderEmail == $buyerEmail){
-        echo('<div class="text-center">You are already the highest bidder! Your bid has not been registered and you will be redirected shorty.</div>');
-        header('refresh:5;url="listing.php?item_id='.$auctionID.'"');
-        exit();
+    $row =  $initialResult -> fetch_assoc();
+    $highestBid = $row["maxBid"];
+
+    if ($bidValue <= round($highestBid*1.05,2)) {
+      exit;
     }
+}
+
+else {
+  // Use the start price to set minimum bid amount
+  $startPrice = query("SELECT startPrice FROM auctions WHERE auctionID = $auctionID")->fetch_assoc()['startPrice'];
+  
+  if ($bidValue <= round($startPrice*1.05,2)) {
+    exit;
+  }
 }
 
 // Generate bid date

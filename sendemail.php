@@ -56,7 +56,6 @@ while ($row = $result->fetch_assoc()){
   if (mysqli_num_rows($bids_result) == 0) {
     echo("\n\n");
     // No bids
-    $expiry_circumstances = "Unsuccessful auction - no bids placed";
     
     // Send an email to just the seller
     $body = "No one bidded on your auction you goof! :(";
