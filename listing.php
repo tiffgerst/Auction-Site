@@ -26,12 +26,11 @@ $start_price = $row['startPrice'];
 $now = new DateTime();
 
 // Get the country
-$query = "
-SELECT u.country 
+$query = "SELECT u.country 
 FROM users u
 JOIN auctions a
 ON a.sellerEmail = u.email
-WHERE a.auctionID = {$item_id} AND u.accountType = 'seller'";
+WHERE a.auctionID = {$item_id}";
 $country = query($query)->fetch_assoc()['country'];
 
 // For non-expired auctions:
