@@ -28,7 +28,7 @@ if (mysqli_num_rows($result)==0) {
 }
 
 // Check if password is valid
-if (!verify_password($password,$result->fetch_assoc()['password'])) {
+if (!password_verify($password,$result->fetch_assoc()['password'])) {
     echo('<div class="text-center">Password incorrect: please try again.</div>');
     header("refresh:5;url=browse.php");
     exit;
