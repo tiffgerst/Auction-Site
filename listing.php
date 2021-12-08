@@ -164,7 +164,21 @@ else {
 <?php
   if (($now > $end_time) && ($expiry_circumstances == "Unsuccessful auction - no bids placed")) {
     exit;
-  }
+  }else{
+    $query = "SELECT reservePrice FROM auctions WHERE auctionID = {$item_id}";
+    $result = query($query);
+    $result = $result->fetch_assoc();
+    $reserve_price = $result['reservePrice'];
+    if ($reserve_price <= $current_price){
+      echo('<h5>The reserve price for this item has been met! <i> BID TO WIN!</i> </h5>');
+    }else{
+      echo('<h5>The reserve price for this item has <b> NOT </b> been met! <i> BID! BID! BID!</i></h5>');  
+    }
+    }
+
+    
+
+
 
   // Bidding history
   if (isset($_SESSION['account_type'])){
