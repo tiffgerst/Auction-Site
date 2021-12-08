@@ -76,7 +76,7 @@
 </head>
 
 <body>
-  <!-- Navbars -->
+  <!-- Header with logo -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="assets/SillyGoose.png" height="70px"> Silly Goose</a>
     <ul class="navbar-nav ml-auto">
@@ -96,36 +96,40 @@
       </li>
     </ul>
   </nav>
+  <!-- Links -->
   <nav class="navbar navbar-expand-lg">
     <ul class="navbar-nav align-middle">
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="browse.php">Browse</a>
+      <li class="nav-item mx-1" style="min-width:150px;width:100%;text-align:center">
+        <a class="nav-link" style="font-size:20px;font-family:Lobster,cursive;color:white;background-color:#a6c6e3;border-radius:30px" href="browse.php">Browse</a>
       </li>
       <?php
+      $width = "min-width:150px;width:100%;text-align:center";
+      $style = "font-size:20px;font-family:Lobster,cursive;color:white;background-color:#a6c6e3;border-radius:30px";
+
       // Buyer tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
         echo ('
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="mybids.php">My Bids</a>
+      <li class="nav-item mx-1" style="'.$width.'">
+        <a class="nav-link" style="'.$style.'" href="mybids.php">My Bids</a>
       </li>
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="recommendations.php">Recommended</a>
+      <li class="nav-item mx-1" style="'.$width.'">
+        <a class="nav-link" style="'.$style.'" href="recommendations.php">Recommended</a>
       </li>
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="hotStuff.php">Hot Right Now</a>
+      <li class="nav-item mx-1" style=""'.$width.'">
+        <a class="nav-link" style="'.$style.'" href="hotStuff.php">Hot Right Now</a>
       </li>
-      <li class="nav-item mx-1">
-        <a class="nav-link" href="feeling_lucky.php">Feeling Lucky?</a>
+      <li class="nav-item mx-1" style="'.$width.'">
+        <a class="nav-link" style="'.$style.'" href="feeling_lucky.php">Feeling Lucky?</a>
       </li>');
       }
       // Seller tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
         echo ('
-      <li class="nav-item mx-1">
-          <a class="nav-link" href="mylistings.php">My Listings</a>
+      <li class="nav-item mx-1" style="'.$width.'">
+          <a class="nav-link" style="'.$style.'" href="mylistings.php">My Listings</a>
         </li>
-      <li class="nav-item ml-3">
-          <a class="nav-link" href="create_auction.php">+ Create auction</a>
+      <li class="nav-item ml-1" style="'.$width.'">
+          <a class="nav-link" style="'.$style.'" href="create_auction.php">+ Create auction</a>
         </li>');
       }
       ?>
