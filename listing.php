@@ -43,7 +43,7 @@ if ($now < $end_time) {
   $num_watching = mysqli_num_rows(query($query));
 
   // Check user information for the purpose of watching functionality
-  if(!isset($_SESSION['account_type']) | $_SESSION['account_type'] == "seller" ){
+  if(!isset($_SESSION['account_type']) || $_SESSION['account_type'] == "seller" ){
     // User does not have a session or is a seller
     $has_session = false;
   }
