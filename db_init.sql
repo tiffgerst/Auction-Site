@@ -10,8 +10,8 @@ CREATE TABLE users (
   accountType VARCHAR(6),
   country VARCHAR(30),
   city VARCHAR(30),
-  postcode VARCHAR(30)
-  addressLine VARCHAR(30),
+  postcode VARCHAR(30),
+  addressLine VARCHAR(30)
 );
 
 -- Create auctions table

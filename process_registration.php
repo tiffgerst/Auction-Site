@@ -33,10 +33,11 @@ if (mysqli_num_rows($result)>0) {
     header("refresh:3;url=register.php");
     exit;
 }
+echo('hello');
 
 // Escape then salt + hash password
 $password = escape_string($password);
-$password = password_hash($password);
+$password = password_hash($password,PASSWORD_BCRYPT);
 
 // Escape the rest of the strings for the INSERT query
 $country = escape_string($country);
