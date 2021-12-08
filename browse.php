@@ -124,11 +124,24 @@
   if ($expired == FALSE) {
     // Only look at auctions that haven't expired
     $query .= " WHERE a.endDate > CURRENT_TIME()";
+    if ($category) {
+      // Filter category
+      $query .= "AND a.categoryName LIKE '".$category."'";
+    }
   }
-  if ($category) {
-    // Filter category
-    $query .= " WHERE a.categoryName LIKE '".$category."'";
+  else{
+    if ($category != NULL) {
+      // Filter category
+      $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,
+      COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
+      FROM
+      (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
+      RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a
+      ON a.auctionID = b.auctionID
+      WHERE a.categoryName LIKE '".$category."' ";
+    }
   }
+ 
 
   // Order results
   $query .= " ORDER BY ".$ordering;
