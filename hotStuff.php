@@ -13,7 +13,8 @@ $email = $_SESSION["username"];
 $sql = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, n.popularity
 FROM 
 -- Table with all auctions that currently have bids, which the buyer has not bidded on, and haven't expired (a)
-(SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail <> '$email') AND endDate > CURRENT_TIME()) a
+(SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail <> '$email') AND auctionID NOT IN
+(SELECT auctionID from bids WHERE buyerEmail = \"$email\") AND endDate > CURRENT_TIME()) a
 LEFT JOIN 
 -- Table with the number of bids for each auction (n)
 (SELECT auctionID, COUNT(auctionID) AS 'popularity' FROM bids GROUP BY auctionID) n
