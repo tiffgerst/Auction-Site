@@ -92,12 +92,12 @@ else {
   <?php if ($now < $end_time && $has_session):?>  
     <?php if (!$watching):?>
       <div id="watch_nowatch">
-        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to watchlist</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist(); window.location.reload()">+ Add to watchlist</button>
       </div>
     <?php else:?>
       <div id="watch_watching">
         <button type="button" class="btn btn-success btn-sm" disabled>Watching</button>
-        <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist()">Remove watch</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="removeFromWatchlist();window.location.reload()">Remove watch</button>
       </div>
       <?php endif ?>
   <?php endif /* Print nothing otherwise */ ?>
