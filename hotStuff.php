@@ -5,7 +5,7 @@ include_once("utilities.php");
 <div class="container">
 
 <h2 class="my-3">Hey There Hot Stuff!</h2>
-<p class="text-muted"> Here's a selection of auctions that you haven't bidded on that have high bidding activity. </p> 
+<p class="text-muted"> Here's a selection of auctions  you haven't bid on that have high bidding activity. </p> 
 <?php 
 $email = $_SESSION["username"];
 
