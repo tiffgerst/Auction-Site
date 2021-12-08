@@ -16,7 +16,7 @@ $email = escape_string(check($_POST['email']));
 $password = escape_string(check($_POST['password']));
 
 // Perform a database query
-$query = "SELECT password FROM users
+$query = "SELECT accountType,password FROM users
 WHERE email = '$email'";
 $result = query($query);
 
@@ -27,8 +27,10 @@ if (mysqli_num_rows($result)==0) {
     exit;
 }
 
+$row = $result->fetch_assoc();
+
 // Check if password is valid
-if (!password_verify($password,$result->fetch_assoc()['password'])) {
+if (!password_verify($password,$row['password'])) {
     echo('<div class="text-center">Password incorrect: please try again.</div>');
     header("refresh:5;url=browse.php");
     exit;
@@ -38,7 +40,7 @@ if (!password_verify($password,$result->fetch_assoc()['password'])) {
 session_start();
 $_SESSION['logged_in'] = true;
 $_SESSION['username'] = $email;
-$_SESSION['account_type'] = $result->fetch_assoc()['accountType'];
+$_SESSION['account_type'] = $row['accountType'];
 
 echo('
 <style>
