@@ -6,13 +6,13 @@ USE auction;
 DROP TABLE IF EXISTS users;
 CREATE TABLE users ( 
   email VARCHAR(50) PRIMARY KEY,
-  password VARCHAR(50),
-  accountType VARCHAR(50),
+  password VARCHAR(60), -- Hashed + Salted in PHP - needs 60 chars
+  accountType VARCHAR(6),
   country VARCHAR(30),
-  address VARCHAR(100)
+  city VARCHAR(30),
+  postcode VARCHAR(30)
+  addressLine VARCHAR(30),
 );
-INSERT INTO users VALUES ('jeff@hotmail.co.uk','vvs','seller', 'Germany', '123 Richest Street, Richest City, RI3H M3');
-INSERT INTO users VALUES ('buyer@buyer.com','buyer','buyer', 'Germany', '123 Richest Street, Richest City, RI3H M3'); -- Demo 1
 
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
@@ -55,21 +55,13 @@ CREATE TABLE watching (
   PRIMARY KEY (buyerEmail, auctionID)
 );
 
--- Create order table
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
-  orderID INT PRIMARY KEY,
-  auctionID INT,
-  bidValue FLOAT(10,2),
-  buyerEmail VARCHAR(50)
-);
-
 -- Create category table
 DROP TABLE IF EXISTS category;
 CREATE TABLE category (
   categoryID INT AUTO_INCREMENT PRIMARY KEY,
   categoryName VARCHAR(50)
 );
+
 INSERT INTO category (categoryName) VALUES 
   ('Shoes'),
   ('Pants'),

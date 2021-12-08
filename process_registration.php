@@ -16,14 +16,16 @@ $email = check($_POST['email']);
 $password = check($_POST['password']);
 $passwordConfirmation = check($_POST['passwordConfirmation']);
 $country = check($_POST['address_country']);
-$address = check($_POST['address_first_line'].', '.$_POST['address_city'].', '.$_POST['address_post_code']);
+$city = check($_POST['address_city']);
+$postcode = check($_POST['address_post_code']);
+$addressLine = check($_POST['address_first_line']);
 
 // Escape strings to do first query
 $accountType=escape_string($accountType);
 $email=escape_string($email);
 
 // Check if account already exists
-$query = "SELECT * FROM users WHERE accountType = '$accountType' AND email = '$email'";
+$query = "SELECT * FROM users WHERE email = '$email'";
 $result = query($query);
 
 if (mysqli_num_rows($result)>0) {
@@ -32,14 +34,23 @@ if (mysqli_num_rows($result)>0) {
     exit;
 }
 
+// Escape then salt + hash password
+$password = escape_string($password);
+$password = password_hash($password);
+
 // Escape the rest of the strings for the INSERT query
-$$password=escape_string($password);
-$country=escape_string($country);
-$address=escape_string($address);
+$country = escape_string($country);
+$city = escape_string($city);
+$postcode = escape_string($postcode);
+$addressLine = escape_string($addressLine);
 
 // INSERT
-query("INSERT INTO users VALUES
-('$email','$password','$accountType', '$country', '$address')");
+query("INSERT INTO users
+(email,password,accountType,
+country,city,postcode,addressLine)
+VALUES
+('$email','$password','$accountType',
+'$country','$city','$postcode','$addressLine')");
 
 // Change session variables
 session_start();
