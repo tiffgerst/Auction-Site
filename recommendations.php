@@ -43,7 +43,6 @@ while ($row = $rec->fetch_assoc()) {
     $o = $h->fetch_assoc();
     $price = $o['price'];
   }
-  echo"People who bid on the same items you did also bid on:";
   print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image);
   }
 ?>
