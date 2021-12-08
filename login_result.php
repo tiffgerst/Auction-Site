@@ -16,14 +16,22 @@ $email = escape_string(check($_POST['email']));
 $password = escape_string(check($_POST['password']));
 
 // Perform a database query
-$query = "SELECT * FROM users
-WHERE email = '$email'
-AND password = '$password'";
+$query = "SELECT accountType,password FROM users
+WHERE email = '$email'";
 $result = query($query);
 
-// No results - invalid user+password combination
+// Check if email doesn't exist
 if (mysqli_num_rows($result)==0) {
-    echo('<div class="text-center">Email or password incorrect: please enter a valid email and password.</div>');
+    echo("<div class='text-center'>Email doesn't exist: please register.</div>");
+    header("refresh:3;url=browse.php");
+    exit;
+}
+
+$row = $result->fetch_assoc();
+
+// Check if password is valid
+if (!password_verify($password,$row['password'])) {
+    echo('<div class="text-center">Password incorrect: please try again.</div>');
     header("refresh:5;url=browse.php");
     exit;
 }
@@ -32,7 +40,7 @@ if (mysqli_num_rows($result)==0) {
 session_start();
 $_SESSION['logged_in'] = true;
 $_SESSION['username'] = $email;
-$_SESSION['account_type'] = $result->fetch_assoc()['accountType'];
+$_SESSION['account_type'] = $row['accountType'];
 
 echo('
 <style>
