@@ -33,7 +33,6 @@ if (mysqli_num_rows($result)>0) {
     header("refresh:3;url=register.php");
     exit;
 }
-echo('hello');
 
 // Escape then salt + hash password
 $password = escape_string($password);

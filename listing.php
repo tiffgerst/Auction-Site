@@ -189,10 +189,13 @@ else {
     $bid_value = $row['bidValue'];
     $bid_date = $row['bidDate'];
     $buyer_email = $row['buyerEmail'];
-    if ($buyer_email == $email){
+    
+    // Email won't be set if they are a seller
+    if ((isset($email))&&($buyer_email == $email)){
       echo("<p>You placed a £{$bid_value} bid at {$bid_date}</p>");
     }
     else {
+      // Everyone who's signed in should be set
       echo("<p>Bid with a value of £{$bid_value} placed at {$bid_date}</p>");
     }
   }

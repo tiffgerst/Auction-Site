@@ -15,17 +15,31 @@ CREATE TABLE users (
 );
 
 INSERT INTO `users` (`email`, `password`, `accountType`, `country`, `addressLine`, `city`, `postcode`) VALUES
-('ben@thread.com', 'buyer', 'buyer', 'Jamaica', '34 Richest Street', 'Richest City', 'RI3H M3'),
-('buyer@buyer.com', 'buyer', 'buyer', 'Germany', '2nd Richest Street', 'Richest City', 'RI3H M3'),
-('ewan@smith.com', 'braindead', 'buyer', 'USA', '2804 Ellendale Place', 'Los Angeles', '90089'),
-('gerstmey@usc.edu', '1234567', 'buyer', 'United States', '2804 Ellendale Place', 'Los Angeles', '90007'),
-('jeff@hotmail.co.uk', 'vvs', 'seller', 'Germany', '123 Richest Street', 'Richest City', 'RI3H M3'),
-('leo@pat.com', 'loulou', 'buyer', 'France', '24 Booboo Street', 'Tutu City', '12344'),
-('maggie@simpson.com', 'potato', 'buyer', 'USA', '27 Evergreen Terrace', 'Springfield', '90007'),
-('miron@kiss.com', 'JinsKitchen', 'seller', 'Russia', '34 Hasbulla Road', 'Shoreditch', 'D3AF B0I'),
-('silly@goose.com', 'sgoose1', 'buyer', 'UK', '12 Tottenham court', 'London', 'W92qa'),
-('tiff@gerst.com', 'psw1', 'seller', 'UK', '32 Charming Ave', 'Angel', 'W9283'),
-('tiffany.gerstmeyr@yahoo.de', '1234567', 'seller', 'Germany', 'Schwalbenweg', 'Krailling', '82152');
+('ben@thread.com', '$2y$10$aR0n47yMHpE.H9b7MLUC4.UeTbX8CXm2tpQ8BqxjfPU.5XiIzgcui', 'buyer', 'Jamaica', '34 Richest Street', 'Richest City', 'RI3H M3'),
+('buyer@buyer.com', '$2y$10$5A5UzDVoa1kcyFpgeATQzOOrsIobayypGE1Tf6dWAse0rog84MvPO', 'buyer', 'Germany', '2nd Richest Street', 'Richest City', 'RI3H M3'),
+('ewan@smith.com', '$2y$10$wYw3b8mqY0Rl1jpvz8pHNOluVQ5wcW6wIL/bqN0Laf2w/dYNvasPi', 'buyer', 'USA', '2804 Ellendale Place', 'Los Angeles', '90089'),
+('gerstmey@usc.edu', '$2y$10$QmHhKG/41MJqnXxSkIVTe.lLKzJlH9hl./HYBSycKYAXgMdYSbqMu', 'buyer', 'United States', '2804 Ellendale Place', 'Los Angeles', '90007'),
+('jeff@hotmail.co.uk', '$2y$10$DuGhaDflC9IbbZgNCVw7Pea958RIQtm8DJZx/uZFfXeqhw3U9JZai', 'seller', 'Germany', '123 Richest Street', 'Richest City', 'RI3H M3'),
+('leo@pat.com', '$2y$10$G24nqqx7yG5vaWc3iccuk.NRHx2xknETlzYrUxLWYHKNpQQrA9Y3G', 'buyer', 'France', '24 Booboo Street', 'Tutu City', '12344'),
+('maggie@simpson.com', '$2y$10$6dOC3fFT5UaCQwdqItU2OeWwO/bmQ9WhfpveInZBE9mLZUnu70YVa', 'buyer', 'USA', '27 Evergreen Terrace', 'Springfield', '90007'),
+('miron@kiss.com', '$2y$10$oeH/Tsb98nVn3cSjlZ.sLOGBC8x28gfWlqCnjxvuYSOJasnbvYH/K', 'seller', 'Russia', '34 Hasbulla Road', 'Shoreditch', 'D3AF B0I'),
+('silly@goose.com', '$2y$10$pWuhpbAvcVfAjv/AKfTanuruKfT0zKU2.6a.d1dLJJJbym99.Uh5m', 'buyer', 'UK', '12 Tottenham court', 'London', 'W92qa'),
+('tiff@gerst.com', '$2y$10$z/balXsysqXd0zY/cohMBO4mCdu/DlSID5DNONUUgKb3eeufr7aEi', 'seller', 'UK', '32 Charming Ave', 'Angel', 'W9283'),
+('tiffany.gerstmeyr@yahoo.de', '$2y$10$RjuL0j.6yWluKQQnsUx9r.0OAoA2mk0yGnghFcqSUBTpIpa2GJHhi', 'seller', 'Germany', 'Schwalbenweg', 'Krailling', '82152');
+
+-- u : p
+-- 'ben@thread.com', 'buyer'
+-- 'buyer@buyer.com', 'buyer' 
+-- 'ewan@smith.com', 'braindead'
+-- 'gerstmey@usc.edu', '1234567'
+-- 'jeff@hotmail.co.uk', 'vvs'
+-- 'leo@pat.com', 'loulou'
+-- 'maggie@simpson.com', 'potato'
+-- 'miron@kiss.com', 'JinsKitchen',
+-- 'silly@goose.com', 'sgoose1'
+-- 'tiff@gerst.com', 'psw1'
+-- 'tiffany.gerstmeyr@yahoo.de', '1234567'
+
 -- Create auctions table
 DROP TABLE IF EXISTS auctions;
 CREATE TABLE auctions (
