@@ -77,7 +77,7 @@
 
 <body>
   <!-- Header with logo -->
-  <nav class="navbar navbar-expand-lg navbar-custom">
+  <nav class="navbar navbar-expand-lg navbar-custom row">
     <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="assets/SillyGoose.png" height="70px"> Silly Goose</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -115,7 +115,7 @@
       <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="recommendations.php">Recommended</a>
       </li>
-      <li class="nav-item mx-1" style=""'.$width.'">
+      <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="hotStuff.php">Hot Right Now</a>
       </li>
       <li class="nav-item mx-1" style="'.$width.'">
@@ -128,7 +128,7 @@
       <li class="nav-item mx-1" style="'.$width.'">
           <a class="nav-link" style="'.$style.'" href="mylistings.php">My Listings</a>
         </li>
-      <li class="nav-item ml-1" style="'.$width.'">
+      <li class="nav-item mx-1" style="'.$width.'">
           <a class="nav-link" style="'.$style.'" href="create_auction.php">+ Create auction</a>
         </li>');
       }
