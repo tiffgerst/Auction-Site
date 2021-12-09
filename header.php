@@ -120,7 +120,11 @@
       </li>
       <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="feeling_lucky.php">Feeling Lucky?</a>
-      </li>');
+      </li>
+      <li class="nav-item mx-1" style="'.$width.'">
+        <a class="nav-link" style="'.$style.'" href="edit_my_info.php">Edit Credentials</a>
+      </li>
+      ');
       }
       // Seller tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
@@ -130,11 +134,8 @@
         </li>
       <li class="nav-item ml-1" style="'.$width.'">
           <a class="nav-link" style="'.$style.'" href="create_auction.php">+ Create auction</a>
-        </li>');
-      }
-      // Edit credentials
-      if (isset($_SESSION['acount_type'])) {
-        echo('<li class="nav-item mx-1" style="'.$width.'">
+        </li>
+        <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="edit_my_info.php">Edit Credentials</a>
       </li>');
       }
