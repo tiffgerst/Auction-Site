@@ -82,17 +82,21 @@
     $keyword = "%".$keyword."%";
   }
   
+  // Min price
   if (isset($_GET['min_price'])){
     $min_price = $_GET['min_price'];
-    if ($min_price != NULL){
+    if (($min_price != NULL)&&(is_numeric($min_price))){
+      // It's valid
       $min_price = $_GET['min_price'];
     }else{
     $min_price = 0;
     }
   }else{$min_price = 0;}
+  
+  // Max price
   if (isset($_GET['max_price'])){
     $max_price = $_GET['max_price'];
-    if ($max_price != NULL){
+    if (($max_price != NULL)&&(is_numeric($max_price))){
       $max_price = $_GET['max_price'];
     }else{
     $max_price = 1000000000000;
@@ -101,10 +105,11 @@
     $max_price = 1000000000000;
   }
   
+  // Compare min and max price
   if ($min_price > $max_price){
     echo('<div class="text-center">Minimum price cannot be higher than the maximum price. Please try again!</div>');
+    exit;
   }
-
 
   // Category
   if (!isset($_GET['cat'])) {
