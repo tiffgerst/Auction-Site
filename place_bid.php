@@ -42,7 +42,7 @@ if (mysqli_num_rows($initialResult)>0){
     $row =  $initialResult -> fetch_assoc();
     $highestBid = $row["maxBid"];
 
-    if ($bidValue <= round($highestBid*1.05,2)) {
+    if ($bidValue < round($highestBid*1.05,2)) {
       exit;
     }
 }
@@ -51,7 +51,7 @@ else {
   // Use the start price to set minimum bid amount
   $startPrice = query("SELECT startPrice FROM auctions WHERE auctionID = $auctionID")->fetch_assoc()['startPrice'];
   
-  if ($bidValue <= round($startPrice*1.05,2)) {
+  if ($bidValue < round($startPrice*1.05,2)) {
     exit;
   }
 }
