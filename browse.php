@@ -5,10 +5,10 @@
 <h2 class="my-3">Browse listings</h2>
 <div id="searchSpecs"> <!-- start search specs bar -->
 <form method="get" action="browse.php">
-  <div class="row">
+  <div class="row form-inline">
     <!-- Keyword search -->  
     <div class="col-md-4 pr-0">
-      <div class="form-group">
+      <div>
         <label for="keyword" class="sr-only">Search keyword:</label>
 	    <div class="input-group">
           <div class="input-group-prepend">
@@ -22,7 +22,7 @@
     </div>
     <!-- Category search -->
     <div class="col-md-2 pr-0">
-      <div class="form-group">
+      <div>
         <label for="cat" class="sr-only">Search within:</label>
         <select class="form-control" name="cat" id="cat">
           <option selected value="">All categories</option>
@@ -48,13 +48,12 @@
     </div>
     <!-- Show expired -->
     <div class="col-md-2 pr-0">
-      <div class="form-group" style="vertical-align:middle">
-      <label class="mx-2" for="expired">Show expired:</label>
-      <input type="checkbox" id="expired" name="show_expired" value="TRUE">
-     
+      <div class="form-check">
+        <label class="form-check-label mr-2" for="expired">Show expired:</label>
+        <input class="form-check-input" type="checkbox" id="expired" name="show_expired" value="TRUE">
       </div>
     </div>
-    <div class="col-md-1 px-0">
+    <div class="col-md-1 pl-0" style="text-align:left">
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </div>

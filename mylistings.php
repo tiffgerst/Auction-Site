@@ -25,7 +25,11 @@ if ($num_result==0){
   echo('No results found');
   exit;
 }
+?>
 
+<p class="text-muted"> Here are you auctions :)</p> 
+
+<?php
 while ($row = $result->fetch_assoc()) {
   $item_id = $row['auctionID'];
   $title = $row['title'];
