@@ -9,6 +9,8 @@ if ((!isset($_SESSION['username']))||($_SESSION['account_type'] != 'seller')) {
     exit;
 }
 
+$username = $_SESSION['username'];
+
 function check($data) {
     if (!isset($data)) {
         exit;
