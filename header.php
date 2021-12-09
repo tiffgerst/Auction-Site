@@ -116,6 +116,9 @@
       </li>
       <li class="nav-item mx-1">
         <a class="nav-link" href="feeling_lucky.php">Feeling Lucky?</a>
+      </li>
+      <li class="nav-item mx-1">
+        <a class="nav-link" href="edit_my_info.php">Edit Credentials</a>
       </li>');
       }
       // Seller tabs
@@ -126,7 +129,10 @@
         </li>
       <li class="nav-item ml-3">
           <a class="nav-link" href="create_auction.php">+ Create auction</a>
-        </li>');
+        </li>
+        <li class="nav-item mx-1">
+        <a class="nav-link" href="edit_my_info.php">Edit Credentials</a>
+      </li>');
       }
       ?>
     </ul>
