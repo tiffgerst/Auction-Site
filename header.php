@@ -132,9 +132,10 @@
           <a class="nav-link" style="'.$style.'" href="create_auction.php">+ Create auction</a>
         </li>');
       }
-      // Edit credentials
-      if (isset($_SESSION['acount_type'])) {
-        echo('<li class="nav-item mx-1" style="'.$width.'">
+      // Edit credentials - appears for all accounts
+      if (isset($_SESSION['account_type'])) {
+        echo('
+      <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="edit_my_info.php">Edit Credentials</a>
       </li>');
       }
