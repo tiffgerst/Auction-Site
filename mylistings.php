@@ -16,7 +16,7 @@ if ($num_result==0){
 }
 ?>
 
-<p class="text-muted">Hey there! Here are you auctions :)</p>
+<p class="text-muted">Hey there! Here are your auctions :)</p>
 <form method="GET" class="form-inline">
   <select name="auctionCategories" class="form-control mr-2">
     <option selected value=""> All my auctions</option>
