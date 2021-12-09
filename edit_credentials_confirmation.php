@@ -50,4 +50,7 @@ if (isset($_POST['password'])){
 query($query);
 
 echo('<div class="text-center">Your change has been saved! You will be redirected shortly.</div>');
-header("refresh:3;url=browse.php");
+?>
+<script type="text/javascript">
+window.location.href = 'browse.php';
+</script>

@@ -1,5 +1,4 @@
 <?php
-include_once("header.php");
 include_once("utilities.php");
 
 // Randomnly order the auctions and take the first result
