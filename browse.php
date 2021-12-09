@@ -57,6 +57,12 @@
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </div>
+  <label class="mx-2" for="min_price">Price Range:</label>
+  <input type="number" id="min_price" name="min_price" min= '0' placeholder = 'Min' style = 'width: 50px'>
+      :
+      <input type="number" id="max_price" name="max_price" min = '0' placeholder = 'Max' style = 'width: 50px'>
+      </div>
+
 </form>
 </div> <!-- end search specs bar -->
 </div>
@@ -72,6 +78,30 @@
     $keyword = escape_string($_GET['keyword']);
     $keyword = "%".$keyword."%";
   }
+  
+  if (isset($_GET['min_price'])){
+    $min_price = $_GET['min_price'];
+    if ($min_price != NULL){
+      $min_price = $_GET['min_price'];
+    }else{
+    $min_price = 0;
+    }
+  }else{$min_price = 0;}
+  if (isset($_GET['max_price'])){
+    $max_price = $_GET['max_price'];
+    if ($max_price != NULL){
+      $max_price = $_GET['max_price'];
+    }else{
+    $max_price = 1000000000000;
+    }
+  }else{
+    $max_price = 1000000000000;
+  }
+  
+  if ($min_price > $max_price){
+    echo('<div class="text-center">Minimum price cannot be higher than the maximum price. Please try again!</div>');
+  }
+
 
   // Category
   if (!isset($_GET['cat'])) {
@@ -113,22 +143,26 @@
   // Perform the necessary query for displaying results
   
   // Build core query
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, 'current_price', a.categoryName,
   COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
   FROM
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
   RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a
-  ON a.auctionID = b.auctionID";
+  ON a.auctionID = b.auctionID
+  WHERE (current_price >= {$min_price} AND current_price <= {$max_price})";
 
   // Add optional arguments
   if ($expired == FALSE) {
     // Only look at auctions that haven't expired
-    $query .= " WHERE a.endDate > CURRENT_TIME()";
+    $query .= " AND a.endDate > CURRENT_TIMESTAMP()";
   }
-  if ($category) {
+  if ($category != NULL) {
     // Filter category
-    $query .= " WHERE a.categoryName LIKE '".$category."'";
+    $query .= "AND a.categoryName LIKE '".$category."'";
   }
+  
+  
+ 
 
   // Order results
   $query .= " ORDER BY ".$ordering;
