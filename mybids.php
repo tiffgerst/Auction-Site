@@ -73,13 +73,19 @@ if ($num_result==0){
     
     $user_max = $row['user_max'];
 
-    if ($_GET['bidCategories'] == "highest"){
+    if(isset($_GET['bidCategories'])){
+      $bid_cat = $_GET['bidCategories'];
+    }else{
+      $bid_cat = '';
+    }
+
+    if ($bid_cat == "highest"){
       if ($user_max != $current_price) {
         continue;
       }
     }
 
-    else if ($_GET['bidCategories'] == "!highest") {
+    else if ( $bid_cat == "!highest") {
       if ($user_max == $current_price) {
         continue;
       }
