@@ -1,8 +1,7 @@
 <?php include_once("header.php")?>
 <?php require_once("utilities.php")?>
 
-<div class="container">
-
+<div class="container"> <!-- start container for title and search specs -->
 <h2 class="my-3">My listings</h2>
 
 <?php
@@ -12,43 +11,97 @@ $num_result = mysqli_num_rows(query("SELECT auctionID FROM auctions WHERE seller
 
 if ($num_result==0){
   # Result is empty
-  echo("<p class='text-muted'>You don't have any auctions silly :)</p>");
+  echo("<p class='text-muted'>You don't have any auctions silly :O</p></div>");
   exit;
 }
 ?>
 
-<p class="text-muted"> Here are you auctions :)</p>
-<div class="form-inline">
-  <select id="wow" class="form-control mr-2">
+<p class="text-muted">Hey there! Here are you auctions :)</p>
+<form method="GET" class="form-inline">
+  <select name="auctionCategories" class="form-control mr-2">
     <option selected value=""> All my auctions</option>
-    <option value="hello">My live auctions</option>
-    <option value="red">My successful auctions</option>
-    <option value="orange">My unsuccessful auctions (no bids)</option>
-    <option value="what?">My unsuccessful auctions (reserve price not met)</option>
+    <option value="live">My live auctions</option>
+    <option value="success">My successful auctions</option>
+    <option value="nobids">My unsuccessful auctions (no bids)</option>
+    <option value="noreserve">My unsuccessful auctions (reserve price not met)</option>
   </select>
-  <label class="mx-2" for="order_by">Sort by:</label>
-  <select class="form-control" name="order_by" id="order_by">
-    <option selected value="endDate ASC">Soonest expiry</option>
-    <option value="current_price ASC">Price (low to high)</option>
-    <option value="current_price DESC">Price (high to low)</option>
+  <label class="mx-2" for="orderBy">Sort by:</label>
+  <select class="form-control" name="orderBy" id="orderBy">
+    <option selected value="endDate">Soonest expiry</option>
+    <option value="priceLow">Price (low to high)</option>
+    <option value="priceHigh">Price (high to low)</option>
   </select>
-  <button type="submit" class="btn btn-primary ml-2">Search</button>
-</div>
+  <button type="submit" class="btn btn-primary ml-3">Search</button>
+</form>
+</div> <!-- end container for title and search specs -->
 
-<div class="mt-4">
+<div class="container mt-4"> <!-- start container for listings -->
+<ul class="list-group">
 <?php
-$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture,
+// Build initial query
+$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, a.reservePrice,
 COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
 FROM
 -- Use the bids table to determine what the highest bid is (if it exists)
 (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
 -- If the auction isn't in the bids table (0 bids) then 'current_price' will be null
 RIGHT JOIN (SELECT * FROM auctions WHERE sellerEmail = '$email') a
-ON a.auctionID = b.auctionID ORDER BY a.endDate";
+ON a.auctionID = b.auctionID";
 
+// Auction category
+if (isset($_GET['auctionCategories'])) {
+  // Don't need to validate it because it doesn't go into any of our queries
+  $option = $_GET['auctionCategories'];
+
+  if ($option == "live") {
+    $query .= " WHERE endDate > CURRENT_TIME()";
+  }
+
+  else if ($option == "success") {
+    $query .= " WHERE endDate < CURRENT_TIME() AND COALESCE(current_price,startPrice) > reservePrice";
+  }
+
+  else if ($option == "nobids") {
+    $query .= " WHERE endDate < CURRENT_TIME() AND COALESCE(num_bids,0) = 0";
+  }
+
+  else if ($option == "noreserve") {
+    $query .= " WHERE endDate < CURRENT_TIME() AND reservePrice > COALESCE(b.current_price,startPrice) AND COALESCE(num_bids,0) > 0";
+  }
+}
+
+// Ordering
+if (isset($_GET['orderBy'])) {
+  $ordering = $_GET['orderBy'];
+  if ($ordering == 'endDate') {
+    $ordering = "endDate ASC";
+  }
+  else if ($ordering == 'priceLow'){
+    $ordering = "current_price ASC";
+  }
+  else if ($ordering == 'priceHigh'){
+    $ordering = "current_price DESC";
+  }
+  else {
+    // Malicious - they didn't use front end
+    exit;
+  }
+}
+
+else {
+  $ordering = "endDate ASC";
+}
+
+$query .= " ORDER BY ".$ordering;
+
+// Get results
 $result = query($query);
-$num_result = mysqli_num_rows($result);
+$num_rows = mysqli_num_rows($result);
 
+if ($num_rows==0) {
+  echo('No results found');
+  exit;
+}
 
 while ($row = $result->fetch_assoc()) {
   $item_id = $row['auctionID'];
@@ -62,5 +115,6 @@ while ($row = $result->fetch_assoc()) {
   print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date,$picture);
 }  
 ?>
-<div>
+</ul>
+</div> <!-- end container for listings -->
 <?php include_once("footer.php")?>

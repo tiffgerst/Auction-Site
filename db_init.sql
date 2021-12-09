@@ -54,6 +54,7 @@ CREATE TABLE auctions (
   picture VARCHAR(30)
 );
 
+  -- Some live auctions
 INSERT INTO `auctions` (`sellerEmail`, `title`, `description`, `categoryName`, `reservePrice`, `endDate`, `startPrice`, `picture`) VALUES
 ('jeff@hotmail.co.uk', 'Goose Sweater', 'A cashmere sweater with a goose on it', 'Tops', 150.00, '2022-03-20 22:00:00', 200.00, 'goosesweat.jpg'),
 ('tiff@gerst.com', 'Duck Shoes', 'Donald Duck High Heels', 'Shoes', 400.00, '2022-12-05 23:59:59', 999.00, 'duckshoe.jpg'),
@@ -61,6 +62,13 @@ INSERT INTO `auctions` (`sellerEmail`, `title`, `description`, `categoryName`, `
 ('tiff@gerst.com', 'Duck in Pants', 'Pair of pants that comes with a duck', 'Pants', 21.20, '2021-12-31 22:00:00', 30.00, 'duckpants.png'),
 ('jeff@hotmail.co.uk', 'Duck dress', 'A dress with print on duckies', 'Dress', 15.50, '2021-12-31 22:00:00', 5.50, 'duckdress.jpg'),
 ('jeff@hotmail.co.uk', 'Goose Pin', 'Pin of a threatening goose', 'Accessories', 5.50, '2021-12-31 22:00:00', 5.50, 'goosepin.jpg');
+
+  -- Some expired auctions
+INSERT INTO `auctions` (`sellerEmail`, `title`, `description`, `categoryName`, `reservePrice`, `endDate`, `startPrice`, `picture`) VALUES
+('jeff@hotmail.co.uk', 'Duck Leggings', 'Super athletic duck fitness gear', 'Pants', 25.00, '2021-09-20 22:00:00', 20.00, 'duckleggings.jpeg'), -- No bids
+('jeff@hotmail.co.uk', 'AR-15', 'A not very duck friendly accessory', 'Accessories', 1500.00, '2021-06-20 22:00:00', 1000.00, 'ar15.jpeg'), -- 1 bid didn't meet reserve
+('jeff@hotmail.co.uk', 'Duck Hat', 'A cute winter hat for children', 'Accessories', 10.00, '2021-03-20 22:00:00', 5.00, 'duckhat.jpeg'); -- Success!
+
 -- Create bids table
 DROP TABLE IF EXISTS bids;
 CREATE TABLE bids (
@@ -70,6 +78,7 @@ CREATE TABLE bids (
   bidValue FLOAT(10,2),
   bidDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
 
+  -- Bids for live auctions 
 INSERT INTO `bids` (`buyerEmail`, `auctionID`, `bidValue`, `bidDate`) VALUES
 ('buyer@buyer.com', 1, 170.00, '2020-03-10 17:16:18'),
 ('silly@goose.com', 1, 200.00, '2020-03-10 17:16:18'),
@@ -94,6 +103,11 @@ INSERT INTO `bids` (`buyerEmail`, `auctionID`, `bidValue`, `bidDate`) VALUES
 ('ewan@smith.com', 6, 12.00, '2020-03-10 17:16:18'),
 ('ewan@smith.com', 2, 560.00, '2020-03-10 17:16:18'),
 ('gerstmey@usc.edu', 6, 13.00, '2021-12-08 16:29:58');
+
+  -- Bids for dead auctions
+INSERT INTO `bids` (`buyerEmail`, `auctionID`, `bidValue`, `bidDate`) VALUES
+('buyer@buyer.com', 8, 1250.00, '2021-06-10 17:16:18'),
+('buyer@buyer.com', 9, 50.00, '2021-05-10 17:16:18');
 
 -- Create watchlist table
 DROP TABLE IF EXISTS watching;
