@@ -77,7 +77,7 @@
 
 <body>
   <!-- Header with logo -->
-  <nav class="navbar navbar-expand-lg navbar-custom row">
+  <nav class="navbar navbar-expand-lg navbar-custom">
     <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="assets/SillyGoose.png" height="70px"> Silly Goose</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
