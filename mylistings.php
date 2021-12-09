@@ -27,7 +27,7 @@ if ($num_result==0){
   </select>
   <label class="mx-2" for="orderBy">Sort by:</label>
   <select class="form-control" name="orderBy" id="orderBy">
-    <option selected value="endDate">Soonest expiry</option>
+    <option selected value="endDate">End Date (old to new)</option>
     <option value="priceLow">Price (low to high)</option>
     <option value="priceHigh">Price (high to low)</option>
   </select>
