@@ -120,11 +120,7 @@
       </li>
       <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="feeling_lucky.php">Feeling Lucky?</a>
-      </li>
-      <li class="nav-item mx-1" style="'.$width.'">
-        <a class="nav-link" style="'.$style.'" href="edit_my_info.php">Edit Credentials</a>
-      </li>
-      ');
+      </li>');
       }
       // Seller tabs
       if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
