@@ -77,7 +77,7 @@
 
 <body>
   <!-- Header with logo -->
-  <nav class="navbar navbar-expand-lg navbar-custom">
+  <nav class="navbar navbar-expand-lg navbar-custom row">
     <a class="navbar-brand" href="browse.php"><img id = 'mascot'src="assets/SillyGoose.png" height="70px"> Silly Goose</a>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -86,7 +86,7 @@
         // Displays either "login" or "logout" on the right, depending on user's
         // current status (session).
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-          echo '<a style="color:#FFF" class="nav-link" href="logout.php"><h4><b>Logout</b></h4></a>';
+          echo '<a style="color:#FFF" class="nav-link" href="logout.php"><h3 style="font-family:Lobster"><b>Logout</b></h3></a>';
         }
         else {
           echo '<button type="button" class="btn nav-link" data-toggle="modal" data-target="#loginModal">Login</button>';
@@ -115,7 +115,7 @@
       <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="recommendations.php">Recommended</a>
       </li>
-      <li class="nav-item mx-1" style=""'.$width.'">
+      <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="hotStuff.php">Hot Right Now</a>
       </li>
       <li class="nav-item mx-1" style="'.$width.'">
@@ -132,10 +132,14 @@
       <li class="nav-item mx-1" style="'.$width.'">
           <a class="nav-link" style="'.$style.'" href="mylistings.php">My Listings</a>
         </li>
-      <li class="nav-item ml-1" style="'.$width.'">
+      <li class="nav-item mx-1" style="'.$width.'">
           <a class="nav-link" style="'.$style.'" href="create_auction.php">+ Create auction</a>
-        </li>
-        <li class="nav-item mx-1" style="'.$width.'">
+        </li>');
+      }
+      // Edit credentials - appears for all accounts
+      if (isset($_SESSION['account_type'])) {
+        echo('
+      <li class="nav-item mx-1" style="'.$width.'">
         <a class="nav-link" style="'.$style.'" href="edit_my_info.php">Edit Credentials</a>
       </li>');
       }

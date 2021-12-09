@@ -82,17 +82,21 @@
     $keyword = "%".$keyword."%";
   }
   
+  // Min price
   if (isset($_GET['min_price'])){
     $min_price = $_GET['min_price'];
-    if ($min_price != NULL){
+    if (($min_price != NULL)&&(is_numeric($min_price))){
+      // It's valid
       $min_price = $_GET['min_price'];
     }else{
     $min_price = 0;
     }
   }else{$min_price = 0;}
+  
+  // Max price
   if (isset($_GET['max_price'])){
     $max_price = $_GET['max_price'];
-    if ($max_price != NULL){
+    if (($max_price != NULL)&&(is_numeric($max_price))){
       $max_price = $_GET['max_price'];
     }else{
     $max_price = 1000000000000;
@@ -101,10 +105,11 @@
     $max_price = 1000000000000;
   }
   
+  // Compare min and max price
   if ($min_price > $max_price){
     echo('<div class="text-center">Minimum price cannot be higher than the maximum price. Please try again!</div>');
+    exit;
   }
-
 
   // Category
   if (!isset($_GET['cat'])) {
@@ -146,13 +151,13 @@
   // Perform the necessary query for displaying results
   
   // Build core query
-  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, 'current_price', a.categoryName,
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, a.categoryName,
   COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
   FROM
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
   RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."') a
   ON a.auctionID = b.auctionID
-  WHERE (current_price >= {$min_price} AND current_price <= {$max_price})";
+  WHERE (COALESCE(b.current_price,a.startPrice) >= {$min_price} AND COALESCE(b.current_price,a.startPrice) <= {$max_price})";
 
   // Add optional arguments
   if ($expired == FALSE) {
