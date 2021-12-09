@@ -53,15 +53,18 @@
         <input class="form-check-input" type="checkbox" id="expired" name="show_expired" value="TRUE">
       </div>
     </div>
+    <!-- Submit -->
     <div class="col-md-1 pl-0" style="text-align:left">
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </div>
-  <label class="mx-2" for="min_price">Price Range:</label>
-  <input type="number" id="min_price" name="min_price" min= '0' placeholder = 'Min' style = 'width: 50px'>
-      :
-      <input type="number" id="max_price" name="max_price" min = '0' placeholder = 'Max' style = 'width: 50px'>
-      </div>
+  <!-- Price range -->
+  <div class="row form-inline pt-2">
+    <label class="mr-2 pr-0" style="padding-left:15px" for="min_price">Price Range:</label>
+    <input class="mx-1" type="number" id="min_price" name="min_price" min='0' placeholder = 'Min' style = 'width:75px'>
+    <input class="mx-1" type="number" id="max_price" name="max_price" min='0' placeholder = 'Max' style = 'width:75px'>
+  </div>
+
 
 </form>
 </div> <!-- end search specs bar -->
@@ -137,7 +140,7 @@
   }
 ?>
 
-<div class="container mt-5"> <!-- container for listings and pagination -->
+<div class="container mt-4"> <!-- container for listings and pagination -->
 <ul class="list-group"> <!-- start displaying listings -->
 <?php
   // Perform the necessary query for displaying results
@@ -161,9 +164,6 @@
     $query .= "AND a.categoryName LIKE '".$category."'";
   }
   
-  
- 
-
   // Order results
   $query .= " ORDER BY ".$ordering;
 
