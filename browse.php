@@ -155,7 +155,7 @@
   COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
   FROM
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
-  RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '".$keyword."' OR a.description LIKE '".$keyword."'";
+  RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '$keyword' OR a.description LIKE '$keyword'";
   
   // Add optional arguments
   if ($expired == FALSE) {
@@ -164,7 +164,7 @@
   }
   if ($category != NULL) {
     // Filter category
-    $query .= "AND a.categoryName = $category";
+    $query .= "AND a.categoryName = '$category'";
   }
   
   $query .= ") a
