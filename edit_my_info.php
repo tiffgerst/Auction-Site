@@ -13,6 +13,7 @@ $city = $result['city'];
 $postcode = $result['postcode'];
 $adress = $result['addressLine'];
 
+
 ?>
 
     <br>
@@ -29,13 +30,13 @@ $adress = $result['addressLine'];
   <label for="address_first_line" class="col-sm-2 col-form-label text-right">Address</label>
   <div class="col-sm-10">
       <!-- address Confirmation -->
-      <input type="text" class="form-control" name="address_first_line"  value=<?php echo($adress) ?> placeholder = 'First Line of Adress' require>
+      <input type="text" class="form-control" name="address_first_line"  value='<?php echo($adress) ?>' placeholder = 'First Line of Adress' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
-      <input type="text" class="form-control" name="address_city"  value=<?php echo($city) ?> placeholder = 'City' require>
+      <input type="text" class="form-control" name="address_city"  value='<?php echo($city) ?>' placeholder = 'City' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
-      <input type="text" class="form-control" name="address_country" value=<?php echo($country) ?> placeholder = 'Country' require>
+      <input type="text" class="form-control" name="address_country" value='<?php echo($country) ?>' placeholder = 'Country' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
-      <input type= "text" class="form-control"name="address_post_code" value = <?php echo($postcode) ?> placeholder = 'Postcode' require>
+      <input type= "text" class="form-control"name="address_post_code" value = '<?php echo($postcode) ?>' placeholder = 'Postcode' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
     </div>
 </div>
