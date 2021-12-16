@@ -10,7 +10,7 @@ $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, a.re
 COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' 
 FROM
 (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b 
-RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = ".$item_id.") a 
+RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = $item_id) a 
 ON a.auctionID = b.auctionID";
 
 $row = query($query)->fetch_assoc();
@@ -162,7 +162,7 @@ else {
     </div>
 <?php endif ?>
 <?php
-  if (($now > $end_time) && ($expiry_circumstances == "Unsuccessful auction - no bids placed")) {
+  if ($now > $end_time) {
     exit;
   }else{
     $query = "SELECT reservePrice FROM auctions WHERE auctionID = {$item_id}";
@@ -175,10 +175,6 @@ else {
       echo('<h5>The reserve price for this item has <b> NOT </b> been met! <i> BID! BID! BID!</i></h5>');  
     }
     }
-
-    
-
-
 
   // Bidding history
   if (isset($_SESSION['account_type'])){

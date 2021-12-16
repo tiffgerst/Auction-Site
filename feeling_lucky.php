@@ -1,6 +1,8 @@
 <?php
 include_once("utilities.php");
 
+session_start();
+
 // Randomnly order the auctions and take the first result
 $buyeremail = $_SESSION['username'];
 $random_listing_query = "SELECT auctionID FROM auctions

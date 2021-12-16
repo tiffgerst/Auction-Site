@@ -45,10 +45,9 @@ FROM
 -- Use the bids table to determine what the highest bid is (if it exists)
 (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
 -- If the auction isn't in the bids table (0 bids) then 'current_price' will be null
-RIGHT JOIN (SELECT * FROM auctions WHERE sellerEmail = '$email') a
-ON a.auctionID = b.auctionID";
+RIGHT JOIN (SELECT * FROM auctions WHERE sellerEmail = '$email'";
 
-// Auction category
+// End date filters
 if (isset($_GET['auctionCategories'])) {
   // Don't need to validate it because it doesn't go into any of our queries
   $option = $_GET['auctionCategories'];
@@ -56,17 +55,26 @@ if (isset($_GET['auctionCategories'])) {
   if ($option == "live") {
     $query .= " WHERE endDate > CURRENT_TIME()";
   }
+  else {
+    $query .= " WHERE endDate < CURRENT_TIME()";
+  }
+}
 
-  else if ($option == "success") {
-    $query .= " WHERE endDate < CURRENT_TIME() AND COALESCE(current_price,startPrice) > reservePrice";
+$query .= ") a
+ON a.auctionID = b.auctionID";
+
+// Additional filters for auction category
+if (isset($_GET['auctionCategories'])) {
+  if ($option == "success") {
+    $query .= " WHERE COALESCE(current_price,startPrice) > reservePrice";
   }
 
   else if ($option == "nobids") {
-    $query .= " WHERE endDate < CURRENT_TIME() AND COALESCE(num_bids,0) = 0";
+    $query .= " WHERE COALESCE(num_bids,0) = 0";
   }
 
   else if ($option == "noreserve") {
-    $query .= " WHERE endDate < CURRENT_TIME() AND reservePrice > COALESCE(b.current_price,startPrice) AND COALESCE(num_bids,0) > 0";
+    $query .= " WHERE reservePrice > COALESCE(b.current_price,startPrice) AND COALESCE(num_bids,0) > 0";
   }
 }
 
@@ -84,6 +92,7 @@ if (isset($_GET['orderBy'])) {
   }
   else {
     // Malicious - they didn't use front end
+    $ordering = "endDate ASC";
     exit;
   }
 }

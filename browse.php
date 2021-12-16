@@ -157,7 +157,7 @@
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
   RIGHT JOIN (SELECT * FROM auctions a WHERE a.title LIKE '$keyword' OR a.description LIKE '$keyword'";
   
-  // Add optional arguments
+  // Add optional arguments based on search
   if ($expired == FALSE) {
     // Only look at auctions that haven't expired
     $query .= " AND a.endDate > CURRENT_TIMESTAMP()";

@@ -11,12 +11,12 @@ $password = $result['password'];
 $country = $result['country'];
 $city = $result['city'];
 $postcode = $result['postcode'];
-$adress = $result['addressLine'];
+$address = $result['addressLine'];
 
 
 ?>
 
-    <br>
+  <div class="container mt-4">
     <form method="POST" id="editUser" action="edit_credentials_confirmation.php">
     <div class="form-group row">
     <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
@@ -30,7 +30,7 @@ $adress = $result['addressLine'];
   <label for="address_first_line" class="col-sm-2 col-form-label text-right">Address</label>
   <div class="col-sm-10">
       <!-- address Confirmation -->
-      <input type="text" class="form-control" name="address_first_line"  value='<?php echo($adress) ?>' placeholder = 'First Line of Adress' require>
+      <input type="text" class="form-control" name="address_first_line"  value='<?php echo($address) ?>' placeholder = 'First Line of address' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
       <input type="text" class="form-control" name="address_city"  value='<?php echo($city) ?>' placeholder = 'City' require>
       <small class="form-text text-muted"><span class="text-danger"></span></small>
@@ -45,4 +45,4 @@ $adress = $result['addressLine'];
   </div>
 <script type="module" src="js/user_verification.js"></script>
 </form>
-
+</div>
