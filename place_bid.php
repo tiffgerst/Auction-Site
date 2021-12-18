@@ -1,5 +1,4 @@
-<?php include_once("utilities.php");
-include_once('emailgod.php')?>
+<?php include_once("utilities.php");?>
 <?php
 session_start();
 
