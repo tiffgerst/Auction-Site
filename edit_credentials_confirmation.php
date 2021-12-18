@@ -10,21 +10,12 @@ function check($data) {
     }
   }
 
-
-
 $my_username = $_SESSION['username'];
 
-
-$adress = check($_POST['address_first_line']);
-$city = check($_POST['address_city']);
-$postcode =check($_POST['address_post_code']);
-$country = check($_POST['address_country']);
-
-
-$adress = escape_string($adress);
-$city = escape_string($city);
-$postcode = escape_string($postcode);
-$country = escape_string($country);
+$address = escape_string(check($_POST['address_first_line']));
+$city = escape_string(check($_POST['address_city']));
+$postcode =escape_string(check($_POST['address_post_code']));
+$country = escape_string(check($_POST['address_country']));
 
 if (isset($_POST['password'])){
     $password = check($_POST['password']);
@@ -36,7 +27,7 @@ if (isset($_POST['password'])){
     country = '{$country}',
     city = '{$city}',
     postcode = '{$postcode}',
-    addressLine = '{$adress}'
+    addressLine = '{$address}'
     WHERE email = '{$my_username}'";
 }else{
     $query = "UPDATE users
@@ -44,7 +35,7 @@ if (isset($_POST['password'])){
     country = '{$country}',
     city = '{$city}',
     postcode = '{$postcode}',
-    addressLine = '{$adress}'
+    addressLine = '{$address}'
     WHERE email = '{$my_username}'";
 }
 query($query);

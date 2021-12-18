@@ -51,7 +51,7 @@ if ($num_result==0){
   -- Join
   WHERE mummy.auctionID = vvs.auctionID";
   
-  // Show expired
+  // Don't show expired unless the GET is set
   if (!isset($_GET['show_expired'])) {
     $query .= " AND vvs.endDate > CURRENT_TIMESTAMP()";
   }

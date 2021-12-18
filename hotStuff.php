@@ -5,7 +5,7 @@ include_once("utilities.php");
 <div class="container">
 
 <h2 class="my-3">Hey There Hot Stuff!</h2>
-<p class="text-muted"> Here's a selection of auctions  you haven't bid on that have high bidding activity. </p> 
+<p class="text-muted"> Live auctions will appear here if you haven't bid on them and they have relatively high amounts of bids. </p> 
 <?php 
 $email = $_SESSION["username"];
 

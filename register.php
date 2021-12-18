@@ -48,7 +48,7 @@
   <div class="form-group row">
   <label for="address_first_line" class="col-sm-2 col-form-label text-right">address</label>
   <div class="col-sm-10">
-      <!-- address Confirmation -->
+      <!-- Address Confirmation -->
       <input type="text" class="form-control" name="address_first_line"  placeholder="Fist Line of address" require>
       <small class="form-text text-muted"><span class="text-danger">* Required.</span></small>
       <input type="text" class="form-control" name="address_city"  placeholder="City" require>

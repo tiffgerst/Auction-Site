@@ -15,6 +15,23 @@ $accountType = check($_POST['accountType']);
 $email = check($_POST['email']);
 $password = check($_POST['password']);
 $passwordConfirmation = check($_POST['passwordConfirmation']);
+
+// Passwords and email are validated client side
+// Therefore any POST that is invalid is malicious
+// So we can just exit
+if (preg_match("/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})/",$email) != 1) {
+    // No match
+    exit;
+}
+
+if (strlen($password)<7) {
+    exit;
+}
+
+if ($password != $passwordConfirmation) {
+    exit;
+}
+
 $country = check($_POST['address_country']);
 $city = check($_POST['address_city']);
 $postcode = check($_POST['address_post_code']);
