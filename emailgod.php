@@ -3,12 +3,12 @@
     // Include the Mail package
     require_once "Mail.php";
  
+    function send_email($recipient,$subject,$body){
     // Identify the sender, recipient, mail subject, and body
-    $sender    = "Tiff <sillygoosecoursework@gmail.com>";
-    $recipient = "Leo <leonardpaturel@gmail.com>";
-    $subject = "I AM AN EMAIL GOD";
-    $body = "PEAR Mail successfully sent this email.";
- 
+    $sender    = "Silly Goose <sillygoosecoursework@gmail.com>";
+    $recipient = $recipient;
+    $subject = $subject;
+    $body = $body;
     // Identify the mail server, username, password, and port
     $server   = "smtp.gmail.com";
     $username = "sillygoosecoursework@gmail.com";
@@ -34,12 +34,15 @@
     );
  
     // Send the message
-    $mail = $smtp->send($recipient, $headers, $body);
+    $mail = $smtp->send($recipient, $headers, $body,);
  
     if (PEAR::isError($mail)) {
         echo("<p>" . $mail->getMessage() . "</p>");
-    } else {
-        echo("<p>Message successfully sent!</p>");
+    } 
+    //else {
+    //     pass;
+    //     #echo("<p>Message successfully sent!</p>");
+    // }
     }
      
 ?>
