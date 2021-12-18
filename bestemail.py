@@ -1,43 +1,34 @@
-import pymysql
-import pymysql.cursors
+#!C:\Users\leona\AppData\Local\Programs\Python\Python310\python.exe 
+
+
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
-
-def main(b):
-    #database connection
-    sender = 'sillygoosecoursework@gmail.com'
-    password = '&C6QLPbNS&6iBdRQ'
-    port = 587    
-    smtp_server = "smtp.gmail.com"
-
-    connection = pymysql.connect(host="localhost",user="root",passwd="",database="auction")
-    cursor = connection.cursor()
-    query = f"SELECT `buyerEmail` FROM `bids` WHERE `auctionID`={b}"
-    cursor.execute(query)
-    result = cursor.fetchall()
-    connection.close()
-    
-    
-    
-    result = (('tiffgerst@gmail.com'), ('leonardpaturel@gmail.com'))
-    for row in result:
-        print(row)
-        receiver = f'{row}'
-        message = f"""\
-    Subject: Hi there
-
-    This message is sent from Python. you won!"""
-    
-        context = ssl.create_default_context()
-        with smtplib.SMTP(smtp_server, port) as server:
-            server.starttls(context=context)
-            server.ehlo()
-            server.login(sender, password)
-            server.ehlo()
-            server.sendmail(sender, receiver, message)
+import sys
 
 
-if __name__ == '__main__':
-    main(1)
+sender = 'sillygoosecoursework@gmail.com'
+password = '&C6QLPbNS&6iBdRQ'
+
+
+receiver = 'leonardpaturel@gmail.com'
+
+
+port = 587    
+smtp_server = "smtp.gmail.com"
+
+message = f"""\
+Subject: Hi there
+
+This message is sent from Python. {sys.argv[1]}"""
+
+context = ssl.create_default_context()
+with smtplib.SMTP(smtp_server, port) as server:
+    server.starttls(context=context)
+    server.ehlo()
+    server.login(sender, password)
+    server.ehlo()
+    server.sendmail(sender, receiver, message)
+
+
