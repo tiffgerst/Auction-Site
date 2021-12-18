@@ -44,7 +44,7 @@ $result = query($query);
 $num_results = mysqli_num_rows($result);
 
 if ($num_results != 0) {
-  echo("<p class='text-muted'>Users also bid on (based on your bidding activity)</p>");
+  echo("<p>Users also bid on (based on your bidding activity)</p>");
 
   while ($row = $result->fetch_assoc()) {
     $item_id = $row['auctionID'];
