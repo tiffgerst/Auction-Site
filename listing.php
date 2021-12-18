@@ -6,11 +6,13 @@
 $item_id = $_GET['item_id'];
 
 // Perform query using the item_id
-$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, a.reservePrice, a.startPrice,
-COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids' 
-FROM
-(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b 
-RIGHT JOIN (SELECT * FROM auctions a WHERE a.auctionID = $item_id) a 
+$query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture, a.reservePrice, a.startPrice, a.country,
+COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'  
+FROM 
+(SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
+RIGHT JOIN (
+    SELECT a.sellerEmail, a.auctionID, a.title, a.description, a.endDate, a.picture, a.reservePrice, a.startPrice, u.country
+    FROM auctions a, users u WHERE u.email = a.sellerEmail AND a.auctionID = $item_id) a  
 ON a.auctionID = b.auctionID";
 
 $row = query($query)->fetch_assoc();
@@ -22,16 +24,9 @@ $end_time = new DateTime($row['endDate']);
 $image = $row['picture'];
 $reserve_price = $row['reservePrice'];
 $start_price = $row['startPrice'];
+$country = $row['country'];
 
 $now = new DateTime();
-
-// Get the country
-$query = "SELECT u.country 
-FROM users u
-JOIN auctions a
-ON a.sellerEmail = u.email
-WHERE a.auctionID = {$item_id}";
-$country = query($query)->fetch_assoc()['country'];
 
 // For non-expired auctions:
 if ($now < $end_time) {

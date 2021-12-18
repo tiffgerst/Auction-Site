@@ -5,14 +5,11 @@ if (isset($_SESSION['username'])){
 $my_username = $_SESSION['username'];
 }
 $query = "SELECT * FROM users WHERE email = '{$my_username}'";
-$result = query($query);
-$result = $result ->fetch_assoc();
-$password = $result['password'];
+$result = query($query)->fetch_assoc();
 $country = $result['country'];
 $city = $result['city'];
 $postcode = $result['postcode'];
 $address = $result['addressLine'];
-
 
 ?>
 
