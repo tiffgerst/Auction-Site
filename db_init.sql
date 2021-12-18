@@ -117,6 +117,28 @@ CREATE TABLE watching (
   PRIMARY KEY (buyerEmail, auctionID)
 );
 
+INSERT INTO `watching` (`buyerEmail`,`auctionID`) VALUES
+('buyer@buyer.com', 1),
+('silly@goose.com', 1),
+('leo@pat.com', 1),
+('ben@thread.com', 1),
+('ewan@smith.com', 1),
+('maggie@simpson.com', 1),
+('buyer@buyer.com', 2),
+('buyer@buyer.com', 3),
+('buyer@buyer.com', 4),
+('silly@goose.com', 2),
+('silly@goose.com', 3),
+('silly@goose.com', 4),
+('silly@goose.com', 5),
+('silly@goose.com', 6),
+('leo@pat.com', 2),
+('ewan@smith.com', 4),
+('ewan@smith.com', 5),
+('ewan@smith.com', 6),
+('ewan@smith.com', 2),
+('gerstmey@usc.edu', 6);
+
 -- Create category table
 DROP TABLE IF EXISTS category;
 CREATE TABLE category (
