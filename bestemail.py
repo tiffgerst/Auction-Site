@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pymysql
 import pymysql.cursors
 import smtplib, ssl
@@ -12,9 +13,9 @@ def main(b):
     port = 587    
     smtp_server = "smtp.gmail.com"
 
-    connection = pymysql.connect(host="localhost",user="root",passwd="",database="auction")
+    connection = pymysql.connect(host="localhost",user="root",passwd="root",database="auction",port=8889)
     cursor = connection.cursor()
-    query = f"SELECT `buyerEmail` FROM `bids` WHERE `auctionID`={b}"
+    query = f"SELECT `buyerEmail` FROM `bids` WHERE `auctionID`={b};"
     cursor.execute(query)
     result = cursor.fetchall()
     connection.close()
