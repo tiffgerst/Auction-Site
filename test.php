@@ -1,6 +1,7 @@
 <?php
     $random  = '1';
-    $command = escapeshellcmd("\wamp64\www\Auction\bemailer.py $random");
+    $absolute_path = realpath("bemailer.py");
+    $command = escapeshellcmd("$absolute_path $random");
     $output = shell_exec($command);
     
 ?>
