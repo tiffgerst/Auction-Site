@@ -36,25 +36,31 @@ if ($num_result==0){
 <ul class="list-group">
 
 <?php
-  $query = "SELECT vvs.auctionID, vvs.title, vvs.description, vvs.endDate, vvs.picture,vvs.current_price, vvs.num_bids,
-  mummy.user_max
+  $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,a.current_price, a.num_bids,
+  um.user_max
   FROM
-  -- For each auction the user has bidded on, get the attributes
-  -- Then use the bids table to determine the current price and number of bids
-  -- Right join these tables (bids<-->attributes) on attributes (we only want auctions buyer has bidded on) 
+  
+  -- Auction details for each auction the user big on
   (SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,b.current_price, b.num_bids FROM
+  -- All auctions: their highest bid and number of bids
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
-  RIGHT JOIN (SELECT * FROM auctions WHERE auctionID in (SELECT auctionID FROM bids WHERE buyerEmail = '$email')) a
-  ON a.auctionID = b.auctionID) vvs,
-  -- Create a table of the max bid the user placed for each auction they bidded on
-  (SELECT auctionID, MAX(bidValue) AS 'user_max' FROM bids WHERE buyerEmail = '$email' GROUP BY auctionID) mummy
-  -- Join
-  WHERE mummy.auctionID = vvs.auctionID";
+  RIGHT JOIN
+  -- All auctions the user has bidded on
+  (SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail = '$email')";
   
   // Don't show expired unless the GET is set
   if (!isset($_GET['show_expired'])) {
-    $query .= " AND vvs.endDate > CURRENT_TIMESTAMP()";
+    $query .= " AND endDate > CURRENT_TIMESTAMP()";
   }
+  
+  $query .= ") a
+  ON a.auctionID = b.auctionID) a,
+  
+  -- The highest bid the user placed for each auction they bid on
+  (SELECT auctionID, MAX(bidValue) AS 'user_max' FROM bids WHERE buyerEmail = '$email' GROUP BY auctionID) um
+  
+  -- Join
+  WHERE um.auctionID = a.auctionID";
   
   // Perform query
   $result = query($query);
