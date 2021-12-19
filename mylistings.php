@@ -52,7 +52,10 @@ if (isset($_GET['auctionCategories'])) {
   // Don't need to validate it because it doesn't go into any of our queries
   $option = $_GET['auctionCategories'];
 
-  if ($option == "live") {
+  if ($option == "") {
+    // Add nothing
+  }
+  else if ($option == "live") {
     $query .= " AND endDate > CURRENT_TIME()";
   }
   else {
