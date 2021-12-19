@@ -56,15 +56,12 @@ else {
   }
 }
 
-// Generate bid date
-$bidDate = date('Y-m-d H:i:s');
-
 // INSERT
-$query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,'$bidDate')";
+$query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,CURRENT_TIME())";
 query($query);
 
 $query = "INSERT INTO watching (auctionID, buyerEmail)
-VALUES('$auctionID', '$buyerEmail')";
+VALUES($auctionID, '$buyerEmail')";
 query($query);
 
 // Notify and redirect

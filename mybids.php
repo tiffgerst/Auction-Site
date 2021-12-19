@@ -40,12 +40,12 @@ if ($num_result==0){
   um.user_max
   FROM
   
-  -- Auction details for each auction the user big on
+  -- Auction details for each auction the user bid on
   (SELECT a.auctionID, a.title, a.description, a.endDate, a.picture,b.current_price, b.num_bids FROM
   -- All auctions: their highest bid and number of bids
   (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
   RIGHT JOIN
-  -- All auctions the user has bidded on
+  -- All auctions the user has bid on
   (SELECT * FROM auctions WHERE auctionID IN (SELECT auctionID FROM bids WHERE buyerEmail = '$email')";
   
   // Don't show expired unless the GET is set

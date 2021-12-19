@@ -13,7 +13,7 @@ if ($_SESSION['account_type']=='seller') {
 }
 
 // Can't make recommendations without bids
-$num_auctions = mysqli_num_rows(query("SELECT auctionID FROM bids WHERE buyerEmail = '$email'"));
+$num_auctions = mysqli_num_rows(query("SELECT auctionID FROM bids WHERE buyerEmail = '$email' LIMIT 1"));
 
 if ($num_auctions == 0) {
   echo("<p class='text-muted'>Place bids to get recommendations!</p>");
@@ -38,6 +38,7 @@ AND auctionID NOT IN
 -- Filter out auctions the buyer has already bid on
 (select auctionID as mine from bids WHERE buyerEmail = \"$email\")
 )
+AND endDate > CURRENT_TIME()
 LIMIT 5";
 
 $result = query($query);
@@ -104,10 +105,18 @@ FROM
 -- Use the bids table to determine what the highest bid is (if it exists)
 (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
 -- If the auction isn't in the bids table (0 bids) then 'current_price' will be null
-RIGHT JOIN (SELECT * FROM auctions WHERE categoryName = '$highest_category') a
+RIGHT JOIN 
+(SELECT * FROM auctions WHERE categoryName = '$highest_category'
+AND endDate > CURRENT_TIME() AND auctionID NOT IN (SELECT auctionID FROM bids WHERE buyerEmail = '$email')) a
 ON a.auctionID = b.auctionID";
 
 $result = query($query);
+
+if (mysqli_num_rows($result)==0) {
+  exit;
+}
+
+echo("<p>Here are some more listings from the $highest_category category</p>");
 
 while ($row = $result->fetch_assoc()) {
   $item_id = $row['auctionID'];
