@@ -1,4 +1,4 @@
-<?php include_once("utilities.php")?>
+<?php include_once("utilities.php");?>
 <?php
 session_start();
 
@@ -41,7 +41,7 @@ $initialResult = query($query);
 if (mysqli_num_rows($initialResult)>0){
     $row =  $initialResult -> fetch_assoc();
     $highestBid = $row["maxBid"];
-
+    $highbid = $row["buyerEmail"];
     if ($bidValue < round($highestBid*1.05,2)) {
       exit;
     }
@@ -55,6 +55,21 @@ else {
     exit;
   }
 }
+
+$item = query("SELECT title FROM auctions where auctionID = $auctionID");
+while ($row1 = $item->fetch_assoc()){
+  $title = $row1["title"];}
+$result = query("SELECT buyerEmail FROM watching where auctionID = $auctionID AND buyerEmail <> '$buyerEmail' AND buyerEmail<>'$highbid'");
+$num_results = mysqli_num_rows($result);
+$body = "Someone has placed a bid on an item you are watching: $title. The current highest bid is now: $bidValue";
+if ($num_results != 0) {
+  while ($row = $result->fetch_assoc()) {
+    $mail = $row['buyerEmail'];
+    send_email($mail,"Bid placed",$body);
+  }}
+if($highbid!=$buyerEmail){
+$body = "You have been outbid! Someone has bid more than you on: $title. The current highest bid is now: $bidValue ";
+send_email($highbid,"You've been outbid",$body);}
 
 // INSERT
 $query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,CURRENT_TIME())";
