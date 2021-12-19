@@ -56,20 +56,43 @@ else {
   }
 }
 
-$item = query("SELECT title FROM auctions where auctionID = $auctionID");
-while ($row1 = $item->fetch_assoc()){
-  $title = $row1["title"];}
-$result = query("SELECT buyerEmail FROM watching where auctionID = $auctionID AND buyerEmail <> '$buyerEmail' AND buyerEmail<>'$highbid'");
+// Everything is OK -> write some emails
+
+// Get the title of the auction
+$title = query("SELECT title FROM auctions where auctionID = $auctionID")->fetch_assoc()['title'];
+
+/* 
+"Someone has bid on X that you are watching" email
+*/
+
+// Find out the watchers that we need to email
+$query = "SELECT buyerEmail FROM watching where auctionID = $auctionID AND buyerEmail <> '$buyerEmail'";
+
+// If there is already a highest bidder, we will send them a different email
+// So we don't want them on this email list
+if (isset($highbid)) {
+  $query .= " AND buyerEmail<>'$highbid'";
+}
+
+$result = query($query);
 $num_results = mysqli_num_rows($result);
-$body = "Someone has placed a bid on an item you are watching: $title. The current highest bid is now: $bidValue";
 if ($num_results != 0) {
+  $body = "Someone has placed a bid on an item you are watching: $title. The current highest bid is now: $bidValue";
   while ($row = $result->fetch_assoc()) {
     $mail = $row['buyerEmail'];
     send_email($mail,"Bid placed",$body);
   }}
-if($highbid!=$buyerEmail){
-$body = "You have been outbid! Someone has bid more than you on: $title. The current highest bid is now: $bidValue ";
-send_email($highbid,"You've been outbid",$body);}
+
+/* 
+"You've been outbid" email
+*/
+
+// If there is an existing highest bidder, and it's not the current bidder
+// Send the old highest bidder an email
+if ((isset($highbid)) && ($highbid!=$buyerEmail)) {
+  $body = "You have been outbid! Someone has bid more than you on: $title. The current highest bid is now: $bidValue ";
+  send_email($highbid,"You've been outbid",$body);
+}
 
 // INSERT
 $query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,CURRENT_TIME())";
