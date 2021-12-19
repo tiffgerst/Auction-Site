@@ -7,7 +7,7 @@
 <?php
 $email = $_SESSION["username"];
 
-$num_result = mysqli_num_rows(query("SELECT auctionID FROM auctions WHERE sellerEmail = '$email'"));
+$num_result = mysqli_num_rows(query("SELECT auctionID FROM auctions WHERE sellerEmail = '$email' LIMIT 1"));
 
 if ($num_result==0){
   # Result is empty
@@ -40,7 +40,7 @@ if ($num_result==0){
 <?php
 // Build initial query
 $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, a.reservePrice,
-COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
+COALESCE(b.current_price,a.startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
 FROM
 -- Use the bids table to determine what the highest bid is (if it exists)
 (SELECT auctionID, MAX(bidValue) AS 'current_price', COUNT(auctionID) AS 'num_bids' FROM bids GROUP BY auctionID) b
@@ -53,10 +53,10 @@ if (isset($_GET['auctionCategories'])) {
   $option = $_GET['auctionCategories'];
 
   if ($option == "live") {
-    $query .= " WHERE endDate > CURRENT_TIME()";
+    $query .= " AND endDate > CURRENT_TIME()";
   }
   else {
-    $query .= " WHERE endDate < CURRENT_TIME()";
+    $query .= " AND endDate < CURRENT_TIME()";
   }
 }
 
@@ -66,7 +66,7 @@ ON a.auctionID = b.auctionID";
 // Additional filters for auction category
 if (isset($_GET['auctionCategories'])) {
   if ($option == "success") {
-    $query .= " WHERE COALESCE(current_price,startPrice) > reservePrice";
+    $query .= " WHERE COALESCE(current_price,startPrice) > reservePrice AND COALESCE(num_bids,0) > 0";
   }
 
   else if ($option == "nobids") {

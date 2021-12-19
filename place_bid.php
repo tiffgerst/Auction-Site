@@ -56,9 +56,6 @@ else {
   }
 }
 
-// Generate bid date
-$bidDate = date('Y-m-d H:i:s');
-
 $item = query("SELECT title FROM auctions where auctionID = $auctionID");
 while ($row1 = $item->fetch_assoc()){
   $title = $row1["title"];}
@@ -73,12 +70,13 @@ if ($num_results != 0) {
 if($highbid!=$buyerEmail){
 $body = "You have been outbid! Someone has bid more than you on: $title. The current highest bid is now: $bidValue ";
 send_email($highbid,"You've been outbid",$body);}
+
 // INSERT
-$query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,'$bidDate')";
+$query = "INSERT INTO bids (buyerEmail, auctionID, bidValue, bidDate) VALUES ('$buyerEmail',$auctionID,$bidValue,CURRENT_TIME())";
 query($query);
 
 $query = "INSERT INTO watching (auctionID, buyerEmail)
-VALUES('$auctionID', '$buyerEmail')";
+VALUES($auctionID, '$buyerEmail')";
 query($query);
 
 // Notify and redirect

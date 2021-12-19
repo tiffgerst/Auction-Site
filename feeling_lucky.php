@@ -12,6 +12,13 @@ ORDER BY RAND()
 LIMIT 1";
 
 $result = query($random_listing_query);
+
+if (mysqli_num_rows($result)==0) {
+    echo("You're already bidding on all live auctions! :) Redirecting you to browse now!");
+    header("refresh:3;url=browse.php");
+    exit;
+}
+
 $result = $result->fetch_assoc();
 $random_item = $result["auctionID"];
 

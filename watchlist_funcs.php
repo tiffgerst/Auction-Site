@@ -17,7 +17,7 @@ $email = $_SESSION["username"];
 
 if ($_POST['functionname'] == "add_to_watchlist") {
   // TODO: Update database and return success/failure.
-  query("INSERT INTO watching VALUES('$email', $item_id)");
+  query("INSERT INTO watching (buyerEmail, auctionID) VALUES ('$email', $item_id)");
   $res = "success";
 }
 else if ($_POST['functionname'] == "remove_from_watchlist") {
