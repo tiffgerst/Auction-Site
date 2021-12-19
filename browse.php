@@ -1,6 +1,5 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php");?>
-
 <div class="container">
 <h2 class="my-3">Browse listings</h2>
 <div id="searchSpecs"> <!-- start search specs bar -->
