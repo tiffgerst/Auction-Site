@@ -21,8 +21,8 @@ if ($num_result==0){
 <form method="GET" class="form-inline">
   <select name="bidCategories" class="form-control mr-2">
     <option selected value="">All my bids</option>
-    <option value="highest">Bids where I'm the highest bidder</option>
-    <option value="!highest">Bids where I'm not the highest bidder</option>
+    <option value="highest">Auctions where I'm the highest bidder</option>
+    <option value="!highest">Auctions where I'm not the highest bidder</option>
   </select>
   <div class="form-check">
     <label class="form-check-label mx-2" for="expired">Show expired:</label>

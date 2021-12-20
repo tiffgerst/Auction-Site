@@ -97,7 +97,7 @@ while ($row = $result->fetch_assoc()) {
 $breakdown .= "</p>";
 echo($breakdown);
 
-echo("<p>Here are some more listings from the $highest_category category</p>");
+
 
 $query = "SELECT a.auctionID, a.title, a.description, a.endDate, a.startPrice, a.picture, a.reservePrice,
 COALESCE(b.current_price,startPrice) AS 'current_price', COALESCE(b.num_bids,0) AS 'num_bids'
@@ -113,11 +113,11 @@ ON a.auctionID = b.auctionID";
 $result = query($query);
 
 if (mysqli_num_rows($result)==0) {
+  echo("<p>You are bidding on all live $highest_category auctions!</p>");
   exit;
 }
 
 echo("<p>Here are some more listings from the $highest_category category</p>");
-
 while ($row = $result->fetch_assoc()) {
   $item_id = $row['auctionID'];
   $title = $row['title'];
